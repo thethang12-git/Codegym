@@ -6,9 +6,57 @@
     <title>Document</title>
 </head>
 <body>
-    <h1> asdhaksjd    </h1>
-    <img src="../Codegym/index.html" alt="">
-    <input type="button" value="Click Me">
-    <input type="checkbox">
+    <form action="" method="post">
+        <!-- name -->
+        <h2>Name</h2>
+        <label for="name"> Họ và tên
+            <input type="text" id="name" name="name" placeholder="Tên là?" required>
+        </label>
+        <!-- email -->
+        <h2>Email</h2>
+        <label for="email"> Email
+            <input type="email" id="email" name="email" placeholder="Email là ?" required>
+        </label>
+        <!-- phone  -->
+        <h2>Phone</h2>
+        <label for="phone"> Email
+            <input type="number" id="phone" name="phone" placeholder="sđt là?" required>
+        </label>
+        <!-- address -->
+        <h2>Addres</h2>
+        <label for="Address"> Address
+            <input type="Address" id="Address" name="Address" placeholder="Address là ?" required>
+        </label>
+        <!-- Birthday -->
+        <h2>Birthday</h2>
+        <label for="birthday"> Birthday
+            <input type="date" id="birthday" name="birthday" required>
+        </label>
+        <!-- gender -->
+        <h2> gender </h2>
+            <label>
+                <input type="radio" name="gender" value="male"> Nam
+            </label><br>
+
+            <label>
+                <input type="radio" name="gender" value="female"> Nữ
+            </label><br>
+
+            <label>
+                <input type="radio" name="gender" value="other"> Khác
+            </label>
+        <!-- group -->
+        <h2>Group</h2>
+        <select name="group" id="group"> Chọn nhóm
+            <option value="C0524G1">C0524G1</option>
+            <option value="C0424G1">C0424G1</option>
+            <option value="C0624G1">C0624G1`</option>
+        </select>
+        <!-- ghi -->
+        <textarea name="ghi" id="ghi"></textarea>
+        <!-- nút nộp -->
+        <button type="submit">Submit</button>
+    </form>
+    
 </body>
 </html>
