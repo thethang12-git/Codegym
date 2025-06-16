@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        <!-- name -->
+        <h2>Name</h2>
+        <label for="name"> Họ và tên
+            <input type="text" id="name" name="name" placeholder="Tên là?" required>
+        </label>
+        <!-- email -->
+        <h2>Email</h2>
+        <label for="email"> Email
+            <input type="email" id="email" name="email" placeholder="Email là ?" required>
+        </label>
+        <!-- phone  -->
+        <h2>Phone</h2>
+        <label for="phone"> Email
+            <input type="number" id="phone" name="phone" placeholder="sđt là?" required>
+        </label>
+        <!-- address -->
+        <h2>Addres</h2>
+        <label for="Address"> Address
+            <input type="Address" id="Address" name="Address" placeholder="Address là ?" required>
+        </label>
+        <!-- Birthday -->
+        <h2>Birthday</h2>
+        <label for="birthday"> Birthday
+            <input type="date" id="birthday" name="birthday" required>
+        </label>
+        <!-- gender -->
+        <h2> gender </h2>
+            <label>
+                <input type="radio" name="gender" value="male"> Nam
+            </label><br>
+
+            <label>
+                <input type="radio" name="gender" value="female"> Nữ
+            </label><br>
+
+            <label>
+                <input type="radio" name="gender" value="other"> Khác
+            </label>
+        <!-- group -->
+        <h2>Group</h2>
+        <select name="group" id="group"> Chọn nhóm
+            <option value="C0524G1">C0524G1</option>
+            <option value="C0424G1">C0424G1</option>
+            <option value="C0624G1">C0624G1`</option>
+        </select>
+        <!-- ghi -->
+        <textarea name="ghi" id="ghi"></textarea>
+        <!-- nút nộp -->
+        <button type="submit">Submit</button>
+    </form>
+ <!--Tạo bảng  -->
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Class</th>
+        <th>Group</th>
+    </tr>
+    <tr>
+        <td>Thắng</td>
+        <td>0911557616</td>
+        <td> 1</td>
+        <td rowspan="2"> 1</td>
+    </tr>
+    <tr>
+        <td>Thương</td>
+        <td>0123456789</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Huyền</td>
+        <td>0987654321</td>
+        <td>3</td>
+        <td> 2</td>
+    </tr>
+    <tr>
+        <td colspan="3">Total</td>
+        <td>3 </td>
+    </tr>
+</table>
+
+<!-- Bài tập tạo bảng -->
+
+<table border="1"  style="border-collapse: collapse;"> 
+    <tr>
+        <th rowspan="2">STT</th>
+        <th rowspan="2">Họ tên sinh viên</th>
+        <th colspan="3" >kết quả học tập</th>
+        
+        <th rowspan="2"> xếp loại</th>
+    </tr>
+    <tr>
+        <td>Toán </td>
+        <td>Lý</td>
+        <td>Hóa</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>Vũ Văn A</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>
+        <select name="xếp-loại" id="#">
+            <option value="giỏi">gioi</option>
+            <option value="khá">khá</option>
+            <option value="trung bình">trung bình</option>
+        </select>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
