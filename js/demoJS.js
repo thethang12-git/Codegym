@@ -1,10 +1,9 @@
-// let x = +prompt("nhập số thứ nhất");
-// let y = +prompt("nhập số thứ hai");
-// document.write("<br>giá trị trung bình của hai số là: " + (x + y) / 2);
 
-// function tinhToan() {
-//     document.getElementById('result').innerHTML = `trung bình cộng là ${(a + b) / 2}`;
-// }
+function tinhToan() {
+    let a = +document.getElementById("a").value;
+    let b = +document.getElementById("b").value;
+    document.getElementById('result').innerHTML = `trung bình cộng là ${(a + b) / 2}`;
+}
 function dauCong(){
     let a = +document.getElementById("a").value;
     let b = +document.getElementById("b").value;
@@ -28,4 +27,9 @@ function dauChia(){
         return;
     }
     document.getElementById('result').innerHTML = `thương là ${a / b}`;
+}
+function hienthi() {
+    alert('Xin chào!');
+    document.getElementById('message').innerHTML = 'Xin chào!';
+    console.log('Xin chào!');
 }
