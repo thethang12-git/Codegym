@@ -75,3 +75,31 @@ function xepLoaiHocLuc() {
         document.getElementById("result4").innerHTML = `Học lực yếu với điểm trung bình là ${diemTrungBinh}.`;
     }
 }
+
+// Tính hoa hồng nhận được dựa trên doanh số bán hàng
+function tinhHoaHong() {
+    let doanhSo = parseFloat(document.getElementById("doanhSo").value);
+    if (isNaN(doanhSo) || doanhSo < 0) {
+        document.getElementById("result5").innerHTML = "Vui lòng nhập doanh số hợp lệ.";
+        return;
+    }
+    
+    let tiLeHoaHong = 0.1; // 10%
+    let hoaHong = doanhSo * tiLeHoaHong;
+    
+    document.getElementById("result5").innerHTML = `Hoa hồng nhận được là: ${hoaHong} đồng.`;
+}
+//tính cước điện thoại dựa trên số phút gọi
+function tinhCuocDienThoai() {
+    let soPhut = parseInt(document.getElementById("soPhut").value);
+    if (isNaN(soPhut) || soPhut < 0) {
+        document.getElementById("result6").innerHTML = "Vui lòng nhập số phút hợp lệ.";
+        return;
+    }
+    
+    let cuocCoDinh = 5000; // Cước cố định
+    let cuocTheoPhut = 200; // Cước theo phút
+    let tongCuoc = cuocCoDinh + (soPhut * cuocTheoPhut);
+    
+    document.getElementById("result6").innerHTML = `Tổng cước điện thoại là: ${tongCuoc} đồng.`;
+}
