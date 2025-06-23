@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input {
+  display: none;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: .4s;
+}
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+</style>
+</head>
+<body>
+<label class="switch">
+  <input type="checkbox" id="GOOD" onchange="check()">
+  <span class="slider"></span>
+</label>
+<p> GOOD</p>
+<label class="switch">
+  <input type="checkbox" id="CHEAP" onchange="check()">
+  <span class="slider"></span>
+</label>
+<p> CHEAP</p>
+<label class="switch">
+  <input type="checkbox" id="FAST" onchange="check()">
+  <span class="slider"></span>
+</label>
+<p>FAST </p>
+
+<script src="../js/baitap_good-fast-cheap.js"></script>
+</body>
+</html>
