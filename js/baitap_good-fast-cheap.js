@@ -2,37 +2,23 @@
 // good = true -  cheap = true - fast = false
 // good = true - cheap = false - fast = true
 // good = false - cheap = true - fast = true
-// 
-function check(){
-   
-    var GOOD = document.getElementById('GOOD');
-    var CHEAP = document.getElementById('CHEAP');
-    var FAST = document.getElementById('FAST');
+let good = document.getElementById('GOOD')
+let cheap = document.getElementById('CHEAP')
+let fast = document.getElementById('FAST')
+function goodd(){
+    if(good.checked && fast.checked){
+        cheap.checked = false
+    }
+}
 
-    var isGood = GOOD.checked;
-    var isCheap = CHEAP.checked;
-    var isFast = FAST.checked;
+function cheapp(){
+    if(cheap.checked && good.checked){
+        fast.checked = false
+    }
+}
 
-    if (isGood && isCheap){
-        if (isFast){
-            GOOD.checked = false; 
-            console.log('case 0');
-        }
-        else if (!isFast && !isGood){ {
-            FAST.checked = false; 
-            console.log('case 1');
-        }
-        if (isFast && !isGood){
-            CHEAP.checked = false; 
-            console.log('case 4');
-        }
+function fastt() {
+    if(fast.checked && cheap.checked){
+        good.checked = false
     }
-    else if (isGood && isFast){
-        CHEAP.checked = false;
-        console.log('case 2');
-    }
-    else if (isCheap && isFast){
-        GOOD.checked = false;
-        console.log('case 3');
-    }
-}}
+}
