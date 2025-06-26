@@ -17,17 +17,22 @@ x++
 }
 }
 // bài tập 2
+/* bài toán nhập vào 1 số, sau đó xác định số đó là số nguyên tố hay khônng
+logic: đặt điều kiện if else if trước, với if là th số đó < 2, else if xử lý riêng trường hợp số đó = 2
+ở phần else thì đặt điều kiện sao cho vòng lặp kiểm tra số nhập vào có chia hết cho các số từ 2 đến số liền trước số nhập vào hay không,
+ví dụ nhập vào số 8, thì kiểm tra từ 2 - 7 xem có chia hết cho 8 hay không */
 function bai2(){
-    let x
-    do {
-        x = +prompt('nhap vao 1 so')
-            if (x == -1) {
-                alert('thoát'); 
-                break}
-        else  if( x >= 2 && x % 1 === 0 ){
-            alert('đây là số nguyên tố')
-        }
-        else { alert('không phải số nguyên tố')}
+let num =  +prompt('nhap vao so')
+if (num < 2) { alert('không phải số nguyên tố')}
+else if (num == 2) { alert('đây là số nguyên tố')}
+else {
+    let x = 2;
+    let flag = true
+    while (x < num){
+        if( num % x == 0){ alert('đây không phải là số nguyên tố'); flag = false ; break}
+        x++
     }
-        while (x != -1)
+    if(flag){alert('đây là số nguyên tố')}
+
+}
 }
