@@ -3,7 +3,7 @@ for (i = 2;i< 10;i++){
     html +='<tr>'
     for(x = 1;x < 10; x++)
     {
-        html+= '<td>'
+        html+= '<td style="border: 1px solid black;">'
         html += i + ' x' + x + '=' + i*x 
         html += '</td>'
     }
