@@ -7,10 +7,10 @@ for (let i = 0; i < 5; i++) {
 }
 
 for (let i = 0; i < 5; i++) {
-    data += "<br/>";
     for (let j = 0; j < 5; j++) {
         data += board[i][j] + "&nbsp;&nbsp;";
     }
+    data += "<br/>";
 }
 
 data += "<br/><br/><input type='button' value='Change Value' onclick='changeValue()'>"
