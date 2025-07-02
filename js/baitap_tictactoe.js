@@ -1,4 +1,4 @@
-let arr = []
+    let arr = []
 let turnX = true
 let html = document.getElementById('bang')
 for (let x = 0; x < 5; x++){{
