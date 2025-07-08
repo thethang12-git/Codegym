@@ -1,4 +1,3 @@
-console.log('hé hé')
 let product = []
 let display = document.getElementById('display')
 let inputt = document.getElementById('input')
@@ -12,7 +11,6 @@ function add(){
 }
 
 function edit(event){
-    console.log(product[event])
     product[event] = prompt('sửa giá trị mới')
     display.innerHTML = ''
     for(let x = 0;x < product.length;x++){
