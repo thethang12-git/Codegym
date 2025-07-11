@@ -55,7 +55,7 @@ function start(event){
             }
             break;
         case 'ArrowLeft' :
-            if (hero.left <= 0) {
+            if (hero.left <= 10) {
                 return
             } else {
                 hero.moveLeft();
