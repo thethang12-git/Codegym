@@ -62,7 +62,7 @@ function start(event){
             }
             break;
         case 'ArrowRight' :
-            if (hero.left >= window.innerWidth - hero.size - 1000) {
+            if (hero.left >= window.innerWidth - hero.size - 10) {
                 return
             } else {
                 hero.moveRight();
