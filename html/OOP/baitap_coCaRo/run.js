@@ -142,5 +142,5 @@ function diagonalCheck(event) {
     }
     console.log(clone.length);
 }
-
+//hehehe
 //lặp x = 0 y = 0, chạy đến item of Bigarr, item.length, nếu item[1][0] = item [x +1][y+1], push vào clone[]
