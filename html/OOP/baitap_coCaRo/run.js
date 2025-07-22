@@ -13,26 +13,28 @@ function creatCell(){
   }
 }
 creatCell();
-//(BigArr)
 for (let a = 0; a < 10; a++){
   tablee += '<tr>'
   for (let b = 0; b < 10; b++ ){
-    tablee += `<td data-row="${a}" data-col="${b}" onclick="clickEvent(event);check();diagonalCheck(event)"> ${BigArr[a][b]} </td>`;
+    tablee += `<td data-row="${a}" data-col="${b}" onclick="clickEvent(event);check()">   ${BigArr[a][b]} </td>`;
   }
   tablee += '</tr>'
 }
 document.getElementById('table').innerHTML = tablee
 
 function clickEvent(event){
-  let row = event.target.getAttribute('data-row');
-  let col = event.target.getAttribute('data-col');
+  let row = event.currentTarget.getAttribute('data-row');
+  let col = event.currentTarget.getAttribute('data-col');
   let current = isTurn ? 'X' : 'Y'  ;
-  //(BigArr);
-  if(event.currentTarget.innerText !== ''){return}
+  if(BigArr[row][col] !== ''){return}
   if (event.currentTarget.innerText === ''){
-    event.currentTarget.innerHTML = current
+    event.currentTarget.innerHTML = '<canvas width="50" height="50"></canvas>';
+    const canvas = event.currentTarget.querySelector('canvas');
+    const color = isTurn ? 'black' : 'white';
+    drawCircle(canvas, color);
     BigArr[row][col] = current;
   }
+  console.log( row,col )
   isTurn = !isTurn
   return current
 }
@@ -84,8 +86,6 @@ function colCheck(){
 }
 
 function diagonalCheck(event) {
-    let row = parseInt(event.target.getAttribute('data-row'));
-    let col = parseInt(event.target.getAttribute('data-col'));
     let count = 1
     let count1 = 1
     let clone = test3(event)
@@ -93,7 +93,6 @@ function diagonalCheck(event) {
       if (clone[x] !== '' && clone[x] === clone[x + 1]) {
       count++;
       if (count >= 5) {
-        console.log('jes hé');
         break;
   }
       } 
@@ -102,70 +101,21 @@ function diagonalCheck(event) {
       }
     }
     let clone1 = test4(event)
-    for(let x = 0; x < clone1.length - 1;x++){
-      if(!clone1[x+1] || clone1[x] === '' || clone1[x] == undefined){continue}
-      if(clone1[x] === clone1[x+1]){
-        count1++
-      }
-      else {count1 = 1}
-      if(count1 >= 5){console.log('hehehehehe'); break}
+    for (let x = 0;x < clone1.length -1;x++ ){
+        if (clone1[x] !== '' && clone1[x] === clone1[x + 1]) {
+            count1++;
+            if (count1 >= 5) {
+                break;
+            }
+        }
+        else {
+            count1 = 1;
+        }
     }
     console.log(clone,count,clone1,count1)
-    if(count >= 5 || count1 >= 5){return true}
-    return false
+    return count >= 5 || count1 >= 5;
+
   }
-
-// cách 1:
-// function test1(event){
-//     let row = parseInt(event.target.getAttribute('data-row'));
-//     let col = parseInt(event.target.getAttribute('data-col'));
-//     count = 1
-//     console.log(row,col)
-//     for (let x = 1; x < 6;x++){
-//       if(!BigArr[row + x]){break}
-//       // console.log(BigArr[row][col],BigArr[row+x][col+x] , BigArr.length)
-//       // if (row + x > BigArr.length || col + x > BigArr[0].length) {console.log('eee')}
-//       if(BigArr[row][col] === BigArr[row + x][col + x]){count++}
-//       else {break}
-//     }
-//     console.log('count =' + count)
-// }
-// function test2(event){
-//     let row = parseInt(event.target.getAttribute('data-row'));
-//     let col = parseInt(event.target.getAttribute('data-col'));
-//     count = 1
-//     for (let x = 1; x <6; x++){
-//       if(!BigArr[row - x]){break}
-//       if(BigArr[row][col] ===  BigArr[row - x][col - x]){
-//         count++
-//       }
-//       else {break}
-//     }
-//     console.log('count ở test 2 là' + count)
-// }
-
-// Cách 2:
-// function test3(event){
-//   let row = parseInt(event.target.getAttribute('data-row'));
-//   let col = parseInt(event.target.getAttribute('data-col'));
-//   let current = col - row
-//   let clone = []
-//   if(current >= 0){
-//     for(let x = 0; x <= 9; x++ ){
-//     if(current + x == BigArr.length){break}
-//     else {clone.push(BigArr[x][current + x])}
-    
-//   }}
-//   else {
-//     for (let y = 0; y <= 9; y++){
-//       if(Math.abs(current) + y == BigArr.length ){break}
-//       else {
-//         clone.push(BigArr[Math.abs(current) + y][y])
-//       }
-//     }
-//   }
-//   return clone
-// }
 
 function test3(event){
   let row = parseInt(event.target.getAttribute('data-row'));
@@ -179,19 +129,6 @@ function test3(event){
   return clone
 }
 
-function checkWin(){
-  if(rowCheck()){return true}
-  if(colCheck()){return true}
-  // if(diagonalCheck(event)){return true}
-  return false
-}
-
-function check(){
-  if (checkWin()){current = !current ; alert(`${current = isTurn ? 'Y' : 'X'} thắng`)}
-}
-
-
-
 
 function test4(event){
   let row = parseInt(event.target.getAttribute('data-row'));
@@ -204,3 +141,66 @@ function test4(event){
   }
   return clone
 }
+
+
+
+function drawCircle(canvas, color) {
+    const ctx = canvas.getContext('2d');
+    const radius = (Math.min(canvas.width, canvas.height) - 4) / 2;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+}
+
+function reset() {
+    BigArr = [];
+    tablee = '';
+    val = '';
+    isTurn = true;
+    current = null;
+
+    creatCell()
+
+    for (let a = 0; a < 10; a++) {
+        tablee += '<tr>';
+        for (let b = 0; b < 10; b++) {
+            tablee += `<td data-row="${a}" data-col="${b}" onclick="clickEvent(event);check()"> </td>`;
+        }
+        tablee += '</tr>';
+    }
+
+    document.getElementById('table').innerHTML = tablee;
+}
+
+function checkWin(){
+    if(rowCheck()){return true}
+    if(colCheck()){return true}
+    if(diagonalCheck(event)){return true}
+    return false
+}
+
+function check(){
+    if (checkWin()){current = !current ; alert(`${current = isTurn ? 'white' : 'black'} thắng`)
+        if (confirm(' muốn chơi lại không  ')){
+            reset()
+        }
+        else {
+            document.getElementById('table').style.pointerEvents = 'none'
+        }
+
+    }
+}
+
+
+
+// BigArr[row][col]
+// for (x = 0; x < BigArr.length; x++){
+//     let newArr = []
+//     for (let y = 0; y < BigArr.length; y++){
+//         newArr.push(BigArr[y][x]);
+//     }
+// }
