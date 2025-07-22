@@ -191,7 +191,15 @@ function check(){
         else {
             document.getElementById('table').style.pointerEvents = 'none'
         }
-
+    }
+    if(BigArr.flat().every(value => value !== "")){
+        alert('hoà rồi!!!!!');
+        if (confirm(' muốn chơi lại không  ')){
+            reset()
+        }
+        else {
+            document.getElementById('table').style.pointerEvents = 'none'
+        }
     }
 }
 
