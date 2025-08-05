@@ -103,3 +103,9 @@ button {
     font-weight: bold;
     margin: 0;
 }
+
+input:focus {
+    border:2px solid blue;
+    outline: none;
+    caret-color: cadetblue;
+}
