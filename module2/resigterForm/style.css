@@ -1,0 +1,147 @@
+*{
+    box-sizing: border-box;
+}
+body {
+    background-color: blue;
+    }
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28rem;
+    height: 30rem;
+    margin: auto;
+    padding-top: 20px;
+    background-color: white;
+    border-radius: 18px;
+}
+
+.container>p {
+    text-align: center;
+    font-size: 30px;
+}
+
+.container-item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 20px;
+}
+
+.container-item div,button {
+    margin: 0 30px;
+    position: relative;
+}
+
+input {
+    width: 100%;
+    border: 1px solid gray;
+    border-radius: 50px;
+    height: 35px;
+    padding-left: 40px;
+    padding-right: 0;
+}
+
+.container-item i {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.item-3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    height: 20px;
+    gap: 8px;
+}
+
+.item-3>input {
+    display: inline-block;
+    width: fit-content;
+    margin: 0;
+}
+
+button {
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(18, 92, 167);
+    color: white;
+    padding: 0;
+    height: 40px;
+    margin-top: 30px;
+}
+
+.loginMethod {
+    display: inline;
+}
+
+.loginMethod p:first-child {
+    text-align: right;
+    margin-right: 50px;
+}
+
+.loginMethod p {
+    text-align: center;
+    margin: 0;
+}
+.method-items {
+    margin:0 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.method-items button {
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0;
+}
+
+.register {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.register button {
+    background-color: white;
+    color: blue;
+    font-weight: bold;
+    margin: 0;
+}
+
+input:focus {
+    border:2px solid blue;
+    outline: none;
+    caret-color: cadetblue;
+}
+
+.popUp {
+    border-radius: 20px;
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e3f2fd;
+    width: 20rem;
+    height: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 20px;
+    margin-left: 0;
+    gap: 8px;
+    font-size: 23px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.popUp i {
+    color: green;
+}
