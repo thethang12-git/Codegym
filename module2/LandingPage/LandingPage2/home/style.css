@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar {
+    width: 237px;
+    height: 100%;
+    position: relative;
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.navbar-search {
+    height: 36px;
+    position: relative;
+}
+.navbar-search input {
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    height: 100%;
+    width: 100%;
+    padding:0 10px 0 30px;
+    background-color: #F9FAFB;
+}
+
+.navbar-search i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translate(-50%, -50%);
+}
+.navbar-options {
+    height: 316px;
+    display: flex;
+    flex-direction:column ;
+    gap: 4px;
+    justify-content: space-evenly;
+}
+.navbar-options div {
+    height: 36px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 12px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.navbar-options div:hover {
+    background-color: #FDEAD7;
+}
+
+.navbar-groups {
+    height: 108px;
+    margin-top: 8px;
+}
+.navbar-tags {
+    height: 100px;
+    margin-top: 8px;
+    overflow: auto;
+}
+.navbar-tags p {
+    display: inline-flex;
+    font-size: 13px;
+    flex-wrap: wrap;
+    height: 24px;
+    flex-direction: row;
+    align-items: center;
+    background: #F5F5F5;
+    border-radius: 8px;
+    padding: 4px 12px;
+    margin: 4px 4px;
+
+}
+.navbar-logOutBtn {
+    height: 36px;
+    position: absolute;
+    bottom: 0;
+    width: 205px;
+    bottom: 20px;
+    padding-left: 8px;
+}
+.navbar-logOutBtn button {
+    height: 100%;
+    border: none;
+    outline: none;
+    width: 100%;
+    text-align: left;
+    color: #F04438;
+    font-size: 15px;
+    padding-left: 8px;
+    font-weight: 500;
+    background: none;
+}
+.content {
+    flex: 1;
+}
