@@ -5,6 +5,11 @@
     font-family: "Roboto", sans-serif;
 }
 
+p::selection {
+    background: transparent;
+    color: inherit;
+}
+
 body {
     background-size: cover;
     height: 100vh;
@@ -13,9 +18,10 @@ body {
 
 .container {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: row;
+    overflow-x: hidden;
 }
 
 .navbar {
@@ -26,6 +32,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    transition: width 0.3s ease,padding 0.3s ease;
 }
 
 .navbar-search {
@@ -94,11 +101,21 @@ body {
 .navbar-logOutBtn {
     height: 36px;
     position: absolute;
-    bottom: 0;
     width: 205px;
     bottom: 20px;
     padding-left: 8px;
+    border-radius: 8px;
+    background: linear-gradient(to left,  white 50%, #FDEAD7 50%);
+    background-size: 200% 100%;
+    background-position: right;
+    transition: background-position 0.5s ease;
 }
+
+.navbar-logOutBtn:hover {
+    background-color: #FDEAD7;
+    background-position: left;
+}
+
 .navbar-logOutBtn button {
     height: 100%;
     border: none;
@@ -110,7 +127,55 @@ body {
     padding-left: 8px;
     font-weight: 500;
     background: none;
+    cursor: pointer;
 }
 .content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    transition: flex 0.3s ease;
 }
+
+.content-header {
+    height: 52px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+
+.content-header--options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+.content-body {
+    flex: 1;
+    display: flex;
+    flex-direction:column;
+    position: relative;
+    padding: 32px 120px 0 120px;
+    gap: 32px;
+    transition: flex 0.3s ease;
+    overflow-y: auto ;
+}
+
+.content-body--1 {
+    width: 100%;
+    height: auto;
+    transition:  width 1s ease, height 1s ease;
+}
+
+.content-body--2 {
+    width: 100%;
+    height: auto;
+    transition: width 1s ease, height 1s ease;
+}
+.content-body--3 {
+    width: 100%;
+    height: auto;
+    transition: width 1s ease, height 1s ease;
+}
+
