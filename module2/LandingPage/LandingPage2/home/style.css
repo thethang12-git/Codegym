@@ -176,6 +176,6 @@ body {
 .content-body--3 {
     width: 100%;
     height: auto;
-    transition: width 1s ease, height 1s ease;
+    transition:flex 0.3s ease , width 1s ease, height 1s ease;
 }
 

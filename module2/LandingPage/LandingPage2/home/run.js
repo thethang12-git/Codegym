@@ -130,8 +130,8 @@ function displayMenu() {
         button_right.style.background = 'white';
         button_left.style.background = '#E5E7EB';
         //
-        item1.style.width = '29.2rem'
-        item2.style.width = '28.3rem'
+        item1.style.width = '20rem' //29.2rem
+        item2.style.width = '20rem' //28.3rem
         item3.style.flex = '1'
         setTimeout(() => {
                 item.style.flexDirection = 'row'
