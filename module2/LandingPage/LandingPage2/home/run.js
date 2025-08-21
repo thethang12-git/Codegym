@@ -52,6 +52,7 @@ function handleClick(e) {
     }
 }
 window.addEventListener('resize',function(){
+    collapsed = false;
     if (window.innerWidth > 1400){
         contain.style.left = ''
         contain.style.top = ''
