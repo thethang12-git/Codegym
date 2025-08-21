@@ -64,7 +64,7 @@ window.addEventListener('resize',function(){
     }
     else if (window.innerWidth <= 1200){
         document.querySelector('.toggleDisplay').style.display = 'none'
-
+        display()
     }
     else if (window.innerWidth > 1200){
         document.querySelector('.toggleDisplay').style.display = 'flex'
@@ -136,29 +136,29 @@ function hehehe(idd,event){
 //             }
 //         , 500)
 // }
-// function display(){
-//     let item = document.querySelector('.content-body');
-//     let item1 = document.querySelector('.content-body--1');
-//     let item2 = document.querySelector('.content-body--2');
-//     let item3 = document.querySelector('.content-body--3');
-//     item3.style.width = '15rem'
-//     setTimeout(() => {
-//             item1.style.width = '100%'
-//         }
-//         , 100)
-//     setTimeout(() => {
-//             item2.style.width = '100%'
-//         }
-//         , 400)
-//     setTimeout(() => {
-//             item3.style.width = '100%'
-//         }
-//         , 600)
-//     setTimeout(() => {
-//             item.style.flexDirection = 'column'
-//         }
-//         , 300)
-// }
+function display(){
+    let item = document.querySelector('.content-body');
+    let item1 = document.querySelector('.content-body--1');
+    let item2 = document.querySelector('.content-body--2');
+    let item3 = document.querySelector('.content-body--3');
+    item3.style.width = '15rem'
+    setTimeout(() => {
+            item1.style.width = '100%'
+        }
+        , 100)
+    setTimeout(() => {
+            item2.style.width = '100%'
+        }
+        , 400)
+    setTimeout(() => {
+            item3.style.width = '100%'
+        }
+        , 600)
+    setTimeout(() => {
+            item.style.flexDirection = 'column'
+        }
+        , 300)
+}
 
 
 function displayMenu() {
