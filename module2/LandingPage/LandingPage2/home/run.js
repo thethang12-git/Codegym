@@ -43,19 +43,63 @@ function colorChange(event,color){
         event.target.style.marginLeft = '0'
     }
 }
-
+let contain = document.querySelector('.navbar');
 let collapsed = false;
+function handleClick(e) {
+    if (!contain.contains(e.target)) {
+        contain.style.left = '-300px'
+        document.removeEventListener('click', handleClick);
+    }
+}
+window.addEventListener('resize',function(){
+    if (window.innerWidth > 1400){
+        contain.style.left = ''
+        contain.style.top = ''
+        contain.style.zIndex = ''
+        contain.style.background = ' '
+        contain.style.borderRadius = ''
+        contain.style.height = ''
+        contain.style.width = '237px'
+    }
+    else if (window.innerWidth <= 1200){
+        document.querySelector('.toggleDisplay').style.display = 'none'
 
+    }
+    else if (window.innerWidth > 1200){
+        document.querySelector('.toggleDisplay').style.display = 'flex'
+        // contain.style.width = '237px'
+    }
+} )
 function toggleSidebar() {
     let item = document.querySelector('.navbar');
+    if (window.innerWidth <  1400 ){
+            item.style.left = '0px'
+            item.style.top = '10px'
+            item.style.zIndex = '999'
+            item.style.background = ' white'
+            item.style.borderRadius = '8px'
+            item.style.height = '100vh'
+            item.style.width = '237px'
+            document.removeEventListener('click', handleClick)
+            setTimeout(()=>{
+                document.addEventListener('click', handleClick);
+            },10)
+        console.log('man hinh tablet')
+        return
+    }
+    item.style.width = '237px'
+    item.style.left = '0'
+    console.log(collapsed);
     if (!collapsed) {
         item.style.width = '0px';
         item.style.overflow = 'hidden';
         item.style.padding = '8px 0';
     } else {
+
         item.style.width = '237px';
         item.style.padding = '8px 16px';
     }
+    console.log('man hinh desktop');
     collapsed = !collapsed;
 }
 

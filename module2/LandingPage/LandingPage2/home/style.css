@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Roboto", sans-serif;
+    transition: all 0.2s ease;
 }
 /* cho phép click nhưng k hiển thị màu bôi đen*/
 p::selection {
@@ -32,7 +33,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    transition: width 0.3s ease,padding 0.3s ease;
+    transition: width 0.3s ease,padding 0.3s ease, left 0.5s ease;
 }
 
 .navbar-search {
@@ -179,3 +180,36 @@ body {
     transition:flex 0.3s ease , width 1s ease, height 1s ease;
 }
 
+/* Responsive*/
+/*tablet*/
+@media (max-width: 1400px) {
+    .navbar {
+        position: absolute;
+        left: -300px;
+    }
+    .content-body {
+        padding: 8px 55px;
+    }
+}
+/*reset inline attribute*/
+@media (min-width: 1400px) {
+    .navbar {
+        position: relative;
+    }
+}
+/*mobile*/
+@media (max-width: 600px) {
+    .content-body {
+        padding: 0 28px;
+    }
+}
+/*.navbar {*/
+/*    width: 237px;*/
+/*    height: 100%;*/
+/*    position: relative;*/
+/*    padding: 8px 16px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    gap: 8px;*/
+/*    transition: width 0.3s ease,padding 0.3s ease;*/
+/*}*/
