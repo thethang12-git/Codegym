@@ -181,10 +181,10 @@ body {
 }
 
 .popUp-add {
-    /*opacity: 0;*/
-    /*visibility: hidden;*/
+    opacity: 0;
+    visibility: hidden;
     position: absolute;
-    /*transform:translate(-50%, -50%) scale(0);*/
+    /* transform:translate(-50%, -50%) scale(0); */
     top: 177px;
     left: 40%;
     width: 487px;
@@ -221,6 +221,15 @@ body {
     background: #FEFAF5;
     border-radius: 8px;
     color: #EF6820;
+}
+.calendar_table tr td {
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+}
+.calendar_table tr td:hover {
+    background-color: #EF6820;
+    color: white;
 }
 /* Responsive*/
 /*tablet*/

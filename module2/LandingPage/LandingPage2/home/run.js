@@ -261,6 +261,17 @@ function setValue(contain,icon,content,event){
 }
 
 // Calendar
+function calendarDisplay() {
+    let calendar = document.querySelector('.calendar-display') 
+    if(calendar.getAttribute('data-status') == 'deactive'){
+        calendar.style.display = 'flex'
+        calendar.setAttribute('data-status','active')
+    }
+    else if (calendar.getAttribute('data-status') == 'active') {
+        calendar.style.display = 'none'
+        calendar.setAttribute('data-status','deactive')
+    }
+}
 function getDaysInMonth(year, month) {
     let date = new Date(year, month, 0);
     let daysInMonth = date.getDate();
@@ -275,11 +286,22 @@ function creatTable(){
     let currentMonth = getDaysInMonth(2025,7)
     let table = ''
     for (let i = 0; i < 35; i++) {
+        if(i ==0) {
+            table += '<tr>'
+            table += '<td>' + currentMonth[i] + '</td>';
+            continue
+        }
         if(i % 7 === 0 && i % 2 ===0){
+            table += '</tr>'
+
             table += '<tr>';
         }
         else if ( i % 7 === 0 && i % 2 !== 0){
             table += '</tr>';
+            table += '<tr>';
+        }
+        else if(currentMonth[i] == undefined){
+            continue
         }
         table += '<td>' + currentMonth[i] + '</td>';
     }
