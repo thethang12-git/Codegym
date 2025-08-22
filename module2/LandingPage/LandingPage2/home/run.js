@@ -259,3 +259,30 @@ function setValue(contain,icon,content,event){
     containn.style.background = '#FEFAF5';
     containn.style.borderRadius = '8px';
 }
+
+// Calendar
+function getDaysInMonth(year, month) {
+    let date = new Date(year, month, 0);
+    let daysInMonth = date.getDate();
+    let daysArray = [];
+    for (let day = 1; day <= daysInMonth; day++) {
+        daysArray.push(day);
+    }
+    return daysArray;
+}
+
+function creatTable(){
+    let currentMonth = getDaysInMonth(2025,7)
+    let table = ''
+    for (let i = 0; i < 35; i++) {
+        if(i % 7 === 0 && i % 2 ===0){
+            table += '<tr>';
+        }
+        else if ( i % 7 === 0 && i % 2 !== 0){
+            table += '</tr>';
+        }
+        table += '<td>' + currentMonth[i] + '</td>';
+    }
+    document.querySelector('.calendar_table').innerHTML += table;
+}
+creatTable();
