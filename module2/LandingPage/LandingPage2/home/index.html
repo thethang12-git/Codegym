@@ -62,7 +62,7 @@
             <div class="content-header--options">
                 <div style="position: relative;">
                     <i style="position: absolute;top: 50%;transform: translate(-50%, -50%);left: 18px;color: white" class="fa-solid fa-circle-plus"></i>
-                    <button style="padding: 8px 8px 8px 30px;border: none;cursor: pointer;outline: none;color:white;background: #EF6820;border-radius: 8px">Tạo mới</button>
+                    <button class="add-Btn" onclick="addBtn()" style="padding: 8px 8px 8px 30px;border: none;cursor: pointer;outline: none;color:white;background: #EF6820;border-radius: 8px">Tạo mới</button>
                 </div>
                 <i onclick="colorChange(event)" class="fa-regular fa-star"></i>
 <!--                <i class="fa-solid fa-star"></i>-->
@@ -372,6 +372,46 @@
         </div>
     </div>
 </div>
-<script src="../home/run.js"></script>
+<div class="popUp-add">
+    <div style="display: flex;flex-direction: column;gap: 8px;">
+        <div style="display: flex;flex-direction: row;justify-content: space-between;">
+            <div style="display: flex;flex-direction: column;gap: 3px;">
+                <h3>Helo</h3>
+                <p>hehehehehehehehehlo</p>
+            </div>
+            <i onclick="colorChange(event)" class="fa-regular fa-star"></i>
+        </div>
+        <div style="padding:4px 12px;color: #4D5761;font-size: 13px">Việc cần làm <i style="margin-left: 12px;cursor: pointer" class="fa-solid fa-caret-down"></i></div>
+        <div class="popUp-add-options" style="display: flex;flex-direction: row;align-items: center;">
+            <div onclick="addCalendarBtn()" class="options_num-1" style="cursor: pointer;position: relative;display: flex;">
+                <i class="fa-solid fa-calendar "></i>
+                <div style="display: flex;flex-direction: row;width: 100%;height: 100%;padding:0;gap: 8px;">
+                    <p style="display: none;font-weight: 480;color:#FF4405"></p>
+                    <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo"></i>
+                </div>
+                <div style="position: absolute" class="popUp-add-options-calendar__navbar">
+                    <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Hôm nay</p>
+                    <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Ngày mai</p>
+                    <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Tuần này</p>
+                    <p >Tuỳ chỉnh <i style="margin-left: 28px" class="fa-solid fa-arrow-right"></i> </p>
+                </div>
+            </div>
+            <div class="options_num-2" style="cursor: pointer;position: relative;display: flex"><i class="fa-solid fa-clock"></i>
+                <div class="options_num-2-navbar" style="display: flex;flex-direction: column;position: absolute;background: #4CAF50;width: 296px;height: 276px;top: 100%;left: -100%;border-radius: 8px;padding: 8px;">
+                    <div style="height: 36px;display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 22px 12px;background: #F5F5F5    ;border-radius: 8px">
+                        <i style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-left"></i>
+                        <p>date here</p>
+                        <i style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-right"></i>
+                    </div>
+                    <div style="flex: 1">hiển thị ngày</div>
+                </div>
+            </div>
+            <div class="options_num-3" style="cursor: pointer;position: relative"><i class="fa-solid fa-repeat"></i></div>
+            <div class="options_num-4" style="cursor: pointer;position: relative"><i class="fa-solid fa-tags"></i></div>
+        </div>
+    </div>
+</div>
+<script src="../home/run.js">
+</script>
 </body>
 </html>

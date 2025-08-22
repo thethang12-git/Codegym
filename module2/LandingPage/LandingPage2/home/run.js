@@ -55,7 +55,6 @@ window.addEventListener('resize',function(){
     collapsed = false;
     if (window.innerWidth > 1400){
         contain.style.left = ''
-        contain.style.top = ''
         contain.style.zIndex = ''
         contain.style.background = ' '
         contain.style.borderRadius = ''
@@ -75,7 +74,6 @@ function toggleSidebar() {
     let item = document.querySelector('.navbar');
     if (window.innerWidth <  1400 ){
             item.style.left = '0px'
-            item.style.top = '10px'
             item.style.zIndex = '999'
             item.style.background = ' white'
             item.style.borderRadius = '8px'
@@ -207,4 +205,57 @@ function displayMenu() {
             }
             , 300)
     }
+}
+
+
+function addBtn(){
+    let popup = document.querySelector('.popUp-add')
+    let container = document.querySelector('.container')
+    let button = document.querySelector('.add-Btn')
+    popup.setAttribute('data-status', 'actived');
+    if (popup.getAttribute('data-status') === 'actived'){
+        setTimeout( () => {
+            document.addEventListener('click', (e)=>{
+            if(popup.contains(e.target) === false && popup.getAttribute('data-status') == 'actived' && e.target.contains(button) === false){
+                popup.removeAttribute('data-status');
+                popup.style.opacity = '0'
+                popup.style.visibility = 'hidden'
+                container.style.filter = 'blur(0)'
+            }
+            })
+            },1000
+        )
+    }
+    popup.style.transform = 'scale(1)';
+    popup.style.visibility = 'visible';
+    popup.style.opacity = '1';
+    container.style.filter = 'blur(3px)';
+    setTimeout(() => {
+        popup.style.display = 'block';
+    }, 10)
+}
+let addCalendarBtnToggle = true
+function addCalendarBtn(){
+    let item = document.querySelector('.popUp-add-options-calendar__navbar')
+    if(addCalendarBtnToggle){
+        item.style.display = 'block';
+    }
+    else {
+        item.style.display = 'none';
+    }
+    addCalendarBtnToggle = !addCalendarBtnToggle;
+    console.log(item.innerHTML);
+}
+
+function setValue(contain,icon,content,event){
+    let iconn = document.querySelector(icon);
+    let contentt = document.querySelector(content);
+    let undo =document.querySelector('.undo');
+    let containn = document.querySelector(contain);
+    iconn.style.display = 'none';
+    contentt.style.display = 'block';
+    contentt.innerText = event.target.textContent;
+    undo.style.display = 'block';
+    containn.style.background = '#FEFAF5';
+    containn.style.borderRadius = '8px';
 }

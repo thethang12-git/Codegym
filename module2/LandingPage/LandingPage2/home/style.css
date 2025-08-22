@@ -180,12 +180,57 @@ body {
     transition:flex 0.3s ease , width 1s ease, height 1s ease;
 }
 
+.popUp-add {
+    /*opacity: 0;*/
+    /*visibility: hidden;*/
+    position: absolute;
+    /*transform:translate(-50%, -50%) scale(0);*/
+    top: 177px;
+    left: 40%;
+    width: 487px;
+    height: 240px;
+    border-radius: 15px;
+    border: 2px solid #F3F4F6;
+    background: whitesmoke;
+    transition: all 1s ease;
+    padding: 12px 20px;
+    background: white;
+}
+
+/*.popUp-add div {*/
+/*    width: 100%;*/
+/*}*/
+.popUp-add-options div {
+    padding: 8px;
+}
+.popUp-add-options-calendar__navbar {
+    display: none;
+    padding: 8px;
+    width: 153px;
+    border-radius: 15px;
+    background:white;
+    position: absolute;
+    top: 100%;
+    left: -5%;
+}
+.popUp-add-options-calendar__navbar p {
+    padding:8px;
+    font-weight: 480;
+}
+.popUp-add-options-calendar__navbar p:hover{
+    background: #FEFAF5;
+    border-radius: 8px;
+    color: #EF6820;
+}
 /* Responsive*/
 /*tablet*/
 @media (max-width: 1400px) {
     .navbar {
         position: absolute;
         left: -300px;
+        font-size: 12px;
+        overflow-y:hidden;
+        padding-top:18px;
     }
     .content-body {
         padding: 8px 55px;
@@ -202,7 +247,11 @@ body {
     .content-body {
         padding: 0 28px;
     }
+    .navbar {
+        font-size: 12px;
+    }
 }
+
 /*.navbar {*/
 /*    width: 237px;*/
 /*    height: 100%;*/
