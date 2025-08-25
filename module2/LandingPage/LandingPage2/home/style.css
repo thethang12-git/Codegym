@@ -191,7 +191,7 @@ body {
     height: 240px;
     border-radius: 15px;
     border: 2px solid #F3F4F6;
-    background: whitesmoke;
+    /*background: whitesmoke;*/
     transition: all 1s ease;
     padding: 12px 20px;
     background: white;
@@ -230,6 +230,10 @@ body {
 .calendar_table tr td:hover {
     background-color: #EF6820;
     color: white;
+}
+select option {
+    font-size: 20px;
+    border-radius: 8px;
 }
 /* Responsive*/
 /*tablet*/

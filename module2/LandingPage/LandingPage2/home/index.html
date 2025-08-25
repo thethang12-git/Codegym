@@ -393,28 +393,65 @@
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Hôm nay</p>
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Ngày mai</p>
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Tuần này</p>
-                    <p >Tuỳ chỉnh <i style="margin-left: 28px" class="fa-solid fa-arrow-right"></i> </p>
+                    <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event);calendarDisplay(event)" >Tuỳ chỉnh <i style="margin-left: 28px" class="fa-solid fa-arrow-right"></i> </p>
                 </div>
             </div>
-            <div onclick="calendarDisplay()" class="options_num-2" style="cursor: pointer;position: relative;display: flex"><i class="fa-solid fa-clock"></i>
-                <div data-status="deactive" class="calendar-display" style="border: 2px solid #F3F4F6;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 276px;top: 100%;left: -100%;border-radius: 8px;padding: 8px;">
+            <div onclick="timeDisplay(event)" class="options_num-2" style="cursor: pointer;position: relative;display: flex;border-radius: 8px">
+                <i class="fa-solid fa-clock"></i>
+                <div style="display: flex;flex-direction: row;width: 100%;height: 100%;padding:0;gap: 8px;">
+                    <p style="display: none;font-weight: 480;color:#FF4405"></p>
+                    <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo"></i>
+                </div>
+                <div data-status="deactive" class="calendar-display" style="border: 2px solid #F3F4F6;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 276px;top: 100%;left: -350%;border-radius: 8px;padding: 8px;">
                     <div style="height: 36px;display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 22px 12px;background: #F5F5F5    ;border-radius: 8px">
-                        <i style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-left"></i>
-                        <p class="date">date here</p>
-                        <i style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-right"></i>
+                        <i onclick="previousMonth()" style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-left"></i>
+                        <p class="calendar-date">date here</p>
+                        <i onclick="nextMonth()" style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-right"></i>
                     </div>
                     <div style="flex: 1;padding: 0" class="options_num-2-navbar">
                         <table class="calendar_table" style="width: 100%;font-size: 12px;color: #9DA4AE;border-spacing: 10px">
-                            <tr>
-                                <th>T2</th>
-                                <th>T3</th>
-                                <th>T4</th>
-                                <th>T5</th>
-                                <th>T6</th>
-                                <th>T7</th>
-                                <th>CN</th>
-                            </tr>
+
                         </table>
+                    </div>
+                </div>
+                <div  class="time-display" style="border: 2px solid #F3F4F6;display: none;flex-direction: column;position: absolute;background: white;width: 320px;height: 84px;top: 100%;left: -250%;border-radius: 8px;padding: 12px;gap: 8px">
+                    <p>Thời gian</p>
+                    <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 0;gap: 8px";>
+                        <select onchange="timeDisplay(event)" class="time-display_hour" style="width: 100%;padding: 8px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;appearance: none;text-align: center">
+                            <option > --</option>
+                            <option >01</option>
+                            <option >02</option>
+                            <option >03</option>
+                            <option >04</option>
+                            <option >05</option>
+                            <option >06</option>
+                            <option >07</option>
+                            <option>08</option>
+                            <option>09</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                            <option>13</option>
+                            <option>14</option>
+                            <option >15</option>
+                            <option >16</option>
+                            <option >17</option>
+                            <option >18</option>
+                            <option >19</option>
+                            <option>20</option>
+                            <option>21</option>
+                            <option >22</option>
+                            <option>23</option>
+                            <option>24</option>
+                        </select>
+                        <p>:</p>
+                        <select onchange="timeDisplay(event)" class="time-display_minute" style="width: 100%;padding: 8px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;appearance: none;text-align: center">
+                            <option > -- </option>
+                            <option >00</option>
+                            <option >15</option>
+                            <option >30</option>
+                            <option >45</option>
+                        </select>
                     </div>
                 </div>
             </div>

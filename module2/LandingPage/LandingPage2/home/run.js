@@ -83,7 +83,6 @@ function toggleSidebar() {
             setTimeout(()=>{
                 document.addEventListener('click', handleClick);
             },10)
-        console.log('man hinh tablet')
         return
     }
     item.style.width = '237px'
@@ -98,7 +97,6 @@ function toggleSidebar() {
         item.style.width = '237px';
         item.style.padding = '8px 16px';
     }
-    console.log('man hinh desktop');
     collapsed = !collapsed;
 }
 
@@ -111,7 +109,6 @@ function hehehe(idd,event){
     else if (currentColor === 'rgb(240, 68, 56)') {
         item.style.color = '#9DA4AE'
     }
-    console.log(event.target.style.color)
     let currentColor2 = getComputedStyle(event.target).color;
     if (currentColor2 === 'rgb(157, 164, 174)'){
         event.target.style.color = '#F04438'
@@ -244,7 +241,6 @@ function addCalendarBtn(){
         item.style.display = 'none';
     }
     addCalendarBtnToggle = !addCalendarBtnToggle;
-    console.log(item.innerHTML);
 }
 
 function setValue(contain,icon,content,event){
@@ -261,17 +257,65 @@ function setValue(contain,icon,content,event){
 }
 
 // Calendar
-function calendarDisplay() {
-    let calendar = document.querySelector('.calendar-display') 
-    if(calendar.getAttribute('data-status') == 'deactive'){
-        calendar.style.display = 'flex'
-        calendar.setAttribute('data-status','active')
+// Chọn ngày để hiển thị ở đây
+let choosedDate = ''
+let userChoosedMonth = ''
+let userChoosedYear = ''
+function displayCalen(event) {
+    let calendar = document.querySelector('.calendar-display')
+    let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
+    let value = event.target.closest('td')
+    if (calendar.getAttribute('data-status') === 'active' && value !== null ) {
+        calendar.style.display = 'none';
+        choosedDate = event.target.closest('td').innerText
+        userChoosedMonth = choosedMonth
+        userChoosedYear = choosedYear
+        calendar.setAttribute('data-status', 'deactive');
+        contentt.innerHTML = `${value.innerText}/${choosedMonth}/${choosedYear}`;
     }
-    else if (calendar.getAttribute('data-status') == 'active') {
-        calendar.style.display = 'none'
-        calendar.setAttribute('data-status','deactive')
+    else if (event.target.closest('.undo'))
+    {
+        calendar.style.display = 'none';
+        calendar.setAttribute('data-status', 'deactive');
     }
 }
+
+let thisYear = new Date().getFullYear()
+let thisMonth = new Date().getMonth()
+
+function calendarDisplay(event) {
+    let date = document.querySelector('.calendar-date')
+    let calendar = document.querySelector('.calendar-display')
+    let popup = document.querySelector('.popUp-add')
+    if(calendar.getAttribute('data-status') === 'deactive'){
+        date.innerText = `Tháng ${choosedMonth} ${choosedYear}`;
+        popup.removeEventListener('click', displayCalen);
+        calendar.style.display = 'flex'
+        calendar.setAttribute('data-status','active')
+        setTimeout( () => {
+            popup.addEventListener('click',  displayCalen )
+        },10)
+        createCalendar(thisYear,thisMonth);
+    }
+}
+let choosedMonth = thisMonth
+let choosedYear = thisYear
+function previousMonth (){
+    let date = document.querySelector('.calendar-date')
+    if (choosedMonth === thisMonth && choosedYear == thisYear){return}
+    else if (choosedMonth == 1){choosedYear--; choosedMonth = 13}
+    createCalendar(thisYear,choosedMonth-=1);
+    date.innerText = `Tháng ${choosedMonth} ${choosedYear}`;
+}
+
+function nextMonth(){
+    let date = document.querySelector('.calendar-date')
+    if (choosedMonth > 11){choosedMonth = 0; choosedYear++;}
+    createCalendar(thisYear,choosedMonth+=1);
+    date.innerText = `Tháng ${choosedMonth} ${choosedYear}`;
+}
+
+// Lấy ngày và add vào mảng
 function getDaysInMonth(year, month) {
     let date = new Date(year, month, 0);
     let daysInMonth = date.getDate();
@@ -282,11 +326,16 @@ function getDaysInMonth(year, month) {
     return daysArray;
 }
 
-function creatTable(){
-    let currentMonth = getDaysInMonth(2025,7)
+// Từ mảng -> tạo bảng và add giá trị vào HTML
+function createCalendar(year, month) {
+    let calendar = document.querySelector('.calendar_table')
+    calendar.innerHTML = '<tr><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>CN</th></tr>'
     let table = ''
+    let currentMonth = getDaysInMonth(year,month)
     for (let i = 0; i < 35; i++) {
-        if(i ==0) {
+        if (currentMonth[i] === undefined) {continue}
+        if (currentMonth[i] == choosedDate && userChoosedMonth == choosedMonth && userChoosedYear == choosedYear) {table += '<td style="background: #EF6820;color: white">' + currentMonth[i] + '</td>'; continue}
+        if(i === 0) {
             table += '<tr>'
             table += '<td>' + currentMonth[i] + '</td>';
             continue
@@ -300,11 +349,35 @@ function creatTable(){
             table += '</tr>';
             table += '<tr>';
         }
-        else if(currentMonth[i] == undefined){
-            continue
-        }
         table += '<td>' + currentMonth[i] + '</td>';
     }
-    document.querySelector('.calendar_table').innerHTML += table;
+    calendar.innerHTML += table;
 }
-creatTable();
+
+function timeDisplay(event){
+    let contain = document.querySelector('.options_num-2');
+    let undo = document.querySelector('.options_num-2 .undo');
+    let icon = document.querySelector('.options_num-2 i:first-of-type')
+    let content = document.querySelector('.time-display');
+    let hour = document.querySelector('.time-display_hour').value;
+    let minute = document.querySelector('.time-display_minute').value;
+    let display = document.querySelector('.options_num-2 div:first-of-type>p')
+    if(content.style.display === 'none'){content.style.display = 'flex'}
+    if (hour != '--' && minute != '--' ){
+        display.style.display = 'block'
+        icon.style.display = 'none'
+        display.innerHTML = `${hour}:${minute}`;
+        content.style.display = 'none'
+        undo.style.display = 'block'
+        contain.style.background = '#FEFAF5'
+    }
+    if (undo.contains(event.target)){
+        contain.style.background = 'white'
+        document.querySelector('.time-display_hour').value = '--'
+        document.querySelector('.time-display_minute').value = '--'
+        display.innerHTML = ``;
+        icon.style.display = 'block'
+        undo.style.display = 'none'
+    }
+
+}
