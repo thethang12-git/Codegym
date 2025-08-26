@@ -34,6 +34,7 @@ body {
     flex-direction: column;
     gap: 8px;
     transition: width 0.3s ease,padding 0.3s ease, left 0.5s ease;
+    border-right: 1px solid #D2D6DB;
 }
 
 .navbar-search {
@@ -144,6 +145,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 18px;
+    border-bottom: 1px solid #D2D6DB;
 }
 
 .content-header--options {
