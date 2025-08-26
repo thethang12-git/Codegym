@@ -378,6 +378,8 @@ function timeDisplay(event){
     let hour = document.querySelector('.time-display_hour').value;
     let minute = document.querySelector('.time-display_minute').value;
     let display = document.querySelector('.options_num-2 div:first-of-type>p')
+    let num1Nav = document.querySelector('.popUp-add-options-calendar__navbar')
+    num1Nav.style.display = 'none';
     if(content.style.display === 'none' && calendar.style.display === 'none'){
         content.style.display = 'flex'}
     else if (content.style.display === 'flex') {
