@@ -262,6 +262,8 @@ let choosedDate = ''
 let userChoosedMonth = ''
 let userChoosedYear = ''
 function displayCalen(event) {
+    let navbar = document.querySelector('.popUp-add-options-calendar__navbar');
+    let popup = document.querySelector('.popUp-add')
     let calendar = document.querySelector('.calendar-display')
     let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
     let value = event.target.closest('td')
@@ -273,8 +275,13 @@ function displayCalen(event) {
         calendar.setAttribute('data-status', 'deactive');
         contentt.innerHTML = `${value.innerText}/${choosedMonth}/${choosedYear}`;
     }
-    else if (event.target.closest('.undo'))
+    if (event.target.closest('.undo'))
     {
+        let iconn = document.querySelector('.options_num-1 i:first-of-type');
+        let undo =document.querySelector('.undo');
+        undo.style.display = 'none';
+        iconn.style.display = 'block';
+        contentt.innerText = ''
         calendar.style.display = 'none';
         calendar.setAttribute('data-status', 'deactive');
     }
@@ -354,24 +361,44 @@ function createCalendar(year, month) {
     calendar.innerHTML += table;
 }
 
-function timeDisplay(event){
+let timeFlag = false
+
+function timeFunc(e){
+    let content = document.querySelector('.time-display');
     let contain = document.querySelector('.options_num-2');
-    let undo = document.querySelector('.options_num-2 .undo');
+    if(contain.contains(e.target) === false){content.style.display = 'none'}
+}
+function timeDisplay(event){
+    let calendar = document.querySelector('.calendar-display')
+    let popup = document.querySelector('.popUp-add')
+    let contain = document.querySelector('.options_num-2');
+    let undo = document.querySelector('.options_num-2 .undo2');
     let icon = document.querySelector('.options_num-2 i:first-of-type')
     let content = document.querySelector('.time-display');
     let hour = document.querySelector('.time-display_hour').value;
     let minute = document.querySelector('.time-display_minute').value;
     let display = document.querySelector('.options_num-2 div:first-of-type>p')
-    if(content.style.display === 'none'){content.style.display = 'flex'}
-    if (hour != '--' && minute != '--' ){
-        display.style.display = 'block'
-        icon.style.display = 'none'
-        display.innerHTML = `${hour}:${minute}`;
-        content.style.display = 'none'
-        undo.style.display = 'block'
-        contain.style.background = '#FEFAF5'
+    if(content.style.display === 'none' && calendar.style.display === 'none'){
+        content.style.display = 'flex'}
+    else if (content.style.display === 'flex') {
+        popup.addEventListener('click', timeFunc);
+        if (hour != '--' && minute != '--' && timeFlag ){
+            display.style.display = 'block'
+            icon.style.display = 'none'
+            display.innerHTML = `${hour}:${minute}`;
+            content.style.display = 'none'
+            undo.style.display = 'block'
+            contain.style.background = '#FEFAF5'
+            timeFlag = !timeFlag;
+            return
+        }
+        if (!timeFlag ) {
+            content.style.display = 'flex'
+            timeFlag = !timeFlag;
+        }
     }
     if (undo.contains(event.target)){
+        content.style.display = 'none'
         contain.style.background = 'white'
         document.querySelector('.time-display_hour').value = '--'
         document.querySelector('.time-display_minute').value = '--'
@@ -379,5 +406,5 @@ function timeDisplay(event){
         icon.style.display = 'block'
         undo.style.display = 'none'
     }
-
 }
+
