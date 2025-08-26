@@ -389,7 +389,7 @@
                     <p style="display: none;font-weight: 480;color:#FF4405"></p>
                     <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo"></i>
                 </div>
-                <div style="position: absolute" class="popUp-add-options-calendar__navbar">
+                <div style="position: absolute;border: 2px solid #F3F4F6;border-radius: 8px;" class="popUp-add-options-calendar__navbar">
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Hôm nay</p>
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Ngày mai</p>
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Tuần này</p>
@@ -402,7 +402,7 @@
                     <p style="display: none;font-weight: 480;color:#FF4405"></p>
                     <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo2"></i>
                 </div>
-                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 276px;top: 100%;left: -350%;border-radius: 8px;padding: 8px;">
+                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 276px;top: 100%;left: -350%;border-radius: 8px;padding: 8px;">
                     <div style="height: 36px;display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 22px 12px;background: #F5F5F5    ;border-radius: 8px">
                         <i onclick="previousMonth()" style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-left"></i>
                         <p class="calendar-date">date here</p>
@@ -414,7 +414,7 @@
                         </table>
                     </div>
                 </div>
-                <div  class="time-display" style="z-index: 1;border: 2px solid #F3F4F6;display: none;flex-direction: column;position: absolute;background: white;width: 320px;height: 84px;top: 100%;left: -350%;border-radius: 8px;padding: 12px;gap: 8px">
+                <div  class="time-display" style="z-index: 1;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 320px;height: 84px;top: 100%;left: -350%;border-radius: 8px;padding: 12px;gap: 8px">
                     <p>Thời gian</p>
                     <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 0;gap: 8px";>
                         <select onchange="timeDisplay(event)" class="time-display_hour" style="width: 100%;padding: 8px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;appearance: none;text-align: center">
@@ -455,7 +455,42 @@
                     </div>
                 </div>
             </div>
-            <div class="options_num-3" style="cursor: pointer;position: relative"><i class="fa-solid fa-repeat"></i></div>
+            <div onclick="repeatDisplay(event)" class="options_num-3" style="cursor: pointer;position: relative;color: #4D5761">
+                <i class="fa-solid fa-repeat"></i>
+                <div class="repeat-display" style="display: none;width: 328px;height: 216px;position: absolute;padding: 12px;background: white;left:-50px;flex-direction: column;justify-content: left;align-items: left;gap: 4px;;border: 2px solid #F3F4F6;border-radius: 8px;">
+                    <p style="font-weight:500 ;font-size: 14px;"> Lặp lại</p>
+                    <div class="repeat-display_navbar" onclick="repeatNav1(event)" style="position: relative;display: flex;flex-direction: row;padding: 10px 12px;width: 100%;height: 40px;border-radius:8px;background: white;justify-content: space-between;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
+                        <p>Không lặp lại</p>
+                        <i class="fa-solid fa-caret-down"></i>
+                        <div class="repeat-display_navbar-1" style="display: none;flex-direction: column;gap: 4px;padding: 8px;width: 100%;position: absolute;left: 0;top: 100%;border: 2px solid #F3F4F6;border-radius: 8px;background: white;height: 172px;">
+                            <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Không lặp lại <span  style="display: none;"><i class="fa-solid fa-check check-1"></i></span></p>
+                            <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;"> Hằng ngày <span style="display: none;"><i class="fa-solid fa-check check-2"></i></span></p>
+                            <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;"> Ngày trong tuần <span style="display: none;"><i class="fa-solid fa-check check-3"></i></span></p>
+                            <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;"> Hằng tháng <span style="display: none;"><i class="fa-solid fa-check check-4"></i></span></p>
+                        </div>
+                    </div>
+                    <p style="font-weight:500 ;font-size: 14px;"> Kết thúc </p>
+                    <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;background: white;">
+                        <img onclick="colorChange(event)" style="cursor: pointer;margin-right: 5px;" src="../asset/Radio.png" height="26" width="26"/>
+                        <p style="flex: 1;font-size: 15px;"> Số lần lặp lại</p>
+                        <input class="no-arrow" style="width: 37px;height: 40px;padding: 10px 10px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);" type="number">
+                    </div>
+                    <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;background: white;">
+                        <img onclick="colorChange(event)" style="cursor: pointer;margin-right: 5px;" src="../asset/Radio.png" height="26" width="26"/>
+                        <p style="font-size: 15px;"> Vào ngày</p>
+                        <div style="flex: 1;display: flex;flex-direction: row;justify-content: right;align-items: center;">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <div style="display: flex;flex-direction: row;">
+                                <p>20</p> 
+                                /
+                                <p>03</p>
+                                /
+                                <p>2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="options_num-4" style="cursor: pointer;position: relative"><i class="fa-solid fa-tags"></i></div>
         </div>
     </div>

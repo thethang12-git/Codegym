@@ -269,7 +269,7 @@ function displayCalen(event) {
     let value = event.target.closest('td')
     if (calendar.getAttribute('data-status') === 'active' && value !== null ) {
         calendar.style.display = 'none';
-        choosedDate = event.target.closest('td').innerText
+        choosedDate = value.innerText
         userChoosedMonth = choosedMonth
         userChoosedYear = choosedYear
         calendar.setAttribute('data-status', 'deactive');
@@ -408,5 +408,28 @@ function timeDisplay(event){
         icon.style.display = 'block'
         undo.style.display = 'none'
     }
+}
+// repeat Displaying
+function repeatDisplay(event) {
+    let content = document.querySelector('.repeat-display')
+    let contain = document.querySelector('.options_num-3')
+    let icon = contain.querySelector('.fa-repeat')
+    if(content.style.display === 'none') {
+        content.style.display = 'flex'
+    }
+    else if (event.target === event.currentTarget || event.target.closest('.fa-repeat') === icon ){
+        content.style.display = 'none'
+    }
+}
+
+function repeatNav1(event){
+    let content = document.querySelector('.repeat-display_navbar-1')
+    let contain = document.querySelector('.repeat-display_navbar')
+    let isValid = event.target === event.currentTarget || event.target === contain.querySelector('p') ||event.target == contain.querySelector('i')
+    if (isValid && content.style.display == 'none') {
+        content.style.display = 'flex'
+        console.log(isValid)
+    }
+    else if (isValid && content.style.display == 'flex') {content.style.display = 'none'}
 }
 
