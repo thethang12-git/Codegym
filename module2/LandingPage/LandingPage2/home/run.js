@@ -410,6 +410,23 @@ function timeDisplay(event){
     }
 }
 // repeat Displaying
+function repeatCounter() {
+    let contain = document.querySelector('.options_num-3')
+    let container = document.querySelector('.repeatCounter-container')
+    let img = container.querySelector('img')
+    if(contain.querySelector('.repeatCounter').value < 0 || contain.querySelector('.repeatCounter').value >= 100 || contain.querySelector('.repeatCounter').value == '') {
+        contain.querySelector('.repeatCounter').value = ''
+        img.setAttribute('src','../asset/Radio.png')
+        img.style.width = '28px'
+        img.style.height = '28px'
+        img.style.marginLeft = '0'
+        return }
+
+        img.setAttribute('src','../asset/Radio2.png')
+        img.style.width = '20px'
+        img.style.height = '20px'
+        img.style.marginLeft = '8px'
+}
 function repeatDisplay(event) {
     let content = document.querySelector('.repeat-display')
     let contain = document.querySelector('.options_num-3')
@@ -420,6 +437,9 @@ function repeatDisplay(event) {
     else if (event.target === event.currentTarget || event.target.closest('.fa-repeat') === icon ){
         content.style.display = 'none'
     }
+    else if (content.style.display === 'flex' && event.target === contain.querySelector('.repeatCounter') ) {
+        contain.querySelector('.repeatCounter').addEventListener('input', repeatCounter);
+    }
 }
 
 function repeatNav1(event){
@@ -428,8 +448,71 @@ function repeatNav1(event){
     let isValid = event.target === event.currentTarget || event.target === contain.querySelector('p') ||event.target == contain.querySelector('i')
     if (isValid && content.style.display == 'none') {
         content.style.display = 'flex'
-        console.log(isValid)
     }
-    else if (isValid && content.style.display == 'flex') {content.style.display = 'none'}
+    else if (isValid && content.style.display == 'flex') {
+        content.style.display = 'none'
+    }
+
+    else if (content.style.display == 'flex') {
+        let target = event.target.closest('p');
+        console.log(target)
+        contain.querySelector('p').innerText = target.innerText
+        content.style.display = 'none'
+    }
 }
 
+function focusChange (item) {
+    let contain = document.querySelector('.options_num-3')
+    contain.querySelector(item).value = ''
+    contain.querySelector(item).focus()
+    contain.querySelector('.repeatCounter').addEventListener('input', repeatCounter);
+    contain.querySelector('.repeatCounter').addEventListener('focusout', repeatCounter);
+}
+
+function calendarModify (event,valid) {
+    let contain = document.querySelector('.repeat-calendarModify')
+    let img = contain.querySelector('img')
+    if (valid) {
+        for (let i = 1; i < 4; i++) {
+            let item = contain.querySelector(`.repeat-calendar-num-${i}`);
+            if (!item.value) {
+                item.value = ''
+                img.setAttribute('src','../asset/Radio.png')
+                img.style.width = '28px'
+                img.style.height = '28px'
+                img.style.marginLeft = '0'
+                return}
+        }
+        img.setAttribute('src','../asset/Radio2.png')
+        img.style.width = '20px'
+        img.style.height = '20px'
+        img.style.marginLeft = '8px'
+    }
+    else {
+        if(event.target.getAttribute('max') === '9999') {
+            // event.target.value = '';
+            if(event.target.value > 0) {
+                event.target.addEventListener('focusout', () => {
+                    if (event.target.value <= 2000) {
+                        event.target.value = '';
+                        img.setAttribute('src','../asset/Radio.png')
+                        img.style.width = '28px'
+                        img.style.height = '28px'
+                        img.style.marginLeft = '0'}
+                    else if(event.target.value > 9999) {
+                        event.target.value = '';
+                        img.setAttribute('src','../asset/Radio.png')
+                        img.style.width = '28px'
+                        img.style.height = '28px'
+                        img.style.marginLeft = '0'}
+                })
+            }
+            return
+        }
+        event.target.value = ''
+        img.setAttribute('src','../asset/Radio.png')
+        img.style.width = '28px'
+        img.style.height = '28px'
+        img.style.marginLeft = '0'
+    }
+}
