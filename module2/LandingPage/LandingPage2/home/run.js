@@ -417,7 +417,7 @@ function repeatCounter() {
     let contain = document.querySelector('.options_num-3')
     let container = document.querySelector('.repeatCounter-container')
     let img = container.querySelector('img')
-    if(contain.querySelector('.repeatCounter').value < 0 || contain.querySelector('.repeatCounter').value >= 100 || contain.querySelector('.repeatCounter').value == '') {
+    if(contain.querySelector('.repeatCounter').value <= 0 || contain.querySelector('.repeatCounter').value >= 100 || contain.querySelector('.repeatCounter').value == '') {
         contain.querySelector('.repeatCounter').value = ''
         img.setAttribute('src','../asset/Radio.png')
         img.style.width = '28px'
@@ -446,6 +446,8 @@ function repeatDisplay(event) {
 }
 
 function repeatNav1(event){
+    let container = document.querySelector('.options_num-3')
+    let icon = container.querySelector('i')
     let content = document.querySelector('.repeat-display_navbar-1')
     let contain = document.querySelector('.repeat-display_navbar')
     let isValid = event.target === event.currentTarget || event.target === contain.querySelector('p') ||event.target == contain.querySelector('i')
@@ -460,6 +462,13 @@ function repeatNav1(event){
         let target = event.target.closest('p');
         contain.querySelector('p').innerText = target.innerText
         content.style.display = 'none'
+        if (target.innerText != 'Không lặp lại ') {
+            container.style.background = '#FEFAF5'
+            icon.style.color = '#EF6820'
+            return
+        }
+        container.style.background = 'white'
+        icon.style.color = 'black'
     }
 }
 
@@ -536,4 +545,62 @@ function counter2 (event,valid){
         }
     }
 }
+let tempData = []
+function tagDisplay(event) {
+    let container = document.querySelector('.options_num-4')
+    let contain = container.querySelector('.tag-display-options')
+    let icon = container.querySelector('i')
+    let content = container.querySelector('p')
+    let valid = event.target === event.currentTarget || event.target === icon || event.target === content
+    if(valid && contain.style.display == 'none') {
+        contain.style.display = 'flex'
+    }
+    else if (valid && contain.style.display == 'flex') {
+        contain.style.display = 'none'
+    }
+    else if (event.target.closest('p')) {
+        content.style.display = 'block'
+        icon.style.display = 'none'
+        if (event.target.closest('p').getAttribute('data-isChoosed') === 'false') {
+            tempData.push(event.target.closest('p').innerText)
+            content.innerHTML = tempData.join(',')
+            event.target.closest('p').setAttribute('data-isChoosed', 'true')
+            content.style.color = '#EF6820'
+            event.target.closest('p').style.background = '#FEFAF5'
+            event.target.closest('p').style.color = '#EF6820'
+        }
+        else if (event.target.closest('p').getAttribute('data-isChoosed') === 'true') {
+            tempData = tempData.filter(item => item != event.target.closest('p').innerText) 
+            content.innerHTML = tempData.join(',')
+            event.target.closest('p').setAttribute('data-isChoosed', 'false')
+            event.target.closest('p').style.background = 'white'
+            if(tempData.length == 0){icon.style.display = 'block'}
+            event.target.closest('p').style.color = 'black'
+        }
+    }
+}
 
+function tagAdd (status){
+    let plus = document.querySelector('.tag-display-add span')
+    setTimeout(() => {
+        if(status === 'true') {
+        plus.style.display = 'block'
+    }
+    else {
+        plus.style.display = 'none'
+    }
+    }, 100);
+}
+
+function tagAddHandle(){
+    let container = document.querySelector('.tag-display-options')
+    let contain = document.querySelector('.tag-display-add')
+    let input = contain.querySelector('input')
+// Xử lý thêm 1 thẻ mới vào giữa những thẻ có sẵn    
+    let newTag =  document.createElement('p');
+    newTag.setAttribute('data-isChoosed', 'false')
+    newTag.textContent = input.value
+    newTag.setAttribute('style',"border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;" )
+    container.insertBefore(newTag, contain);
+    input.value = ''
+}

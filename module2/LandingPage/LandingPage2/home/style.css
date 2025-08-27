@@ -251,6 +251,20 @@ input.no-arrow::-webkit-outer-spin-button {
 .repeat-display_navbar-1 p:hover span {
     display: block;
 }
+/* mục add-tag */
+.tag-display-options p span {
+    display: none;
+}
+
+.tag-display-options p:hover {
+    color: #EF6820;
+    background: #FEFAF5;
+}
+
+.tag-display-options p:hover span {
+    display: block;
+    color: #EF6820;
+}
 /* Responsive*/
 /*tablet*/
 @media (max-width: 1400px) {
