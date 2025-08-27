@@ -1,3 +1,7 @@
+function reset(event){
+    event.target.value = ''
+}
+
 function onFocus(event){
     if(!event.target.closest('.navbar-options-num').hasAttribute('isChecked')){
     for(let i = 0;i< 8;i++){
@@ -15,7 +19,6 @@ function onFocus(event){
     event.target.closest('.navbar-options-num').setAttribute('isChecked','true')
 }
 }
-
 
 function colorChange(event,color){
     let item = event.target;
@@ -455,7 +458,6 @@ function repeatNav1(event){
 
     else if (content.style.display == 'flex') {
         let target = event.target.closest('p');
-        console.log(target)
         contain.querySelector('p').innerText = target.innerText
         content.style.display = 'none'
     }
@@ -490,10 +492,9 @@ function calendarModify (event,valid) {
     }
     else {
         if(event.target.getAttribute('max') === '9999') {
-            // event.target.value = '';
             if(event.target.value > 0) {
                 event.target.addEventListener('focusout', () => {
-                    if (event.target.value <= 2000) {
+                    if (event.target.value < 2000) {
                         event.target.value = '';
                         img.setAttribute('src','../asset/Radio.png')
                         img.style.width = '28px'
@@ -516,3 +517,23 @@ function calendarModify (event,valid) {
         img.style.marginLeft = '0'
     }
 }
+function counter (event){
+    let number = +event.target.className.match(/\d+/g)[0]
+    let contain = document.querySelector('.repeat-calendarModify')
+        if (event.target.closest('input').value.length === 2) {
+            contain.querySelector(`.repeat-calendar-num-${number+1}`).value = ''
+            contain.querySelector(`.repeat-calendar-num-${number+1}`).focus()
+    }
+}
+function counter2 (event,valid){
+    let number = +event.target.className.match(/\d+/g)[0]
+    let contain = document.querySelector('.repeat-calendarModify')
+    if (event.target.closest('input').value.length === 4 ) {
+        if (valid) {contain.querySelector(`.repeat-calendar-num-${number}`).blur()}
+        else {
+            contain.querySelector(`.repeat-calendar-num-${number}`).value = ''
+            contain.querySelector(`.repeat-calendar-num-${number}`).focus()
+        }
+    }
+}
+
