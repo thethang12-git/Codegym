@@ -491,13 +491,12 @@
                     </div>
                 </div>
             </div>
-            <div onclick="tagDisplay(event)" class="options_num-4" style="cursor: pointer;position: relative;flex: 1;">
+            <div onclick="tagDisplay(event)" class="options_num-4" style="cursor: pointer;position: relative;border-radius: 8px;">
                 <i class="fa-solid fa-tags"></i>
                 <p style="display: none;height: 16px;width: 180px;white-space: nowrap;overflow: hidden;"> </p>
-                <div class="tag-display-options" style="display: none;position: absolute;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 153px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;">
+                <div class="tag-display-options" style="display: none;position: absolute;top: 100%;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 153px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;">
                     <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Công việc <span ><i class="fa-solid fa-check"></i></span></p>
                     <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Cá nhân <span  ><i class="fa-solid fa-check"></i></span></p>
-                    <!-- <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Tạo thẻ <span  ><i class="fa-solid fa-plus"></i></span></p> -->
                     <div class="tag-display-add" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
                         <input onfocusout="tagAdd('false')" onfocus="tagAdd('true')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm thẻ"> 
                         <span onclick="tagAddHandle()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;"><i class="fa-solid fa-plus"></i></span>

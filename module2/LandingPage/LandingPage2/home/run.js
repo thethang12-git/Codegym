@@ -568,6 +568,7 @@ function tagDisplay(event) {
             content.style.color = '#EF6820'
             event.target.closest('p').style.background = '#FEFAF5'
             event.target.closest('p').style.color = '#EF6820'
+            container.style.background = '#FEFAF5'
         }
         else if (event.target.closest('p').getAttribute('data-isChoosed') === 'true') {
             tempData = tempData.filter(item => item != event.target.closest('p').innerText) 
@@ -577,6 +578,7 @@ function tagDisplay(event) {
             if(tempData.length == 0){
                 icon.style.display = 'block';
                 content.style.display = 'none'
+                container.style.background = 'white'
             }
             event.target.closest('p').style.color = 'black'
         }
