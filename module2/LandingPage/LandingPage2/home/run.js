@@ -574,7 +574,10 @@ function tagDisplay(event) {
             content.innerHTML = tempData.join(',')
             event.target.closest('p').setAttribute('data-isChoosed', 'false')
             event.target.closest('p').style.background = 'white'
-            if(tempData.length == 0){icon.style.display = 'block'}
+            if(tempData.length == 0){
+                icon.style.display = 'block';
+                content.style.display = 'none'
+            }
             event.target.closest('p').style.color = 'black'
         }
     }
