@@ -222,7 +222,7 @@ function addBtn(){
     if (popup.getAttribute('data-status') === 'actived'){
         setTimeout( () => {
             document.addEventListener('click', (e)=>{
-            if(popup.contains(e.target) === false && popup.getAttribute('data-status') == 'actived' && e.target.contains(button) === false){
+            if(popup.contains(e.target) === false && popup.getAttribute('data-status') === 'actived' && e.target.closest('.add-Btn') !== button){
                 popup.removeAttribute('data-status');
                 document.addEventListener('click', handlePopup)
                 setTimeout(()=>{document.removeEventListener('click', handlePopup)},10)
