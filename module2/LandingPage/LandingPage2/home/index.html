@@ -383,13 +383,13 @@
         </div>
         <div style="padding:4px 12px;color: #4D5761;font-size: 13px">Việc cần làm <i style="margin-left: 12px;cursor: pointer" class="fa-solid fa-caret-down"></i></div>
         <div class="popUp-add-options" style="display: flex;flex-direction: row;align-items: center;gap: 10px;">
-            <div onclick="addCalendarBtn()" class="options_num-1" style="cursor: pointer;position: relative;display: flex;">
+            <div onclick="addCalendarBtn(event)" class="options_num-1" style="cursor: pointer;position: relative;display: flex;">
                 <i class="fa-solid fa-calendar "></i>
                 <div style="display: flex;flex-direction: row;width: 100%;height: 100%;padding:0;gap: 8px;">
                     <p style="display: none;font-weight: 480;color:#FF4405"></p>
                     <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo"></i>
                 </div>
-                <div style="position: absolute;border: 2px solid #F3F4F6;border-radius: 8px;" class="popUp-add-options-calendar__navbar">
+                <div style="display: none;position: absolute;border: 2px solid #F3F4F6;border-radius: 8px;" class="popUp-add-options-calendar__navbar">
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Hôm nay</p>
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Ngày mai</p>
                     <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Tuần này</p>

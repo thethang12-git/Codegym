@@ -1,3 +1,9 @@
+let calenNavbarMain = document.querySelector('.popUp-add-options-calendar__navbar')
+let calendarMain = document.querySelector('.calendar-display')
+let timeMain = document.querySelector('.time-display')
+let repeatMain = document.querySelector('.repeat-display')
+let tagMain = document.querySelector('.tag-display-options')
+
 function reset(event){
     event.target.value = ''
 }
@@ -218,6 +224,8 @@ function addBtn(){
             document.addEventListener('click', (e)=>{
             if(popup.contains(e.target) === false && popup.getAttribute('data-status') == 'actived' && e.target.contains(button) === false){
                 popup.removeAttribute('data-status');
+                document.addEventListener('click', handlePopup)
+                setTimeout(()=>{document.removeEventListener('click', handlePopup)},10)
                 popup.style.opacity = '0'
                 popup.style.visibility = 'hidden'
                 container.style.filter = 'blur(0)'
@@ -232,18 +240,32 @@ function addBtn(){
     container.style.filter = 'blur(3px)';
     setTimeout(() => {
         popup.style.display = 'block';
+        document.addEventListener('click', handlePopup);
     }, 10)
 }
-let addCalendarBtnToggle = true
-function addCalendarBtn(){
+function addCalendarBtn(event){
+    let container = document.querySelector('.options_num-1')
     let item = document.querySelector('.popUp-add-options-calendar__navbar')
-    if(addCalendarBtnToggle){
+    let icon = container.querySelector('i');
+    let p = container.querySelector('div p');
+    let valid = event.target === event.currentTarget || event.target === icon || event.target === p
+    if(valid && item.style.display === 'none'){
         item.style.display = 'block';
+        calendarMain.style.display = 'none';
+        timeMain.style.display = 'none';
+        repeatMain.style.display = 'none';
+        tagMain.style.display = 'none';
+    }
+    else if (event.target.closest('.undo'))
+    {
+        let undo =document.querySelector('.undo');
+        undo.style.display = 'none';
+        icon.style.display = 'block';
+        p.innerText = ''
     }
     else {
         item.style.display = 'none';
     }
-    addCalendarBtnToggle = !addCalendarBtnToggle;
 }
 
 function setValue(contain,icon,content,event){
@@ -278,6 +300,9 @@ function displayCalen(event) {
         calendar.setAttribute('data-status', 'deactive');
         contentt.innerHTML = `${value.innerText}/${choosedMonth}/${choosedYear}`;
     }
+    else if (event.target.contains(calendar) === false) {
+        calendar.setAttribute('data-status', 'deactive');
+    }
     if (event.target.closest('.undo'))
     {
         let iconn = document.querySelector('.options_num-1 i:first-of-type');
@@ -294,6 +319,7 @@ let thisYear = new Date().getFullYear()
 let thisMonth = new Date().getMonth()
 
 function calendarDisplay(event) {
+    let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
     let date = document.querySelector('.calendar-date')
     let calendar = document.querySelector('.calendar-display')
     let popup = document.querySelector('.popUp-add')
@@ -306,6 +332,10 @@ function calendarDisplay(event) {
             popup.addEventListener('click',  displayCalen )
         },10)
         createCalendar(thisYear,thisMonth);
+        calenNavbarMain.style.display = 'none';
+        timeMain.style.display = 'none';
+        repeatMain.style.display = 'none';
+        tagMain.style.display = 'none';
     }
 }
 let choosedMonth = thisMonth
@@ -364,13 +394,7 @@ function createCalendar(year, month) {
     calendar.innerHTML += table;
 }
 
-let timeFlag = false
-
-function timeFunc(e){
-    let content = document.querySelector('.time-display');
-    let contain = document.querySelector('.options_num-2');
-    if(contain.contains(e.target) === false){content.style.display = 'none'}
-}
+let toggleTime = false
 function timeDisplay(event){
     let calendar = document.querySelector('.calendar-display')
     let popup = document.querySelector('.popUp-add')
@@ -381,26 +405,29 @@ function timeDisplay(event){
     let hour = document.querySelector('.time-display_hour').value;
     let minute = document.querySelector('.time-display_minute').value;
     let display = document.querySelector('.options_num-2 div:first-of-type>p')
-    let num1Nav = document.querySelector('.popUp-add-options-calendar__navbar')
-    num1Nav.style.display = 'none';
-    if(content.style.display === 'none' && calendar.style.display === 'none'){
-        content.style.display = 'flex'}
-    else if (content.style.display === 'flex') {
-        popup.addEventListener('click', timeFunc);
-        if (hour != '--' && minute != '--' && timeFlag ){
-            display.style.display = 'block'
-            icon.style.display = 'none'
-            display.innerHTML = `${hour}:${minute}`;
-            content.style.display = 'none'
-            undo.style.display = 'block'
-            contain.style.background = '#FEFAF5'
-            timeFlag = !timeFlag;
+    let p = contain.querySelector('div');
+    let valid = event.target === contain || event.target === icon || event.target === p
+    if(content.style.display === 'none' ){
+        content.style.display = 'flex'
+        calendarMain.style.display = 'none'
+        calenNavbarMain.style.display = 'none';
+        repeatMain.style.display = 'none';
+        tagMain.style.display = 'none';
+    }
+    else if (valid && content.style.display === 'flex') {content.style.display = 'none'}
+    else if (hour != '--' && minute != '--') {
+        if (content.contains(event.target) && toggleTime) {
+            content.style.display = 'flex';
+            toggleTime = false;
             return
         }
-        if (!timeFlag ) {
-            content.style.display = 'flex'
-            timeFlag = !timeFlag;
-        }
+        toggleTime = true
+        display.style.display = 'block'
+        icon.style.display = 'none'
+        display.innerHTML = `${hour}:${minute}`;
+        content.style.display = 'none'
+        undo.style.display = 'block'
+        contain.style.background = '#FEFAF5'
     }
     if (undo.contains(event.target)){
         content.style.display = 'none'
@@ -436,6 +463,10 @@ function repeatDisplay(event) {
     let icon = contain.querySelector('.fa-repeat')
     if(content.style.display === 'none') {
         content.style.display = 'flex'
+        timeMain.style.display = 'none'
+        calendarMain.style.display = 'none'
+        calenNavbarMain.style.display = 'none';
+        tagMain.style.display = 'none';
     }
     else if (event.target === event.currentTarget || event.target.closest('.fa-repeat') === icon ){
         content.style.display = 'none'
@@ -554,6 +585,10 @@ function tagDisplay(event) {
     let valid = event.target === event.currentTarget || event.target === icon || event.target === content
     if(valid && contain.style.display == 'none') {
         contain.style.display = 'flex'
+        timeMain.style.display = 'none'
+        calendarMain.style.display = 'none'
+        calenNavbarMain.style.display = 'none';
+        repeatMain.style.display = 'none'
     }
     else if (valid && contain.style.display == 'flex') {
         contain.style.display = 'none'
@@ -609,3 +644,19 @@ function tagAddHandle(){
     container.insertBefore(newTag, contain);
     input.value = ''
 }
+
+function handlePopup(e) {
+    let invalid = !e.target.closest('.options_num-1') && !e.target.closest('.options_num-2') && !e.target.closest('.options_num-3') && !e.target.closest('.options_num-4')
+    if(invalid) {
+        calenNavbarMain.style.display = 'none'
+        calendarMain.style.display = 'none'
+        timeMain.style.display = 'none'
+        repeatMain.style.display = 'none'
+        tagMain.style.display = 'none'
+    }
+}
+
+
+
+
+
