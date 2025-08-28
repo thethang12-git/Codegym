@@ -265,6 +265,19 @@ input.no-arrow::-webkit-outer-spin-button {
     display: block;
     color: #EF6820;
 }
+
+/*Xử lý thêm hiệu ứng chuyển trang*/
+#content {
+    opacity: 1;
+    transition: all 0.8s ease;
+    width: 100%;
+}
+
+#content.fade-out {
+    opacity: 0;
+    width: 0;
+}
+
 /* Responsive*/
 /*tablet*/
 @media (max-width: 1400px) {
@@ -305,3 +318,4 @@ input.no-arrow::-webkit-outer-spin-button {
 /*    gap: 8px;*/
 /*    transition: width 0.3s ease,padding 0.3s ease;*/
 /*}*/
+

@@ -656,6 +656,23 @@ function handlePopup(e) {
     }
 }
 
+// xử lý load nội dung khi ấn vào các mục ở side-bar
+
+function loadContent(url) {
+    let content = document.getElementById('content')
+    content.classList.add('fade-out');
+    setTimeout(()=>{
+        fetch(url)
+            .then(res => res.text())
+            .then(html => {
+                content.innerHTML = html;
+            })
+            .catch(err => {
+                console.error("Lỗi:", err); })
+        content.classList.remove('fade-out');
+        },500)
+
+}
 
 
 
