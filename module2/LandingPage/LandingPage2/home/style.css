@@ -278,6 +278,14 @@ input.no-arrow::-webkit-outer-spin-button {
     width: 0;
 }
 
+.tab-transition {
+    transform: translateY(-150px);
+    opacity: 0;
+}
+.scaleUp {
+    scale: 0;
+    opacity: 0;
+}
 /* Responsive*/
 /*tablet*/
 @media (max-width: 1400px) {
