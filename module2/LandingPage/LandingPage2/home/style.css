@@ -265,7 +265,19 @@ input.no-arrow::-webkit-outer-spin-button {
     display: block;
     color: #EF6820;
 }
+/* Mục groups choosing ở phần add */
+.groups-choose-navbar p span {
+    display: none;
+}
+.groups-choose-navbar p:hover {
+    color: #EF6820;
+    background: #FEFAF5;
+}
 
+.groups-choose-navbar p:hover span {
+    display: block;
+    color: #EF6820;
+}
 /*Xử lý thêm hiệu ứng chuyển trang*/
 #content {
     opacity: 1;

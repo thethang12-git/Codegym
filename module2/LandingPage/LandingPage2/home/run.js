@@ -3,7 +3,7 @@ let calendarMain = document.querySelector('.calendar-display')
 let timeMain = document.querySelector('.time-display')
 let repeatMain = document.querySelector('.repeat-display')
 let tagMain = document.querySelector('.tag-display-options')
-
+let groupsChoosing = document.querySelector('.groups-choose-navbar')
 function reset(event) {
     event.target.value = ''
 }
@@ -656,13 +656,14 @@ function tagAddHandle() {
 }
 
 function handlePopup(e) {
-    let invalid = !e.target.closest('.options_num-1') && !e.target.closest('.options_num-2') && !e.target.closest('.options_num-3') && !e.target.closest('.options_num-4')
+    let invalid = !e.target.closest('.options_num-1') && !e.target.closest('.options_num-2') && !e.target.closest('.options_num-3') && !e.target.closest('.options_num-4') && !e.target.closest('.groups-choose>div')
     if (invalid) {
         calenNavbarMain.style.display = 'none'
         calendarMain.style.display = 'none'
         timeMain.style.display = 'none'
         repeatMain.style.display = 'none'
         tagMain.style.display = 'none'
+        groupsChoosing.style.display = 'none'
     }
 }
 
@@ -684,8 +685,6 @@ function loadContent(url) {
     }, 500)
 
 }
-
-// <i className="fa-solid fa-ellipsis"></i>
 
 // Click vào để chỉnh sửa thẻ
 function clickToModify(element, event, isallow ,dupDel) {
@@ -709,17 +708,17 @@ function clickToModify(element, event, isallow ,dupDel) {
     }
 }
 
-// function littleDisable(parent) {
+// function reclick(parent) {
 //     parent.setAttribute('onclick','clickToModify(this,event,true)')
 //     console.log('xin chao')
 // }
 // function disable(element,event) {
 //     let parent = element.closest('.parent')
 //     parent.setAttribute('onclick','clickToModify(this,event,false)')
-//     document.addEventListener('click',() => littleDisable(parent))
+//     document.addEventListener('click',() => reclick(parent))
 //     setTimeout(() => {
-//         document.removeEventListener('click',() => littleDisable(parent)) ;
-//         console.log('dhasd') }
+//         document.removeEventListener('click',() => reclick(parent)) ;
+//         console.log('đã đóng') }
 //         ,1000)
 // }
 
@@ -766,4 +765,109 @@ function dupDelFunc (item) {
         },
         500
     )
+}
+
+function stopPropa(event){
+    console.log('stopPropagation ở đây')
+}
+
+function groupChoose(event) {
+    let container = document.querySelector('.groups-choose')
+    let content = container.querySelector('.groups-choose-navbar')
+    let valid = event.target.closest('.groups-choose>div') === container.querySelector('div')
+    if(content.style.display === 'none' && valid ) {
+        content.style.display = 'flex'
+        calenNavbarMain.style.display = 'none'
+        calendarMain.style.display = 'none'
+        timeMain.style.display = 'none'
+        repeatMain.style.display = 'none'
+        tagMain.style.display = 'none'
+    }
+    else if( valid && content.style.display === 'flex') {
+        content.style.display = 'none'
+    }
+}
+function focusOnGroups(status){
+    let container = document.querySelector(`.groups-choose-navbar-addGroup`)
+    let icon = container.querySelector('span')
+    setTimeout(() => {
+    if(status === 'true') {
+        icon.style.display = 'none'
+    }
+    else {
+        icon.style.display = 'block'
+    }
+},100)
+}
+
+function addGroups(event){
+    let container = document.querySelector(`.groups-choose-navbar`)
+    let contain = container.querySelector('.groups-choose-navbar-addGroup')
+    let input = container.querySelector('input')
+    let newTag = document.createElement('p');
+    newTag.setAttribute('data-isChoosed', 'false')
+    newTag.innerHTML = input.value + '<span ><i class="fa-solid fa-check"></i></span>'
+    newTag.setAttribute('style', "border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
+    container.insertBefore(newTag, contain);
+    newTag.setAttribute('onclick',`choosedGroup(this)`)
+    input.value = ''
+}
+
+function choosedGroup(itemed){
+    let div = document.querySelector('.groups-choose div')
+    let content = document.querySelector('.groups-choose div p')
+    let container = document.querySelector('.groups-choose-navbar')
+    let array =  [...container.querySelectorAll('.groups-choose-navbar p')];
+    let itemStatus = itemed.getAttribute('data-isChoosed')
+    if(itemStatus === 'false') {
+        for(let i = 0; i< array.length;i++){
+            array[i].style.background = 'white'
+            array[i].style.color = '#4D5761'
+            array[i].setAttribute('data-isChoosed','false')
+            array[i].querySelector('span').style.display = 'none'
+            addHover(array[i])
+        }
+        itemed.style.color = '#EF6820'
+        itemed.style.background = '#FEFAF5'
+        itemed.setAttribute('data-isChoosed','true')
+        itemed.querySelector('span').style.display = 'block'
+        content.innerText = itemed.innerText
+    }
+    else if (itemStatus === 'true') {
+        itemed.style.color = '#4D5761'
+        itemed.style.background = 'white'
+        itemed.setAttribute('data-isChoosed','false')
+        itemed.querySelector('span').style.display = 'block'
+        content.innerText = 'Không chọn'
+    }
+    if(div.innerText === 'Không chọn') {
+        div.style.background = 'white'
+        div.style.color = '#4D5761'
+    }
+    else {
+        div.style.background = '#FEFAF5'
+        div.style.color = '#EF6820'
+    }
+}
+
+function addHover(element){
+    let span = element.querySelector('span')
+    element.addEventListener('mouseover', function() {
+    if(element.getAttribute('data-isChoosed') === 'false') 
+        {
+            element.style.background = '#FEFAF5'
+            element.style.color = '#EF6820'
+            span.style.display = 'block'
+        }
+    
+});
+
+element.addEventListener('mouseout', function() {
+    if(element.getAttribute('data-isChoosed') === 'false') 
+        {
+            element.style.background = 'white'
+            element.style.color = '#4D5761'
+            span.style.display = 'none'
+        }
+});
 }

@@ -84,7 +84,7 @@
                 <hr>
                 <div style="display: flex;flex-direction: column;gap: 8px;">
                     <div class="parent" onclick="clickToModify(this,event,true,'.dupDel-1')" style="display: flex;flex-direction: row;gap: 8px;padding: 8px;cursor: pointer;background: white">
-                        <img onclick="colorChange(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                        <img onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
                         <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                             <div style="display: flex;justify-content:space-between ;">
                                 <div>
@@ -395,7 +395,20 @@
             </div>
             <i onclick="colorChange(event)" class="fa-regular fa-star"></i>
         </div>
-        <div style="padding:4px 12px;color: #4D5761;font-size: 13px">Việc cần làm <i style="margin-left: 12px;cursor: pointer" class="fa-solid fa-caret-down"></i></div>
+        <div onclick="groupChoose(event)" class="groups-choose" style="color: #4D5761;font-size: 13px;position: relative;height: 28px;">
+            <div style="display: flex;flex-direction: row;padding: 8px 12px;width: fit-content;border-radius: 8px;" >
+                <p style="width: auto;overflow: hidden;max-width: 400px;">Không chọn </p>
+                <i style="margin-left: 12px;cursor: pointer" class="fa-solid fa-caret-down"></i>
+            </div>
+            <div class="groups-choose-navbar" style="display: none;position: absolute;top: 100%;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 207px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;z-index: 9999;">
+                <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Không chọn<span ><i class="fa-solid fa-check"></i></span></p>
+                <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Cá nhân <span  ><i class="fa-solid fa-check"></i></span></p>
+                <div class="groups-choose-navbar-addGroup" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
+                    <input onblur="focusOnGroups('true')" onfocus="focusOnGroups('false')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm thẻ"> 
+                    <span onclick="addGroups(event)" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;cursor: pointer;"><i class="fa-solid fa-plus"></i></span>
+                </div>
+            </div>
+        </div>
         <div class="popUp-add-options" style="display: flex;flex-direction: row;align-items: center;gap: 10px;">
             <div onclick="addCalendarBtn(event)" class="options_num-1" style="cursor: pointer;position: relative;display: flex;">
                 <i class="fa-solid fa-calendar "></i>
