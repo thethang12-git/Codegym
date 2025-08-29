@@ -767,6 +767,3 @@ function dupDelFunc (item) {
         500
     )
 }
-
-//<i class="fa-solid fa-ellipsis" onclick="dupDelFunc(`.dupDel-1`);disable(this,event)" style="opacity: 1; transform: translateY(0px);"></i>
-// <i class="fa-solid fa-ellipsis" onclick="dupDelFunc(`undefined`);disable(this,event)" style="opacity: 1; transform: translateY(0px);"></i>
