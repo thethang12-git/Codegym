@@ -297,9 +297,11 @@ function displayCalen(event) {
         userChoosedYear = choosedYear
         calendar.setAttribute('data-status', 'deactive');
         contentt.innerHTML = `${value.innerText}/${choosedMonth}/${choosedYear}`;
-    } else if (event.target.contains(calendar) === false) {
-        calendar.setAttribute('data-status', 'deactive');
-    }
+    } 
+    // else if (event.target.contains(calendar) === false) {
+    //     calendar.setAttribute('data-status', 'deactive');
+    //     console.log('case2')
+    // }
     if (event.target.closest('.undo')) {
         let iconn = document.querySelector('.options_num-1 i:first-of-type');
         let undo = document.querySelector('.undo');
@@ -417,15 +419,23 @@ function timeDisplay(event) {
     let display = document.querySelector('.options_num-2 div:first-of-type>p')
     let p = contain.querySelector('div');
     let valid = event.target === contain || event.target === icon || event.target === p
-    if (content.style.display === 'none') {
+    if (content.style.display === 'none' && valid) {
         content.style.display = 'flex'
-        calendarMain.style.display = 'none'
         calenNavbarMain.style.display = 'none';
         repeatMain.style.display = 'none';
         tagMain.style.display = 'none';
-    } else if (valid && content.style.display === 'flex') {
+        // if(event.target.closest('.calendar-display')){
+        //     calendarMain.style.display = 'flex'
+        // }
+        // else {
+        //     calendarMain.style.display = 'none'
+        // }
+        calendarMain.style.display = 'none'
+    } 
+    else if (valid && content.style.display === 'flex') {
         content.style.display = 'none'
-    } else if (hour != '--' && minute != '--') {
+    } 
+    else if (hour != '--' && minute != '--') {
         if (content.contains(event.target) && toggleTime) {
             content.style.display = 'flex';
             toggleTime = false;
