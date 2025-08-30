@@ -901,8 +901,32 @@ function dataCheck() {
     }}, 1000)
     
 }
-
-
+let finalData = [
+    {
+        group:'nhóm 1',
+        content :
+        [
+            {
+                title:'nội dung 1'
+            },
+            {
+                title: 'nội dung 2'
+            }
+        ]
+    },
+    {
+        group: 'Nhóm 2' ,
+        content : 
+        [
+            {
+                title: 'nội dung 1'
+            },
+            {
+                title: ' nội dung 2'
+            }
+        ]
+    }
+]
 function renderGroup(todoInf) {
     return `
         <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
