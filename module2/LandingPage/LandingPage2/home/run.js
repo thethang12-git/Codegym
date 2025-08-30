@@ -780,7 +780,7 @@ function dupDelFunc (item) {
 function stopPropa(event){
     console.log('stopPropagation ở đây')
 }
-
+// phần chọn group ở 'thêm mới'
 function groupChoose(event) {
     let container = document.querySelector('.groups-choose')
     let content = container.querySelector('.groups-choose-navbar')
