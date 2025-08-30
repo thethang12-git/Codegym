@@ -23,7 +23,7 @@
             <div onclick="loadContent('./pages/Next7Days.html')" class="navbar-options-num num-3"><i class="fa-solid fa-calendar-week"></i> <p style="flex: 1;margin-left: 8px;">7 ngày tới</p> <p>12</p></div>
             <div onclick="loadContent('all.html')" class="navbar-options-num num-4"><i class="fa-solid fa-list"></i> <p style="flex: 1;margin-left: 8px;">Tất cả</p> <p>12</p></div>
             <div onclick="loadContent('./pages/note.html')" class="navbar-options-num num-5"><i class="fa-solid fa-list-check"></i> <p style="margin-left:8px ;flex: 1;">Ghi chú</p></div>
-            <div onclick="loadContent('./pages/empty.html')" class="navbar-options-num num-6"><i class="fa-solid fa-circle-check"></i> <p style="margin-left: 8px;flex: 1;">Hoàn thành</p></div>
+            <div onclick="loadContent('./pages/empty.html');dataCheck()" class="navbar-options-num num-6"><i class="fa-solid fa-circle-check"></i> <p style="margin-left: 8px;flex: 1;">Hoàn thành</p></div>
             <div onclick="loadContent('./pages/repeat.html')" class="navbar-options-num num-7"><i class="fa-solid fa-repeat"></i> <p style="margin-left: 8px;flex: 1;">Lặp lại</p></div>
             <div onclick="loadContent('./pages/bin.html')" class="navbar-options-num num-8"><i class="fa-solid fa-trash"></i> <p style="margin-left: 8px;flex: 1;">Thùng rác</p></div>
         </div>
@@ -65,7 +65,6 @@
                     <button class="add-Btn" onclick="addBtn()" style="padding: 8px 8px 8px 30px;border: none;cursor: pointer;outline: none;color:white;background: #EF6820;border-radius: 8px">Tạo mới</button>
                 </div>
                 <i onclick="colorChange(event)" class="fa-regular fa-star"></i>
-<!--                <i class="fa-solid fa-star"></i>-->
                 <div onclick="displayMenu()" class="toggleDisplay" data-status="left" style="display: flex;flex-direction: row;border-radius: 25px;background: #E5E7EB;padding: 3px">
                     <div class="toggle1" style="display: flex;align-items: center;padding: 8px 8px 8px 8px;justify-items: center;border-radius: 55px;background: white"><i style="color: #EF6820" class="fa-solid fa-list" ></i></div>
                     <div class="toggle2" style="display: flex;align-items: center;padding: 8px 8px 8px 8px;justify-items: center"><img src="../asset/Vector.png" height="16" width="20"/></div>
@@ -130,7 +129,7 @@
                                 <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                     <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                     <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                    <p onclick="disable(this,event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
                                 </div>
                             </div>
                         </div>

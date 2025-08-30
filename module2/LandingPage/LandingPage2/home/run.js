@@ -125,6 +125,7 @@ function hehehe(idd, event) {
     }
 }
 
+
 // function dislayModify(){
 //     let item = document.querySelector('.content-body');
 //     let item1 = document.querySelector('.content-body--1');
@@ -778,7 +779,7 @@ function dupDelFunc (item) {
 }
 
 function stopPropa(event){
-    console.log('stopPropagation ở đây')
+    event.stopPropagation()
 }
 // phần chọn group ở 'thêm mới'
 function groupChoose(event) {
@@ -880,4 +881,86 @@ element.addEventListener('mouseout', function() {
             span.style.display = 'none'
         }
 });
+}
+
+// Xử lý dữ liệu và hiển thị, lưu trữ mảng các object thông tin để hiển thị ra HTML
+let test = [1,2]
+let todoInf = {
+    group : 'Khác',
+    title : 'The standard Lorem Ipsum passage, used since the 1500s',
+    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+    tag : ['công việc','hehehe'],
+    repeat: true,
+    date : '02/09/2025',
+    time: '09:26'
+}
+let content = document.getElementById('content')
+function dataCheck() {
+    setTimeout(()=> {if(test.length > 0) {
+        content.innerHTML = renderContent()
+    }}, 1000)
+    
+}
+
+
+function renderGroup(todoInf) {
+    return `
+        <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+            <div style="display: flex;flex-direction: row;gap: 16px">
+                <h3> ${todoInf.group} </h3>
+                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+            </div>
+            <p style="padding: 8px 16px">2</p>
+        </div>
+    `
+}
+function renderTodoList(todoInf){
+    return `
+        <div style="display: flex;flex-direction: column;gap: 8px;">
+            <div onclick="clickToModify(this,event,true,'.dupDel-2')" class="parent" style="display: flex;flex-direction: column;gap: 8px;cursor: pointer">
+                        <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
+                            <img onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
+                                <div style="display: flex;justify-content:space-between ;">
+                                    <div>
+                                        <p style="font-weight: bold;margin-bottom: 4px">${todoInf.title}</p>
+                                        <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
+                                    </div>
+                                    <div style="position: relative;">
+                                        <i onclick="colorChange(event);"  class="fa-regular fa-star"></i>
+                                        <div class="dupDel-2" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
+                                            <p style="padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
+                                            <p style="padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: row;align-items: center;">
+                                    ${todoInf.tag.map(item => {return `<p style="padding: 4px 12px;font-size: 12px;color: #4D5761">${item}</p>`}).join('')}
+                                </div>
+                                ${todoInf.repeat
+                                ? 
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
+                                :   ''
+                                }
+                            </div>
+                        </div>
+                    </div>
+        </div>  
+    `
+}
+
+function renderContent(){
+    return `
+        <div class="content-body--1">
+            ${renderGroup(todoInf)}
+            <hr>
+            ${renderTodoList(todoInf)}
+        </div>
+    `
 }
