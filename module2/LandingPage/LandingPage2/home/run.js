@@ -885,32 +885,37 @@ element.addEventListener('mouseout', function() {
 
 // Xử lý dữ liệu và hiển thị, lưu trữ mảng các object thông tin để hiển thị ra HTML
 let test = [1,2]
-let todoInf = {
-    group : 'Khác',
-    title : 'The standard Lorem Ipsum passage, used since the 1500s',
-    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-    tag : ['công việc','hehehe'],
-    repeat: true,
-    date : '02/09/2025',
-    time: '09:26'
-}
+// let todoInf = {
+//     group : 'Khác',
+//     title : 'The standard Lorem Ipsum passage, used since the 1500s',
+//     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+//     tag : ['công việc','hehehe'],
+//     repeat: true,
+//     date : '02/09/2025',
+//     time: '09:26'
+// }
 let content = document.getElementById('content')
-function dataCheck() {
-    setTimeout(()=> {if(test.length > 0) {
-        content.innerHTML = renderContent()
-    }}, 1000)
-    
-}
-let finalData = [
+
+let data = [
     {
         group:'nhóm 1',
         content :
         [
             {
-                title:'nội dung 1'
+                title:'nội dung 1',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
             },
             {
-                title: 'nội dung 2'
+                title: 'nội dung 2',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
             }
         ]
     },
@@ -919,13 +924,45 @@ let finalData = [
         content : 
         [
             {
-                title: 'nội dung 1'
+                title: 'nội dung 1',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
             },
             {
-                title: ' nội dung 2'
+                title: ' nội dung 2',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
             }
         ]
-    }
+    },
+    {
+        group: 'Nhóm 3' ,
+        content :
+            [
+                {
+                    title: 'nội dung 1',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','hehehe'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                },
+                {
+                    title: ' nội dung 2',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','hehehe'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                }
+            ]
+    },
 ]
 function renderGroup(todoInf) {
     return `
@@ -938,10 +975,10 @@ function renderGroup(todoInf) {
         </div>
     `
 }
-function renderTodoList(todoInf){
+
+function renderTodoList(todoInf,num){
     return `
-        <div style="display: flex;flex-direction: column;gap: 8px;">
-            <div onclick="clickToModify(this,event,true,'.dupDel-2')" class="parent" style="display: flex;flex-direction: column;gap: 8px;cursor: pointer">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px;cursor: pointer">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                             <img onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
@@ -952,7 +989,7 @@ function renderTodoList(todoInf){
                                     </div>
                                     <div style="position: relative;">
                                         <i onclick="colorChange(event);"  class="fa-regular fa-star"></i>
-                                        <div class="dupDel-2" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
+                                        <div class="dupDel-${num}" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
                                             <p style="padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
                                             <p style="padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
                                         </div>
@@ -975,16 +1012,34 @@ function renderTodoList(todoInf){
                             </div>
                         </div>
                     </div>
-        </div>  
     `
 }
 
-function renderContent(){
+let num = 0
+function renderContent(data){
     return `
-        <div class="content-body--1">
-            ${renderGroup(todoInf)}
+    ${data.map((item,number) => {return `
+        <div class="content-body--${number+1}">
+            ${renderGroup(item)}
             <hr>
-            ${renderTodoList(todoInf)}
+            <div style="display: flex;flex-direction: column;gap: 8px;">
+            ${item.content.map((itemm) => {return `
+                ${( () => {
+                    num++
+                    // if(num == 2) {console.log('hello')}
+                    return renderTodoList(itemm,num)
+                })()
+    }
+            `}).join('<hr>')}
+            </div>
         </div>
-    `
+    `}).join('')}
+`
+}
+
+function dataCheck() {
+    setTimeout(()=> {if(test.length > 0) {
+        content.innerHTML = renderContent(data)
+    }}, 1000)
+
 }
