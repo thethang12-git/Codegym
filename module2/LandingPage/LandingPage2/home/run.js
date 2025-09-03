@@ -882,6 +882,62 @@ element.addEventListener('mouseout', function() {
         }
 });
 }
+// Phần note: ghi chú
+let hideFunc = null
+let hideTimer = null
+function hideOption(item) {
+    hideTimer = setTimeout(() => {item.style.display = 'none'},500)
+}
+
+function showOption(container) {
+    let element = container.querySelector('div')
+    if (hideFunc) {
+        container.removeEventListener('mouseleave', hideFunc);
+    }
+    // hideFunc = () => hideOption(element)
+    container.addEventListener('mouseleave',hideFunc = () => hideOption(element));
+    container.contains(event.relatedTarget)
+    element.style.display = 'block'
+}
+let hideModiFunc = null
+let hideModiTimer = null
+function hideModi(item) {
+    let child = item.querySelector('div')
+    hideModiTimer = setTimeout(() => {
+        item.style.display = 'none'
+        child.style.display = 'none'
+    },500)
+
+}
+
+function showModi(item,container) {
+    let containerr = document.querySelector(container)
+    let child = item.querySelector('div')
+    clearTimeout(hideTimer)
+    hideTimer = null
+    containerr.removeEventListener('mouseleave',hideFunc);
+    hideFunc = null
+    item.style.display = 'block'
+    child.style.display = 'flex'
+    if(hideModiFunc) {
+        item.removeEventListener('mouseleave',hideModiFunc);
+    }
+    item.addEventListener('mouseleave',hideModiFunc = () => hideModi(item));
+}
+
+function showChild(item,container) {
+    let parent = item.parentElement?.closest('div');
+    let containerr = document.querySelector(container)
+    clearTimeout(hideModiTimer)
+    hideModiTimer = null
+    containerr.removeEventListener('mouseleave', hideModiFunc);
+    hideModiFunc = null
+    item.style.display = 'flex'
+    item.addEventListener('mouseleave', () => hideModi(parent));
+}
+
+
+
 
 // Xử lý dữ liệu và hiển thị, lưu trữ mảng các object thông tin để hiển thị ra HTML
 let test = [1,2]
