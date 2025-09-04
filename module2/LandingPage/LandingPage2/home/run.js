@@ -894,6 +894,9 @@ function showOption(container) {
     if (hideFunc) {
         container.removeEventListener('mouseleave', hideFunc);
     }
+    if (hideTimer){
+        clearTimeout(hideTimer)
+    }
     // hideFunc = () => hideOption(element)
     container.addEventListener('mouseleave',hideFunc = () => hideOption(element));
     container.contains(event.relatedTarget)
@@ -936,6 +939,23 @@ function showChild(item,container) {
     item.addEventListener('mouseleave', () => hideModi(parent));
 }
 
+// phần note xử lý auto resize của textarea
+let currentHeight = [25]
+let tempValue
+function autoResize(item) {
+    let height = parseInt(item.style.height)
+    let actualHeight = parseInt(item.scrollHeight)
+    if(actualHeight > height){
+        item.style.height = actualHeight+'px'
+        currentHeight.push(actualHeight)
+        tempValue = (item.value.match(/\n/g) || []).length
+    }
+    else if (tempValue >= (item.value.match(/\n/g) || []).length ) {
+        item.style.height = currentHeight[(item.value.match(/\n/g) || []).length] +'px'
+        currentHeight.splice((item.value.match(/\n/g) || []).length+1)
+    }
+    console.log(tempValue,(item.value.match(/\n/g) || []).length,currentHeight,height);
+}
 
 
 

@@ -299,8 +299,16 @@ input.no-arrow::-webkit-outer-spin-button {
     opacity: 0;
 }
 /* phần  ghi chú */
+textarea::-webkit-scrollbar {
+    display: none;
+}
+.note-body::-webkit-scrollbar {
+    display: none;
+}
 
-
+.content-note .note-body--modify p:hover {
+    background:#EF6820
+}
 
 /* Responsive*/
 /*tablet*/
