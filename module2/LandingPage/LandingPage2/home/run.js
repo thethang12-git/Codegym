@@ -947,13 +947,13 @@ function autoResize(item) {
     let height = parseInt(item.style.height)
     let actualHeight = parseInt(item.scrollHeight)
     let temp3 = item.value.length
-    if (temp2[temp2.length -1] > temp3) {
-        console.log('case 3')
-        temp2 = temp2.filter(itemm => itemm < temp3)
-        item.style.height = currentHeight[temp2.length] + 'px'
-        currentHeight.pop()
-        return
-    }
+    // if (temp2[temp2.length -1] > temp3) {
+    //     console.log('case 3')
+    //     temp2 = temp2.filter(itemm => itemm < temp3)
+    //     item.style.height = currentHeight[temp2.length] + 'px'
+    //     currentHeight.pop()
+    //     return
+    // }
     if(height < actualHeight){
         item.style.height = actualHeight+'px'
         currentHeight.push(actualHeight)
@@ -961,16 +961,20 @@ function autoResize(item) {
         // item.value += '\n';
         console.log('case 1')
         temp2.push(temp3)
-        
     }
     else if (tempValue > (item.value.match(/\n/g) || []).length ) {
         currentHeight.splice((item.value.match(/\n/g) || []).length+1)
         item.style.height = currentHeight[(item.value.match(/\n/g) || []).length] +'px'
         console.log('case 2')
     }
-    // console.log(tempValue,(item.value.match(/\n/g) || []).length,currentHeight);
+    else if ((item.value.match(/\n/g) || []).length === tempValue){
+        // if(currentHeight == []) {currentHeight.push(actualHeight)}
+        // item.style.height = currentHeight.pop() + 'px'
+        console.log('case 3')
+    }
+    console.log(tempValue,(item.value.match(/\n/g) || []).length,currentHeight,actualHeight);
     // console.log(height,actualHeight,temp2,temp3,item.clientWidth)
-    console.log(temp2,temp3,currentHeight)
+    // console.log(temp2,temp3,currentHeight)
 }
 
 function editFunc(item) {
