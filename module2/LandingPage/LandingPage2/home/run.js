@@ -942,21 +942,40 @@ function showChild(item,container) {
 // phần note xử lý auto resize của textarea
 let currentHeight = [25]
 let tempValue
+let temp2 = []
+let temp3
 function autoResize(item) {
     let height = parseInt(item.style.height)
     let actualHeight = parseInt(item.scrollHeight)
-    if(actualHeight > height){
+    temp3 = item.value.length
+    if(height < actualHeight){
         item.style.height = actualHeight+'px'
         currentHeight.push(actualHeight)
         tempValue = (item.value.match(/\n/g) || []).length
+        console.log('case 1')
+        temp2.push(item.value.length)
     }
-    else if (tempValue >= (item.value.match(/\n/g) || []).length ) {
-        item.style.height = currentHeight[(item.value.match(/\n/g) || []).length] +'px'
+    else if (tempValue > (item.value.match(/\n/g) || []).length ) {
         currentHeight.splice((item.value.match(/\n/g) || []).length+1)
+        item.style.height = currentHeight[(item.value.match(/\n/g) || []).length] +'px'
+        console.log('case 2')
     }
-    console.log(tempValue,(item.value.match(/\n/g) || []).length,currentHeight,height);
+    else if (height === actualHeight) {
+        console.log('case 3')
+    }
+    // console.log(tempValue,(item.value.match(/\n/g) || []).length,currentHeight);
+    console.log(height,actualHeight,temp2,temp3)
 }
 
+function editFunc(item) {
+    let clickedElement = item.closest('.note-content-body').querySelector('.note-body--text');
+    let textContainer = document.querySelector('.note-input');
+    let textArea = textContainer.querySelector('textarea');
+    console.log(clickedElement.innerText,textArea.value)
+    textArea.value = clickedElement.innerText
+    textArea.focus()
+    autoResize(textArea);
+}
 
 
 // Xử lý dữ liệu và hiển thị, lưu trữ mảng các object thông tin để hiển thị ra HTML

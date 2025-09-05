@@ -83,11 +83,11 @@
 <!--            <div class="note-body" style="display: flex;flex-direction: column;max-height: 1000px;overflow-y: scroll;">-->
                     <div>
                         <p style="padding: 24px;text-align: center;font-size: 14px;font-weight: 450;color : #0D121C">Date will be displayed here</p>
-                        <div onmouseenter="showOption(this)" class="note-body-content-1" style="position: relative;">
+                        <div onmouseenter="showOption(this)" class="note-content-body note-body-content-1" style="position: relative;">
                             <div onmouseenter="showModi(this,'.note-body-content-1')"  style="display: none;position: absolute;left: -38px;padding: 6px 8px;border-radius: 99px;background: #E5E7EB">
                                 <i class="fa-solid fa-ellipsis"></i>
                                 <div class="note-body--modify" onmouseenter="showChild(this,'.note-body-content-1 div')" style="box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);padding:4px;display: none;flex-direction: column;justify-content: space-evenly;position: absolute;background: white;height: 84px;width: 120px;border-radius: 8px;top: 120%;left: 22px">
-                                    <p style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
+                                    <p onclick="editFunc(this)" style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
                                         <i class="fa-solid fa-pencil"></i>
                                         chỉnh sửa
                                     </p>
@@ -98,7 +98,8 @@
                                 </div>
                             </div>
                             <div style="padding: 12px;background: #E5E7EB;border-radius:8px;display: flex;flex-direction: column;gap: 4px;font-size: 17px ">
-                                <p style="line-height: 28px;">
+
+                                <p class="note-body--text" style="line-height: 28px;">
                                     Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
                                 </p>
                                 <p class="note-body-content-time" style="text-align: right;font-size: 12px"> 20:08</p>
@@ -107,7 +108,10 @@
                     </div>
                 </div>
                 <div class="note-input" style="background: white;max-width:100vw;padding:12px;position: absolute;bottom:2%;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);width: 100%;border-radius: 16px;display: flex;flex-direction: row;justify-content: space-between ">
-                    <textarea oninput="autoResize(this)" style="padding-top: 5px;font-size: 14px;flex: 1;border: none;outline: none;max-height: 200px;resize: none;height: 25px;overflow-y:auto " ></textarea>
+                    <div style="flex: 1">
+                        <div>hheehhe</div>
+                        <textarea oninput="autoResize(this)" style="width: 100%;padding-top: 5px;font-size: 14px;flex: 1;border: none;outline: none;max-height: 200px;resize: none;height: 28px;overflow-y:auto " ></textarea>
+                    </div>
                     <i style="align-self: end;font-size: 28px;cursor: pointer" class="fa-solid fa-circle-chevron-up"></i>
                 </div>
             </div>
