@@ -694,7 +694,6 @@ function loadContent(url) {
             })
         content.classList.remove('fade-out');
     }, 500)
-
 }
 
 // Click vào để chỉnh sửa thẻ
@@ -907,10 +906,10 @@ let hideModiTimer = null
 function hideModi(item) {
     let child = item.querySelector('div')
     hideModiTimer = setTimeout(() => {
-        item.style.display = 'none'
-        child.style.display = 'none'
+        child.style.transform = 'scale(0)'
+        child.style.opacity = '0'
+        setTimeout(() => {child.style.display = 'none' ;item.style.display = 'none' }, 200 )
     },500)
-
 }
 
 function showModi(item,container) {
@@ -921,6 +920,8 @@ function showModi(item,container) {
     containerr.removeEventListener('mouseleave',hideFunc);
     hideFunc = null
     item.style.display = 'block'
+    child.classList.add('addShoweffect')
+    setTimeout(() => {child.style.transform = 'scale(1)';child.style.opacity = '1';child.classList.remove('addShoweffect')} ,10)
     child.style.display = 'flex'
     if(hideModiFunc) {
         item.removeEventListener('mouseleave',hideModiFunc);
@@ -939,14 +940,19 @@ function showChild(item,container) {
     item.addEventListener('mouseleave', () => hideModi(parent));
 }
 
-// phần note xử lý auto resize của textarea
+// phần note:xử lý auto resize của textarea
 let currentHeight = [25]
 let tempValue
 let temp2 = []
+let isModifying = false
 function autoResize(item) {
     let height = parseInt(item.style.height)
     let actualHeight = parseInt(item.scrollHeight)
     let temp3 = item.value.length
+    let icon = document.querySelector('.note-input>div>div');
+    if(item.value.length === 0) {
+        icon.style.height = '0'
+    }
     // if (temp2[temp2.length -1] > temp3) {
     //     console.log('case 3')
     //     temp2 = temp2.filter(itemm => itemm < temp3)
@@ -981,9 +987,53 @@ function editFunc(item) {
     let clickedElement = item.closest('.note-content-body').querySelector('.note-body--text');
     let textContainer = document.querySelector('.note-input');
     let textArea = textContainer.querySelector('textarea');
+    let icon = document.querySelector('.note-input>div>div');
     textArea.value = clickedElement.innerText
     textArea.focus()
+    icon.style.height = '23px'
+    isModifying = true;
     autoResize(textArea);
+}
+
+// phần thùng rác
+function displayBinModifier(item) {
+    let icon = item.querySelector('.bin-content--modifier');
+    let star = item.querySelector('.fa-star');
+    if(icon.style.display === 'none'){
+        icon.classList.add('displayBinModifier')
+        setTimeout(() =>{ star.classList.remove('star-cc') ; star.classList.add('star-move')},100)
+        setTimeout(() => {icon.style.display = 'block'},200)
+        setTimeout(() => {icon.classList.remove('hideBinModifier'); },100)
+    }
+    else if (icon.style.display === 'block') {
+        star.classList.remove('star-move')
+        star.classList.add('star-cc')
+        icon.classList.remove('displayBinModifier')
+        icon.classList.add('hideBinModifier')
+        setTimeout(() => {icon.style.display = 'none'},150)
+    }
+}
+
+function binNavbar (item){
+    let content = item.parentElement?.querySelector('div')
+    if(content.style.display === 'none'){
+        content.style.opacity = '0'
+        content.style.transform = 'scale(0)'
+        content.style.display = 'flex'
+        setTimeout(() => {content.style.opacity= '1';content.style.transform = 'scale(1)'}, 200)
+    }
+    else  {
+        content.style.opacity = '0'
+        content.style.transform = 'scale(0)'
+        setTimeout(() => {content.style.display = 'none'}, 200)
+    }
+    document.addEventListener('click', (e) => {
+        if(e.target !== content && e.target !== e.currentTarget){
+            content.style.opacity = '0'
+            content.style.transform = 'scale(0)'
+            setTimeout(() => {content.style.display = 'none'}, 200)
+        }
+    }, {once: true})
 }
 
 
@@ -1020,7 +1070,15 @@ let data = [
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
-            }
+            },
+            {
+                title:'nội dung 3',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
         ]
     },
     {

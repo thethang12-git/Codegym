@@ -309,7 +309,28 @@ textarea::-webkit-scrollbar {
 .content-note .note-body--modify p:hover {
     background:#EF6820
 }
+.note-body--modify.addShoweffect {
+    transform: scale(0);
+    opacity: 0;
+}
 
+/* Phần thùng rác*/
+.displayBinModifier {
+    opacity: 1;
+    transform: translateX(0);
+}
+.hideBinModifier {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.star-move {
+    right: 24px;
+}
+
+.star-cc {
+    right: 0;
+}
 /* Responsive*/
 /*tablet*/
 @media (max-width: 1400px) {
