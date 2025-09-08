@@ -945,44 +945,46 @@ let currentHeight = [25]
 let tempValue
 let temp2 = []
 let isModifying = false
-function autoResize(item) {
-    let height = parseInt(item.style.height)
-    let actualHeight = parseInt(item.scrollHeight)
-    let temp3 = item.value.length
-    let icon = document.querySelector('.note-input>div>div');
-    if(item.value.length === 0) {
-        icon.style.height = '0'
-    }
-    // if (temp2[temp2.length -1] > temp3) {
-    //     console.log('case 3')
-    //     temp2 = temp2.filter(itemm => itemm < temp3)
-    //     item.style.height = currentHeight[temp2.length] + 'px'
-    //     currentHeight.pop()
-    //     return
-    // }
-    if(height < actualHeight){
-        item.style.height = actualHeight+'px'
-        currentHeight.push(actualHeight)
-        tempValue = (item.value.match(/\n/g) || []).length
-        // item.value += '\n';
-        console.log('case 1')
-        temp2.push(temp3)
-    }
-    else if (tempValue > (item.value.match(/\n/g) || []).length ) {
-        currentHeight.splice((item.value.match(/\n/g) || []).length+1)
-        item.style.height = currentHeight[(item.value.match(/\n/g) || []).length] +'px'
-        console.log('case 2')
-    }
-    else if ((item.value.match(/\n/g) || []).length === tempValue){
-        // if(currentHeight == []) {currentHeight.push(actualHeight)}
-        // item.style.height = currentHeight.pop() + 'px'
-        console.log('case 3')
-    }
-    console.log(tempValue,(item.value.match(/\n/g) || []).length,currentHeight,actualHeight);
-    // console.log(height,actualHeight,temp2,temp3,item.clientWidth)
-    // console.log(temp2,temp3,currentHeight)
-}
+// function autoResize(item) {
+//     let height = parseInt(item.style.height)
+//     let actualHeight = parseInt(item.scrollHeight)
+//     let temp3 = item.value.length
+//     let icon = document.querySelector('.note-input>div>div');
+//     if(item.value.length === 0) {
+//         icon.style.height = '0'
+//     }
+//     if(height < actualHeight){
+//         item.style.height = actualHeight+'px'
+//         currentHeight.push(actualHeight)
+//         tempValue = (item.value.match(/\n/g) || []).length
+//         console.log('case 1')
+//         temp2.push(temp3)
+//     }
+//     else if (tempValue > (item.value.match(/\n/g) || []).length ) {
+//         currentHeight.splice((item.value.match(/\n/g) || []).length+1)
+//         item.style.height = currentHeight[(item.value.match(/\n/g) || []).length] +'px'
+//         console.log('case 2')
+//     }
+//     else if ((item.value.match(/\n/g) || []).length === tempValue){
+//         // if(currentHeight == []) {currentHeight.push(actualHeight)}
+//         // item.style.height = currentHeight.pop() + 'px'
+//         console.log('case 3')
+//     }
+//     console.log(tempValue,(item.value.match(/\n/g) || []).length,currentHeight,actualHeight);
+//     // console.log(height,actualHeight,temp2,temp3,item.clientWidth)
+//     // console.log(temp2,temp3,currentHeight)
+// }
 
+function autoResize(){
+    let text = document.getElementById('textarea')
+    if(text.scrollHeight > 30){
+        text.style.height = 'auto'
+        text.style.height = text.scrollHeight + 'px'
+    } 
+    if (text.value.length === 0) {
+        text.style.height = '20px'
+    }
+}
 function editFunc(item) {
     let clickedElement = item.closest('.note-content-body').querySelector('.note-body--text');
     let textContainer = document.querySelector('.note-input');
