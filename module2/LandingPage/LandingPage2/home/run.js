@@ -1152,7 +1152,7 @@ function renderTodoList(todoInf,num){
                                         <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
                                     </div>
                                     <div style="position: relative;">
-                                        <i onclick="colorChange(event);"  class="fa-regular fa-star"></i>
+                                        <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
                                         <div class="dupDel-${num}" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
                                             <p style="padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
                                             <p style="padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
