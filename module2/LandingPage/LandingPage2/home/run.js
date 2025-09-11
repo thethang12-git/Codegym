@@ -882,30 +882,87 @@ element.addEventListener('mouseout', function() {
 });
 }
 // Phần note: ghi chú
-let hideFunc = null
-let hideTimer = null
+
+// let hideFunc = null
+// let hideTimer = null
+// function hideOption(item) {
+//     hideTimer = setTimeout(() => {item.style.display = 'none'},500)
+// }
+//
+// function showOption(container) {
+//     let element = container.querySelector('div')
+//     if (hideFunc) {
+//         container.removeEventListener('mouseleave', hideFunc);
+//     }
+//     if (hideTimer){
+//         clearTimeout(hideTimer)
+//     }
+//     // hideFunc = () => hideOption(element)
+//     container.addEventListener('mouseleave',hideFunc = () => hideOption(element));
+//     container.contains(event.relatedTarget)
+//     element.style.display = 'block'
+// }
+// let hideModiFunc = null
+// let hideModiTimer = null
+// function hideModi(item) {
+//     let child = item.querySelector('div')
+//     hideModiTimer = setTimeout(() => {
+//         child.style.transform = 'scale(0)'
+//         child.style.opacity = '0'
+//         setTimeout(() => {child.style.display = 'none' ;item.style.display = 'none' }, 200 )
+//     },500)
+// }
+//
+// function showModi(item,container) {
+//     let containerr = document.querySelector(container)
+//     let child = item.querySelector('div')
+//     clearTimeout(hideTimer)
+//     hideTimer = null
+//     containerr.removeEventListener('mouseleave',hideFunc);
+//     hideFunc = null
+//     item.style.display = 'block'
+//     child.classList.add('addShoweffect')
+//     setTimeout(() => {child.style.transform = 'scale(1)';child.style.opacity = '1';child.classList.remove('addShoweffect')} ,10)
+//     child.style.display = 'flex'
+//     if(hideModiFunc) {
+//         item.removeEventListener('mouseleave',hideModiFunc);
+//     }
+//     item.addEventListener('mouseleave',hideModiFunc = () => hideModi(item));
+// }
+//
+// function showChild(item,container) {
+//     let parent = item.parentElement?.closest('div');
+//     let containerr = document.querySelector(container)
+//     clearTimeout(hideModiTimer)
+//     hideModiTimer = null
+//     containerr.removeEventListener('mouseleave', hideModiFunc);
+//     hideModiFunc = null
+//     item.style.display = 'flex'
+//     item.addEventListener('mouseleave', () => hideModi(parent));
+// }
+
+
 function hideOption(item) {
-    hideTimer = setTimeout(() => {item.style.display = 'none'},500)
+    item._hideTimer = setTimeout(() => {item.style.display = 'none'},500)
 }
 
 function showOption(container) {
     let element = container.querySelector('div')
-    if (hideFunc) {
-        container.removeEventListener('mouseleave', hideFunc);
+    if (container._hideFunc) {
+        container.removeEventListener('mouseleave', container._hideFunc);
     }
-    if (hideTimer){
-        clearTimeout(hideTimer)
+    if (element._hideTimer){
+        clearTimeout(element._hideTimer)
     }
     // hideFunc = () => hideOption(element)
-    container.addEventListener('mouseleave',hideFunc = () => hideOption(element));
+    container.addEventListener('mouseleave',container._hideFunc = () => hideOption(element));
     container.contains(event.relatedTarget)
     element.style.display = 'block'
 }
-let hideModiFunc = null
-let hideModiTimer = null
+
 function hideModi(item) {
     let child = item.querySelector('div')
-    hideModiTimer = setTimeout(() => {
+    item._hideModiTimer = setTimeout(() => {
         child.style.transform = 'scale(0)'
         child.style.opacity = '0'
         setTimeout(() => {child.style.display = 'none' ;item.style.display = 'none' }, 200 )
@@ -915,30 +972,31 @@ function hideModi(item) {
 function showModi(item,container) {
     let containerr = document.querySelector(container)
     let child = item.querySelector('div')
-    clearTimeout(hideTimer)
-    hideTimer = null
-    containerr.removeEventListener('mouseleave',hideFunc);
-    hideFunc = null
+    clearTimeout(item._hideTimer)
+    item._hideTimer = null
+    containerr.removeEventListener('mouseleave',containerr._hideFunc);
+    containerr._hideFunc = null
     item.style.display = 'block'
     child.classList.add('addShoweffect')
     setTimeout(() => {child.style.transform = 'scale(1)';child.style.opacity = '1';child.classList.remove('addShoweffect')} ,10)
     child.style.display = 'flex'
-    if(hideModiFunc) {
-        item.removeEventListener('mouseleave',hideModiFunc);
+    if(item._hideModiFunc) {
+        item.removeEventListener('mouseleave',item._hideModiFunc);
     }
-    item.addEventListener('mouseleave',hideModiFunc = () => hideModi(item));
+    item.addEventListener('mouseleave',item._hideModiFunc = () => hideModi(item));
 }
 
 function showChild(item,container) {
     let parent = item.parentElement?.closest('div');
     let containerr = document.querySelector(container)
-    clearTimeout(hideModiTimer)
-    hideModiTimer = null
-    containerr.removeEventListener('mouseleave', hideModiFunc);
-    hideModiFunc = null
+    clearTimeout(parent._hideModiTimer)
+    parent._hideModiTimer = null
+    containerr.removeEventListener('mouseleave', parent._hideModiFunc);
+    parent._hideModiFunc = null
     item.style.display = 'flex'
     item.addEventListener('mouseleave', () => hideModi(parent));
 }
+
 
 // phần note:xử lý auto resize của textarea
 let currentHeight = [25]
@@ -1039,7 +1097,7 @@ function binNavbar (item){
 }
 
 
-// Xử lý dữ liệu và hiển thị, lưu trữ mảng các object thông tin để hiển thị ra HTML
+// Xử lý dữ liệu và hiển thị, lưu trữ mảng các object thông tin để render HTML
 let test = [1,2]
 // let todoInf = {
 //     group : 'Khác',

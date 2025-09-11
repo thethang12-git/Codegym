@@ -163,6 +163,7 @@ body {
     gap: 32px;
     transition: flex 0.3s ease;
     overflow-y: auto ;
+    overflow-x:visible ;
 }
 
 .content-body--1 {
