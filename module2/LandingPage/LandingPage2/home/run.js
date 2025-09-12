@@ -960,7 +960,7 @@ function autoResize(){
         text.style.height = '20px'
     }
 }
-let noteID =0
+let noteID = 0
 function editFunc(item) {
     let clickedElement = item.closest('.note-content-body').querySelector('.note-body--text');
     let textContainer = document.querySelector('.note-input');
@@ -1019,8 +1019,14 @@ let noteData = [
         ]
     }
 ]
-let noteNumb = 0
+
 function renderNote(noteData) {
+    let noteNumb = 0
+    noteData.forEach(element => {
+        element.content.forEach( itm => {
+            itm.id = noteNumb++
+        } )
+    });
     return `
         <div class="content-note" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 16px;color:#0D121C">
                 <div class="note-header" style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
@@ -1036,6 +1042,7 @@ function renderNote(noteData) {
                             <p style="padding: 24px;text-align: center;font-size: 14px;font-weight: 450;color : #0D121C">${item.date}</p>
                             ${item.content.map((itemm) => {
                                 noteNumb++
+
                                 return `
                             <div onmouseenter="showOption(this)" class="note-content-body note-body-content-${noteNumb}" style="position: relative;">
                             <div onmouseenter="showModi(this,'.note-body-content-${noteNumb}')"  style="display: none;position: absolute;left: -38px;padding: 6px 8px;border-radius: 99px;background: #E5E7EB">
@@ -1045,14 +1052,14 @@ function renderNote(noteData) {
                                         <i class="fa-solid fa-pencil"></i>
                                         chỉnh sửa
                                     </p>
-                                    <p style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
+                                    <p onclick='noteDelete()' style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
                                         <i class="fa-solid fa-trash"></i>
                                         Xoá
                                     </p>
                                 </div>
                             </div>
                             <div onmouseenter="this.style.background = '#E5E7EB'" onmouseleave="this.style.background = '#F5F5F5'" class="note-body--text-container"  style="padding: 12px;background: #F5F5F5;border-radius:8px;display: flex;flex-direction: column;gap: 4px;font-size: 17px ">
-                                <p class="note-body--text" style="line-height: 28px;">
+                                <p class="note-body--text" style="line-height: 28px;display: flex;flex-wrap: wrap;overflow-wrap: break-word;word-wrap:break-word;word-break: break-all;">
                                     ${itemm.content}
                                 </p>
                                 <p class="note-body-content-time" style="text-align: right;font-size: 12px"> ${itemm.time}</p>
@@ -1066,7 +1073,7 @@ function renderNote(noteData) {
                 </div>
                 <div class="note-input" style="background: white;max-width:100vw;padding:12px;position: absolute;bottom:2%;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);width: 100%;border-radius: 16px;display: flex;flex-direction: row;justify-content: space-between ">
                     <div style="flex: 1;color: #4D5761">
-                        <div style="display: block;height: 0"><i style="margin-right: 6px;" class="fa-solid fa-pen"></i> Chỉnh sửa <i onclick="editCancel()" style="cursor: pointer" class="fa-solid fa-circle-xmark"></i></div>
+                        <div style="display: block;height: 0"><i style="margin-right: 6px;" class="fa-solid fa-pen"></i> Chỉnh sửa <i onclick="editCancel()" style="color:red;margin-left:8px;font-size:14px;cursor: pointer" class="fa-solid fa-circle-xmark"></i></div>
                         <textarea id="textarea" oninput="autoResize()" style="height: 20px;width: 100%;padding-top: 5px;font-size: 14px;flex: 1;border: none;outline: none;min-height: 20px;max-height: 200px;resize: none;overflow: hidden;overflow-y: auto;" ></textarea>
                     </div>
                     <i onclick="notePush()" style="align-self: end;font-size: 28px;cursor: pointer" class="fa-solid fa-circle-chevron-up"></i>
@@ -1076,9 +1083,76 @@ function renderNote(noteData) {
 }
 
 function notePush() {
-    let currentID = document.getElementById('textarea').getAttribute('editingID')
-    let element = document.querySelector(`[data-id = '${currentID}']`)
-    element.style.display = 'none'
+    let text = document.getElementById('textarea')
+    let currentContentID = document.getElementById('textarea').getAttribute('editingID')
+    if(currentContentID) {
+        let element = document.querySelector(`[data-id = '${currentContentID}']`)
+        let container= element.closest('.note-content-body') 
+        let getFullClass = container.className
+        let getDataID = parseInt(getFullClass.match(/\d+/g)[0],10)
+        element.innerText = text.value
+        editCancel()
+        text.value = ''
+        noteData.forEach(item => {
+            item.content.forEach(itemm => {
+                if(itemm.id === getDataID ){
+                    itemm.content = text.value
+                }
+            })
+        })
+        autoResize()
+    }
+    console.log(noteData)
+}
+
+function noteDelete(item) {
+    // let currentContentID = document.getElementById('textarea').getAttribute('editingID')
+    // let element = document.querySelector(`[data-id = '${currentContentID}']`)
+    let noteBody = document.querySelector('.note-body')
+    let noteDiv = noteBody.querySelector('div')
+    let child = noteDiv.querySelectorAll('div')
+    let realChild = noteDiv.querySelector('.note-body--text-container')
+    let container= item.closest('.note-content-body') 
+    let getFullClass = container.className
+    let getDataID = parseInt(getFullClass.match(/\d+/g)[0],10)
+    container.style.transition = 'all ease 0.5s'
+    container.style.opacity = '0'
+    container.style.transform = 'translateX(100vw)'
+    // setTimeout(
+    //     () => {
+    //         child.forEach((item) => {
+    //     item.style.transition =  'all ease 1s'
+    //     // item.style.transform = 'translateY(-120px)'
+    // })
+    //     },500
+    // )
+    console.log(realChild.scrollHeight)
+    setTimeout(() => {
+  child.forEach((item) => {
+    item.style.transition = 'all ease 1s';
+
+  });
+  requestAnimationFrame(() => {
+    child.forEach((item) => {
+      item.style.transform = `translateY(-${parseInt(realChild.scrollHeight - (window.innerHeight * 0.137))}px)`;
+    });
+  });
+}, 500);
+
+    setTimeout(()=> {
+        child.forEach((item) => {
+        item.style.transform = 'translateY(0)'
+        item.style.transition = 'none'
+        item.style.zIndex = '99999'
+    })
+        container.style.display = 'none'
+    },1500 )
+    setTimeout(()=> {
+        child.forEach((item) => {
+        item.style.transition = 'all ease 0.3s';
+    })
+    },1800 )
+    
 }
 
 

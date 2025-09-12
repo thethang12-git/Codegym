@@ -81,7 +81,7 @@
                 <hr>
                 <div class="note-body" style="display: flex;flex-direction: column;max-height: 80vh;">
 <!--            <div class="note-body" style="display: flex;flex-direction: column;max-height: 1000px;overflow-y: scroll;">-->
-                    <div style="display: flex;flex-direction: column;gap: 12px;padding-bottom:66px ">
+                    <div style="display: flex;flex-direction: column;gap: 12px;padding-bottom:66px;">
                         <p style="padding: 24px;text-align: center;font-size: 14px;font-weight: 450;color : #0D121C">Date will be displayed here</p>
                         <div onmouseenter="showOption(this)" class="note-content-body note-body-content-1" style="position: relative;">
                             <div onmouseenter="showModi(this,'.note-body-content-1')"  style="display: none;position: absolute;left: -38px;padding: 6px 8px;border-radius: 99px;background: #E5E7EB">
@@ -91,14 +91,14 @@
                                         <i class="fa-solid fa-pencil"></i>
                                         chỉnh sửa
                                     </p>
-                                    <p style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
+                                    <p onclick='noteDelete(this)' style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
                                         <i class="fa-solid fa-trash"></i>
                                         Xoá
                                     </p>
                                 </div>
                             </div>
                             <div onmouseenter="this.style.background = '#E5E7EB'" onmouseleave="this.style.background = '#F5F5F5'" class="note-body--text-container"  style="padding: 12px;background: #F5F5F5;border-radius:8px;display: flex;flex-direction: column;gap: 4px;font-size: 17px ">
-                                <p class="note-body--text" style="line-height: 28px;">
+                                <p class="note-body--text" style="line-height: 28px;display: flex;flex-wrap: wrap;overflow-wrap: break-word;word-wrap:break-word;word-break: break-all;">
                                     Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
                                 </p>
                                 <p class="note-body-content-time" style="text-align: right;font-size: 12px"> 20:08</p>
@@ -113,14 +113,14 @@
                                         <i class="fa-solid fa-pencil"></i>
                                         chỉnh sửa
                                     </p>
-                                    <p style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
+                                    <p onclick='noteDelete(this)' style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
                                         <i class="fa-solid fa-trash"></i>
                                         Xoá
                                     </p>
                                 </div>
                             </div>
                             <div onmouseenter="this.style.background = '#E5E7EB'" onmouseleave="this.style.background = '#F5F5F5'" class="note-body--text-container"  style="padding: 12px;background: #F5F5F5;border-radius:8px;display: flex;flex-direction: column;gap: 4px;font-size: 17px ">
-                                <p class="note-body--text" style="line-height: 28px;">
+                                <p class="note-body--text" style="line-height: 28px;display: flex;flex-wrap: wrap;overflow-wrap: break-word;overflow-wrap: break-word;word-wrap:break-word;word-break: break-all;">
                                     const child = document.querySelector('.child');
                                     const parent = child.parentElement;
 
