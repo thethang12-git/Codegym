@@ -314,7 +314,9 @@ textarea::-webkit-scrollbar {
     transform: scale(0);
     opacity: 0;
 }
-
+.note-body--modify {
+    z-index: 9999;
+ }
 /* Phần thùng rác*/
 .displayBinModifier {
     opacity: 1;

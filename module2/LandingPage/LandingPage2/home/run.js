@@ -883,65 +883,6 @@ element.addEventListener('mouseout', function() {
 }
 // Phần note: ghi chú
 
-// let hideFunc = null
-// let hideTimer = null
-// function hideOption(item) {
-//     hideTimer = setTimeout(() => {item.style.display = 'none'},500)
-// }
-//
-// function showOption(container) {
-//     let element = container.querySelector('div')
-//     if (hideFunc) {
-//         container.removeEventListener('mouseleave', hideFunc);
-//     }
-//     if (hideTimer){
-//         clearTimeout(hideTimer)
-//     }
-//     // hideFunc = () => hideOption(element)
-//     container.addEventListener('mouseleave',hideFunc = () => hideOption(element));
-//     container.contains(event.relatedTarget)
-//     element.style.display = 'block'
-// }
-// let hideModiFunc = null
-// let hideModiTimer = null
-// function hideModi(item) {
-//     let child = item.querySelector('div')
-//     hideModiTimer = setTimeout(() => {
-//         child.style.transform = 'scale(0)'
-//         child.style.opacity = '0'
-//         setTimeout(() => {child.style.display = 'none' ;item.style.display = 'none' }, 200 )
-//     },500)
-// }
-//
-// function showModi(item,container) {
-//     let containerr = document.querySelector(container)
-//     let child = item.querySelector('div')
-//     clearTimeout(hideTimer)
-//     hideTimer = null
-//     containerr.removeEventListener('mouseleave',hideFunc);
-//     hideFunc = null
-//     item.style.display = 'block'
-//     child.classList.add('addShoweffect')
-//     setTimeout(() => {child.style.transform = 'scale(1)';child.style.opacity = '1';child.classList.remove('addShoweffect')} ,10)
-//     child.style.display = 'flex'
-//     if(hideModiFunc) {
-//         item.removeEventListener('mouseleave',hideModiFunc);
-//     }
-//     item.addEventListener('mouseleave',hideModiFunc = () => hideModi(item));
-// }
-//
-// function showChild(item,container) {
-//     let parent = item.parentElement?.closest('div');
-//     let containerr = document.querySelector(container)
-//     clearTimeout(hideModiTimer)
-//     hideModiTimer = null
-//     containerr.removeEventListener('mouseleave', hideModiFunc);
-//     hideModiFunc = null
-//     item.style.display = 'flex'
-//     item.addEventListener('mouseleave', () => hideModi(parent));
-// }
-
-
 function hideOption(item) {
     item._hideTimer = setTimeout(() => {item.style.display = 'none'},500)
 }
@@ -997,41 +938,17 @@ function showChild(item,container) {
     item.addEventListener('mouseleave', () => hideModi(parent));
 }
 
+// Phần note xử lý scroll
+function scrollHandle(element) {
+    let item = document.querySelector('.note-input')
+    if(item) {
+        let scrollTop = element.scrollTop
+        item.style.bottom = (-scrollTop + 8)  + 'px'
+    }
+    console.log(item)
+}
 
 // phần note:xử lý auto resize của textarea
-let currentHeight = [25]
-let tempValue
-let temp2 = []
-let isModifying = false
-// function autoResize(item) {
-//     let height = parseInt(item.style.height)
-//     let actualHeight = parseInt(item.scrollHeight)
-//     let temp3 = item.value.length
-//     let icon = document.querySelector('.note-input>div>div');
-//     if(item.value.length === 0) {
-//         icon.style.height = '0'
-//     }
-//     if(height < actualHeight){
-//         item.style.height = actualHeight+'px'
-//         currentHeight.push(actualHeight)
-//         tempValue = (item.value.match(/\n/g) || []).length
-//         console.log('case 1')
-//         temp2.push(temp3)
-//     }
-//     else if (tempValue > (item.value.match(/\n/g) || []).length ) {
-//         currentHeight.splice((item.value.match(/\n/g) || []).length+1)
-//         item.style.height = currentHeight[(item.value.match(/\n/g) || []).length] +'px'
-//         console.log('case 2')
-//     }
-//     else if ((item.value.match(/\n/g) || []).length === tempValue){
-//         // if(currentHeight == []) {currentHeight.push(actualHeight)}
-//         // item.style.height = currentHeight.pop() + 'px'
-//         console.log('case 3')
-//     }
-//     console.log(tempValue,(item.value.match(/\n/g) || []).length,currentHeight,actualHeight);
-//     // console.log(height,actualHeight,temp2,temp3,item.clientWidth)
-//     // console.log(temp2,temp3,currentHeight)
-// }
 
 function autoResize(){
     let text = document.getElementById('textarea')
@@ -1043,6 +960,7 @@ function autoResize(){
         text.style.height = '20px'
     }
 }
+let noteID =0
 function editFunc(item) {
     let clickedElement = item.closest('.note-content-body').querySelector('.note-body--text');
     let textContainer = document.querySelector('.note-input');
@@ -1051,9 +969,118 @@ function editFunc(item) {
     textArea.value = clickedElement.innerText
     textArea.focus()
     icon.style.height = '23px'
-    isModifying = true;
+    if(!clickedElement.getAttribute('data-id')) {
+        clickedElement.setAttribute('data-id', noteID)
+        console.log('đã thêm id')
+        noteID++
+    }
+    textArea.setAttribute('editingID',clickedElement.getAttribute('data-id'))
     autoResize(textArea);
 }
+function editCancel() {
+    let text = document.getElementById('textarea')
+    let icon = document.querySelector('.note-input>div>div');
+    icon.style.height = '0'
+    text.removeAttribute('editingID')
+}
+
+// Phanaf note:chức năng của nút post
+let noteData = [
+    {
+        date: 'date 1',
+        content : [
+            {
+                isEditing: false ,
+                content : ' day la date 1 item 1',
+                time : ' this is time',
+            }
+            ,
+            {
+                isEditing: false,
+                content:'day là date1 item 2',
+                time : 'this is time',
+            }
+        ]
+    }
+    ,
+    {
+        date: 'date 2',
+        content : [
+            {
+                isEditing: false,
+                content:'day là date 2 item 1',
+                time: 'this is time',
+            },
+            {
+                isEditing: false,
+                time: 'this is time',
+                content: 'đay là date 2 item 2',
+            }
+        ]
+    }
+]
+let noteNumb = 0
+function renderNote(noteData) {
+    return `
+        <div class="content-note" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 16px;color:#0D121C">
+                <div class="note-header" style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+                    <div style="display: flex;flex-direction: row;gap: 16px">
+                        <h3> Ghi chú </h3>
+                    </div>
+                </div>
+                <hr>
+                <div class="note-body" style="display: flex;flex-direction: column;max-height: 80vh;">
+                ${noteData.map((item,numb) => {
+                    return `
+                        <div style="display: flex;flex-direction: column;gap: 12px;${numb === noteData.length-1 ? 'padding-bottom:66px' : '' } ">
+                            <p style="padding: 24px;text-align: center;font-size: 14px;font-weight: 450;color : #0D121C">${item.date}</p>
+                            ${item.content.map((itemm) => {
+                                noteNumb++
+                                return `
+                            <div onmouseenter="showOption(this)" class="note-content-body note-body-content-${noteNumb}" style="position: relative;">
+                            <div onmouseenter="showModi(this,'.note-body-content-${noteNumb}')"  style="display: none;position: absolute;left: -38px;padding: 6px 8px;border-radius: 99px;background: #E5E7EB">
+                                <i class="fa-solid fa-ellipsis"></i>
+                                <div class="note-body--modify" onmouseenter="showChild(this,'.note-body-content-${noteNumb} div')" style="box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);padding:4px;display: none;flex-direction: column;justify-content: space-evenly;position: absolute;background: white;height: 84px;width: 120px;border-radius: 8px;top: 120%;left: 22px">
+                                    <p onclick="editFunc(this)" style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
+                                        <i class="fa-solid fa-pencil"></i>
+                                        chỉnh sửa
+                                    </p>
+                                    <p style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
+                                        <i class="fa-solid fa-trash"></i>
+                                        Xoá
+                                    </p>
+                                </div>
+                            </div>
+                            <div onmouseenter="this.style.background = '#E5E7EB'" onmouseleave="this.style.background = '#F5F5F5'" class="note-body--text-container"  style="padding: 12px;background: #F5F5F5;border-radius:8px;display: flex;flex-direction: column;gap: 4px;font-size: 17px ">
+                                <p class="note-body--text" style="line-height: 28px;">
+                                    ${itemm.content}
+                                </p>
+                                <p class="note-body-content-time" style="text-align: right;font-size: 12px"> ${itemm.time}</p>
+                            </div>
+                        </div>                                    
+                                `
+                    }).join('')}
+                        </div>    
+                    `
+                }).join('')}
+                </div>
+                <div class="note-input" style="background: white;max-width:100vw;padding:12px;position: absolute;bottom:2%;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);width: 100%;border-radius: 16px;display: flex;flex-direction: row;justify-content: space-between ">
+                    <div style="flex: 1;color: #4D5761">
+                        <div style="display: block;height: 0"><i style="margin-right: 6px;" class="fa-solid fa-pen"></i> Chỉnh sửa <i onclick="editCancel()" style="cursor: pointer" class="fa-solid fa-circle-xmark"></i></div>
+                        <textarea id="textarea" oninput="autoResize()" style="height: 20px;width: 100%;padding-top: 5px;font-size: 14px;flex: 1;border: none;outline: none;min-height: 20px;max-height: 200px;resize: none;overflow: hidden;overflow-y: auto;" ></textarea>
+                    </div>
+                    <i onclick="notePush()" style="align-self: end;font-size: 28px;cursor: pointer" class="fa-solid fa-circle-chevron-up"></i>
+                </div>
+        </div>                       
+    `
+}
+
+function notePush() {
+    let currentID = document.getElementById('textarea').getAttribute('editingID')
+    let element = document.querySelector(`[data-id = '${currentID}']`)
+    element.style.display = 'none'
+}
+
 
 // phần thùng rác
 function displayBinModifier(item) {
@@ -1259,9 +1286,10 @@ function renderContent(data){
 `
 }
 
-function dataCheck() {
+function dataCheck(contentt) {
     setTimeout(()=> {if(test.length > 0) {
-        content.innerHTML = renderContent(data)
+        // content.innerHTML = renderContent(data)
+        content.innerHTML = contentt
     }}, 1000)
-
+    console.log(noteData)
 }
