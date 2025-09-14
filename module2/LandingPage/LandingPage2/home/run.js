@@ -945,7 +945,6 @@ function scrollHandle(element) {
         let scrollTop = element.scrollTop
         item.style.bottom = (-scrollTop + 8)  + 'px'
     }
-    console.log(item)
 }
 
 // phần note:xử lý auto resize của textarea
@@ -1052,7 +1051,7 @@ function renderNote(noteData) {
                                         <i class="fa-solid fa-pencil"></i>
                                         chỉnh sửa
                                     </p>
-                                    <p onclick='noteDelete()' style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
+                                    <p onclick='noteDelete(this)' style="padding: 8px;display: flex;flex-direction: row;align-items: center;gap: 10px;cursor: pointer;border-radius: 8px">
                                         <i class="fa-solid fa-trash"></i>
                                         Xoá
                                     </p>
@@ -1115,44 +1114,20 @@ function noteDelete(item) {
     let container= item.closest('.note-content-body') 
     let getFullClass = container.className
     let getDataID = parseInt(getFullClass.match(/\d+/g)[0],10)
-    container.style.transition = 'all ease 0.5s'
+    container.style.transition = 'all ease 0.8s'
     container.style.opacity = '0'
+    container.style.height = container.scrollHeight+ 'px'
     container.style.transform = 'translateX(100vw)'
-    // setTimeout(
-    //     () => {
-    //         child.forEach((item) => {
-    //     item.style.transition =  'all ease 1s'
-    //     // item.style.transform = 'translateY(-120px)'
-    // })
-    //     },500
-    // )
-    console.log(realChild.scrollHeight)
+    noteDiv.style.gap = '0'
     setTimeout(() => {
-  child.forEach((item) => {
-    item.style.transition = 'all ease 1s';
-
-  });
-  requestAnimationFrame(() => {
-    child.forEach((item) => {
-      item.style.transform = `translateY(-${parseInt(realChild.scrollHeight - (window.innerHeight * 0.137))}px)`;
-    });
-  });
-}, 500);
-
-    setTimeout(()=> {
-        child.forEach((item) => {
-        item.style.transform = 'translateY(0)'
-        item.style.transition = 'none'
-        item.style.zIndex = '99999'
-    })
-        container.style.display = 'none'
-    },1500 )
-    setTimeout(()=> {
-        child.forEach((item) => {
-        item.style.transition = 'all ease 0.3s';
-    })
-    },1800 )
-    
+        container.style.height = '0'
+    }
+    ,300)
+    setTimeout(() =>{
+        noteDiv.style.gap = '12px'
+        container.style.display = 'none' 
+    },2000)
+    console.log(realChild.scrollHeight)
 }
 
 
@@ -1362,7 +1337,6 @@ function renderContent(data){
 
 function dataCheck(contentt) {
     setTimeout(()=> {if(test.length > 0) {
-        // content.innerHTML = renderContent(data)
         content.innerHTML = contentt
     }}, 1000)
     console.log(noteData)
