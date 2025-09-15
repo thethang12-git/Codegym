@@ -158,7 +158,11 @@ function display() {
         }
         , 600)
     setTimeout(() => {
-            item.style.flexDirection = 'column'
+        document.querySelectorAll('#content > div').forEach(div => div.style.width = '100%')
+        }
+        , 800)
+    setTimeout(() => {
+            item.style.flexDirection = 'collumn'
         }
         , 300)
 }
@@ -178,13 +182,14 @@ function displayMenu() {
         button_right.style.background = 'white';
         button_left.style.background = '#E5E7EB';
         //
-        item1.style.width = '20rem' //29.2rem
-        item2.style.width = '20rem' //28.3rem
-        item3.style.flex = '1'
+        document.querySelectorAll('#content > div').forEach(div => div.style.width = '30%')
+        item1.style.width = '30%' //29.2rem
+        item2.style.width = '30%' //28.3rem
+        item3.style.width = '30%'
         setTimeout(() => {
                 item.style.flexDirection = 'row'
             }
-            , 500)
+            , 800)
     } else {
         button.setAttribute('data-status', 'left');
         button_left.style.borderRadius = '55px';
@@ -205,7 +210,8 @@ function displayMenu() {
             }
             , 600)
         setTimeout(() => {
-                item.style.flexDirection = 'column'
+                document.querySelectorAll('#content > div').forEach(div => div.style.width = '100%')
+                item.style.flexDirection = 'collumn'
             }
             , 300)
     }
@@ -1391,9 +1397,9 @@ function renderTodoList(todoInf,num){
                                     </div>
                                     <div style="position: relative;">
                                         <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
-                                        <div class="dupDel-${num}" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
-                                            <p onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
-                                            <p onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
+                                        <div class="dupDel-${num} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
+                                            <p onclick='duplicateHandle(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
+                                            <p onclick='toDoDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
                                         </div>
                                     </div>
                                 </div>
@@ -1417,18 +1423,18 @@ function renderTodoList(todoInf,num){
     `
 }
 
-let num = 0
 function renderContent(data){
+    let num = 0
     return `
     ${data.map((item,number) => {return `
-        <div class="content-body--${number+1}">
+        <div style='width:100%;height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
             ${renderGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
             ${item.content.map((itemm) => {return `
                 ${( () => {
                     num++
-                    // if(num == 2) {console.log('hello')}
+                    itemm.id = num
                     return renderTodoList(itemm,num)
                 })()
     }
@@ -1443,6 +1449,46 @@ function dataCheck(contentt) {
      setTimeout(()=>
         content.innerHTML = contentt
     , 700)
+    console.log(data)
+}
+
+function toDoDelete(itemm){
+    let bigContainer = itemm.closest('.content-body--container')
+    // document.getElementById('content').style.flex = 'none'
+    bigContainer.style.height = 'auto'
+    let container = itemm.closest('.parent')
+    container.style.height = (container.scrollHeight ) + 'px'
+    container.style.transition = 'all ease 0.5s'
+    container.style.opacity = '0'
+    setTimeout(()=>{container.style.height = '0' ; },300)
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    setTimeout(() => {
+        data.forEach((item) => {
+            item.content = item.content.filter((itemm) => itemm.id !== getID)
+            if(item.content.length === 0){
+                bigContainer.style.opacity = '0'
+                data = data.filter(item => item.content.length > 0)
+            }
+        } )
+        dataCheck(renderContent(data))
+    },200)
+    console.log(data)
+}
+
+function duplicateHandle(item){
+    let container = item.closest('.parent')
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    let choosedGroup = data.find(item => item.content.find(itemm => itemm.id === getID))
+    data.forEach(itm => {
+        let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        if(choosedItem) {
+            let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
+            choosedGroup.content.push(duplicatedItem)
+        }
+    })
+    dataCheck(renderContent(data))
 }
 
 window.myData = {
