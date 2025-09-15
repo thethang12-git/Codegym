@@ -14,7 +14,7 @@ function onFocus(event) {
             document.getElementsByClassName("navbar-options-num")[i].setAttribute('isChecked', 'false')
         }
     }
-    if (event.target.closest('.navbar-options-num').getAttribute('isChecked') == 'false') {
+    if (event.target.closest('.navbar-options-num').getAttribute('isChecked') === 'false') {
         for (let i = 0; i < 8; i++) {
             document.getElementsByClassName("navbar-options-num")[i].setAttribute('isChecked', 'false')
             document.getElementsByClassName("navbar-options-num")[i].style.background = 'white'
@@ -96,7 +96,7 @@ function toggleSidebar() {
     }
     item.style.width = '237px'
     item.style.left = '0'
-    console.log(collapsed);
+    // console.log(collapsed);
     if (!collapsed) {
         item.style.width = '0px';
         item.style.overflow = 'hidden';
@@ -286,8 +286,8 @@ let userChoosedMonth = ''
 let userChoosedYear = ''
 
 function displayCalen(event) {
-    let navbar = document.querySelector('.popUp-add-options-calendar__navbar');
-    let popup = document.querySelector('.popUp-add')
+    // let navbar = document.querySelector('.popUp-add-options-calendar__navbar');
+    // let popup = document.querySelector('.popUp-add')
     let calendar = document.querySelector('.calendar-display')
     let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
     let value = event.target.closest('td')
@@ -317,8 +317,8 @@ function displayCalen(event) {
 let thisYear = new Date().getFullYear()
 let thisMonth = new Date().getMonth()
 
-function calendarDisplay(event) {
-    let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
+function calendarDisplay() {
+    // let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
     let date = document.querySelector('.calendar-date')
     let calendar = document.querySelector('.calendar-display')
     let popup = document.querySelector('.popUp-add')
@@ -343,9 +343,9 @@ let choosedYear = thisYear
 
 function previousMonth() {
     let date = document.querySelector('.calendar-date')
-    if (choosedMonth === thisMonth && choosedYear == thisYear) {
+    if (choosedMonth === thisMonth && choosedYear === thisYear) {
         return
-    } else if (choosedMonth == 1) {
+    } else if (choosedMonth === 1) {
         choosedYear--;
         choosedMonth = 13
     }
@@ -384,7 +384,7 @@ function createCalendar(year, month) {
         if (currentMonth[i] === undefined) {
             continue
         }
-        if (currentMonth[i] == choosedDate && userChoosedMonth == choosedMonth && userChoosedYear == choosedYear) {
+        if (currentMonth[i] === choosedDate && userChoosedMonth === choosedMonth && userChoosedYear === choosedYear) {
             table += '<td style="background: #EF6820;color: white">' + currentMonth[i] + '</td>';
             continue
         }
@@ -409,8 +409,8 @@ function createCalendar(year, month) {
 let toggleTime = false
 
 function timeDisplay(event) {
-    let calendar = document.querySelector('.calendar-display')
-    let popup = document.querySelector('.popUp-add')
+    // let calendar = document.querySelector('.calendar-display')
+    // let popup = document.querySelector('.popUp-add')
     let contain = document.querySelector('.options_num-2');
     let undo = document.querySelector('.options_num-2 .undo2');
     let icon = document.querySelector('.options_num-2 i:first-of-type')
@@ -436,7 +436,7 @@ function timeDisplay(event) {
     else if (valid && content.style.display === 'flex') {
         content.style.display = 'none'
     } 
-    else if (hour != '--' && minute != '--') {
+    else if (hour !== '--' && minute !== '--') {
         if (content.contains(event.target) && toggleTime) {
             content.style.display = 'flex';
             toggleTime = false;
@@ -466,7 +466,7 @@ function repeatCounter() {
     let contain = document.querySelector('.options_num-3')
     let container = document.querySelector('.repeatCounter-container')
     let img = container.querySelector('img')
-    if (contain.querySelector('.repeatCounter').value <= 0 || contain.querySelector('.repeatCounter').value >= 100 || contain.querySelector('.repeatCounter').value == '') {
+    if (contain.querySelector('.repeatCounter').value <= 0 || contain.querySelector('.repeatCounter').value >= 100 || contain.querySelector('.repeatCounter').value === '') {
         contain.querySelector('.repeatCounter').value = ''
         img.setAttribute('src', '../asset/Radio.png')
         img.style.width = '28px'
@@ -503,16 +503,16 @@ function repeatNav1(event) {
     let icon = container.querySelector('i')
     let content = document.querySelector('.repeat-display_navbar-1')
     let contain = document.querySelector('.repeat-display_navbar')
-    let isValid = event.target === event.currentTarget || event.target === contain.querySelector('p') || event.target == contain.querySelector('i')
-    if (isValid && content.style.display == 'none') {
+    let isValid = event.target === event.currentTarget || event.target === contain.querySelector('p') || event.target === contain.querySelector('i')
+    if (isValid && content.style.display === 'none') {
         content.style.display = 'flex'
-    } else if (isValid && content.style.display == 'flex') {
+    } else if (isValid && content.style.display === 'flex') {
         content.style.display = 'none'
-    } else if (content.style.display == 'flex') {
+    } else if (content.style.display === 'flex') {
         let target = event.target.closest('p');
         contain.querySelector('p').innerText = target.innerText
         content.style.display = 'none'
-        if (target.innerText != 'Không lặp lại ') {
+        if (target.innerText !== 'Không lặp lại ') {
             container.style.background = '#FEFAF5'
             icon.style.color = '#EF6820'
             return
@@ -608,13 +608,13 @@ function tagDisplay(event) {
     let icon = container.querySelector('i')
     let content = container.querySelector('p')
     let valid = event.target === event.currentTarget || event.target === icon || event.target === content
-    if (valid && contain.style.display == 'none') {
+    if (valid && contain.style.display === 'none') {
         contain.style.display = 'flex'
         timeMain.style.display = 'none'
         calendarMain.style.display = 'none'
         calenNavbarMain.style.display = 'none';
         repeatMain.style.display = 'none'
-    } else if (valid && contain.style.display == 'flex') {
+    } else if (valid && contain.style.display === 'flex') {
         contain.style.display = 'none'
     } else if (event.target.closest('p')) {
         content.style.display = 'block'
@@ -628,11 +628,11 @@ function tagDisplay(event) {
             event.target.closest('p').style.color = '#EF6820'
             container.style.background = '#FEFAF5'
         } else if (event.target.closest('p').getAttribute('data-isChoosed') === 'true') {
-            tempData = tempData.filter(item => item != event.target.closest('p').innerText)
+            tempData = tempData.filter(item => item !== event.target.closest('p').innerText)
             content.innerHTML = tempData.join(',')
             event.target.closest('p').setAttribute('data-isChoosed', 'false')
             event.target.closest('p').style.background = 'white'
-            if (tempData.length == 0) {
+            if (tempData.length === 0) {
                 icon.style.display = 'block';
                 content.style.display = 'none'
                 container.style.background = 'white'
@@ -680,7 +680,7 @@ function handlePopup(e) {
 
 // xử lý load nội dung khi ấn vào các mục ở side-bar
 
-function loadContent(url) {
+function loadContent(url,contentt) {
     let content = document.getElementById('content')
     content.classList.add('fade-out');
     setTimeout(() => {
@@ -688,6 +688,9 @@ function loadContent(url) {
             .then(res => res.text())
             .then(html => {
                 content.innerHTML = html;
+                if(window[contentt]){
+                    content.innerHTML = window[contentt]()
+                }
             })
             .catch(err => {
                 console.error("Lỗi:", err);
@@ -810,7 +813,7 @@ function focusOnGroups(status){
 },100)
 }
 
-function addGroups(event){
+function addGroups(){
     let container = document.querySelector(`.groups-choose-navbar`)
     let contain = container.querySelector('.groups-choose-navbar-addGroup')
     let input = container.querySelector('input')
@@ -959,9 +962,11 @@ function autoResize(){
         text.style.height = '20px'
     }
 }
-let noteID = 0
 function editFunc(item) {
     let clickedElement = item.closest('.note-content-body').querySelector('.note-body--text');
+    let container = item.closest('.note-content-body')
+    let getClass = container.className
+    let getID = parseInt(getClass.match(/\d+/g)[0],10)
     let textContainer = document.querySelector('.note-input');
     let textArea = textContainer.querySelector('textarea');
     let icon = document.querySelector('.note-input>div>div');
@@ -969,9 +974,8 @@ function editFunc(item) {
     textArea.focus()
     icon.style.height = '23px'
     if(!clickedElement.getAttribute('data-id')) {
-        clickedElement.setAttribute('data-id', noteID)
-        console.log('đã thêm id')
-        noteID++
+        clickedElement.setAttribute('data-id', getID)
+        // console.log('đã thêm id', getID)
     }
     textArea.setAttribute('editingID',clickedElement.getAttribute('data-id'))
     autoResize(textArea);
@@ -986,46 +990,91 @@ function editCancel() {
 // Phanaf note:chức năng của nút post
 let noteData = [
     {
-        date: 'date 1',
+        date: '28/9/2025',
         content : [
             {
                 isEditing: false ,
-                content : ' day la date 1 item 1',
+                content : ' đây laf item 1,m id 1',
                 time : ' this is time',
             }
             ,
             {
                 isEditing: false,
-                content:'day là date1 item 2',
+                content:'day là date1 item 2 id 2',
                 time : 'this is time',
             }
         ]
     }
     ,
     {
-        date: 'date 2',
+        date: '20/03/2000',
         content : [
             {
                 isEditing: false,
-                content:'day là date 2 item 1',
+                content:'day là date 2 item 1 id 3',
                 time: 'this is time',
             },
             {
                 isEditing: false,
                 time: 'this is time',
-                content: 'đay là date 2 item 2',
+                content: 'đay là date 2 item id 4',
             }
         ]
     }
 ]
 
 function renderNote(noteData) {
-    let noteNumb = 0
+    window.addEventListener('keydown', e => {
+        if(e.key === 'Enter'){
+            let text = document.getElementById('textarea')
+            e.preventDefault()
+            text.focus()
+        }
+    })
+    if(noteData.length === 0) {
+    return `
+        <div class="content-note" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 16px;color:#0D121C">
+                <div class="note-header" style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+                    <div style="display: flex;flex-direction: row;gap: 16px">
+                        <h3> Ghi chú </h3>
+                    </div>
+                </div>
+                <hr>
+                <div class="note-body" style="flex: 1;display: flex;flex-direction: column;max-height: 80vh;">
+                    <div style="flex: 1;width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;justify-content: center">
+                        <img src="/module2/LandingPage/LandingPage2/asset/noteEmpty.png" alt="">
+                    </div>
+                </div>
+                <div class="note-input" style="background: white;max-width:100vw;padding:12px;position: absolute;bottom:2%;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);width: 100%;border-radius: 16px;display: flex;flex-direction: row;justify-content: space-between ">
+                    <div style="flex: 1;color: #4D5761">
+                        <div style="display: block;height: 0"><i style="margin-right: 6px;" class="fa-solid fa-pen"></i> Chỉnh sửa <i onclick="editCancel()" style="color:red;margin-left:8px;font-size:14px;cursor: pointer" class="fa-solid fa-circle-xmark"></i></div>
+                        <textarea id="textarea" oninput="autoResize()" 
+                        onkeydown="
+                        if(event.key === 'Enter' && event.shiftKey){
+                            let text = document.getElementById('textarea')
+                            text.value += '\\n';
+                            autoResize()
+                        }
+                        else if(event.key === 'Enter'){notePush(event)}
+                        "  style="height: 20px;width: 100%;padding-top: 5px;font-size: 14px;flex: 1;border: none;outline: none;min-height: 20px;max-height: 200px;resize: none;overflow: hidden;overflow-y: auto;" ></textarea>
+                    </div>
+                    <i onclick="notePush(event)" style="align-self: end;font-size: 28px;cursor: pointer" class="fa-solid fa-circle-chevron-up"></i>
+                </div>
+        </div>
+        `
+    }
+    let empty = noteData.find(item =>item.content.length === 0)
+    if(empty){
+        let index = noteData.indexOf(empty)
+        noteData.splice(index, 1)
+    }
+    let noteNumb = 1
     noteData.forEach(element => {
         element.content.forEach( itm => {
             itm.id = noteNumb++
         } )
     });
+    noteNumb = 0
     return `
         <div class="content-note" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 16px;color:#0D121C">
                 <div class="note-header" style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
@@ -1041,7 +1090,6 @@ function renderNote(noteData) {
                             <p style="padding: 24px;text-align: center;font-size: 14px;font-weight: 450;color : #0D121C">${item.date}</p>
                             ${item.content.map((itemm) => {
                                 noteNumb++
-
                                 return `
                             <div onmouseenter="showOption(this)" class="note-content-body note-body-content-${noteNumb}" style="position: relative;">
                             <div onmouseenter="showModi(this,'.note-body-content-${noteNumb}')"  style="display: none;position: absolute;left: -38px;padding: 6px 8px;border-radius: 99px;background: #E5E7EB">
@@ -1073,25 +1121,45 @@ function renderNote(noteData) {
                 <div class="note-input" style="background: white;max-width:100vw;padding:12px;position: absolute;bottom:2%;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);width: 100%;border-radius: 16px;display: flex;flex-direction: row;justify-content: space-between ">
                     <div style="flex: 1;color: #4D5761">
                         <div style="display: block;height: 0"><i style="margin-right: 6px;" class="fa-solid fa-pen"></i> Chỉnh sửa <i onclick="editCancel()" style="color:red;margin-left:8px;font-size:14px;cursor: pointer" class="fa-solid fa-circle-xmark"></i></div>
-                        <textarea id="textarea" oninput="autoResize()" style="height: 20px;width: 100%;padding-top: 5px;font-size: 14px;flex: 1;border: none;outline: none;min-height: 20px;max-height: 200px;resize: none;overflow: hidden;overflow-y: auto;" ></textarea>
+                        <textarea id="textarea" 
+                        oninput="autoResize()" 
+                        onkeydown="
+                        if(event.key === 'Enter' && event.shiftKey){
+                            let text = document.getElementById('textarea')
+                            text.value += '\\n';
+                            autoResize()
+                        }
+                        else if(event.key === 'Enter'){notePush(event)}
+                        " 
+                        style="height: 20px;width: 100%;padding-top: 5px;font-size: 14px;flex: 1;border: none;outline: none;min-height: 20px;max-height: 200px;resize: none;overflow: hidden;overflow-y: auto;" >
+                        </textarea>
                     </div>
-                    <i onclick="notePush()" style="align-self: end;font-size: 28px;cursor: pointer" class="fa-solid fa-circle-chevron-up"></i>
+                    <i onclick="notePush(event)" style="align-self: end;font-size: 28px;cursor: pointer" class="fa-solid fa-circle-chevron-up"></i>
                 </div>
         </div>                       
     `
 }
 
-function notePush() {
+function getDate() {
+    let raw = new Date()
+    return raw.toLocaleDateString("vi-VN")
+}
+function getTime() {
+    let raw = new Date()
+    return `${raw.getHours()}:${raw.getMinutes()}`
+}
+let flag = false
+function notePush(event) {
+    event.target.onclick = null;
+    if (flag){return}
     let text = document.getElementById('textarea')
     let currentContentID = document.getElementById('textarea').getAttribute('editingID')
-    if(currentContentID) {
+    if(currentContentID && text.value !== '') {
         let element = document.querySelector(`[data-id = '${currentContentID}']`)
         let container= element.closest('.note-content-body') 
         let getFullClass = container.className
         let getDataID = parseInt(getFullClass.match(/\d+/g)[0],10)
         element.innerText = text.value
-        editCancel()
-        text.value = ''
         noteData.forEach(item => {
             item.content.forEach(itemm => {
                 if(itemm.id === getDataID ){
@@ -1099,18 +1167,44 @@ function notePush() {
                 }
             })
         })
+        editCancel()
+        text.value = ''
         autoResize()
     }
+    else if (text.value.trim() !== '') {
+        let getCurrentDate = noteData.find(item => item.date.trim() === getDate())
+        if(getCurrentDate && text.value !== '') {
+            let newwItem = {
+                isEditing: false,
+                content: text.value.replace(/\n/g, '<br>'),
+                time : getTime(),
+            }
+            getCurrentDate.content.unshift(newwItem)
+            dataCheck(renderNote(noteData))
+        }
+        else if(!getCurrentDate && text.value.trim() !== '') {
+            let newwItem = {
+                date: getDate(),
+                content : [
+                    {
+                        isEditing: false,
+                        content:text.value.replace(/\n/g, '<br>'),
+                        time: getTime(),
+                    },
+                ]
+            }
+            noteData.unshift(newwItem)
+            dataCheck(renderNote(noteData))
+        }
+    }
+    flag = true
+    setTimeout(() =>{event.target.onclick = notePush;flag = false} , 2000)
     console.log(noteData)
 }
 
 function noteDelete(item) {
-    // let currentContentID = document.getElementById('textarea').getAttribute('editingID')
-    // let element = document.querySelector(`[data-id = '${currentContentID}']`)
     let noteBody = document.querySelector('.note-body')
     let noteDiv = noteBody.querySelector('div')
-    let child = noteDiv.querySelectorAll('div')
-    let realChild = noteDiv.querySelector('.note-body--text-container')
     let container= item.closest('.note-content-body') 
     let getFullClass = container.className
     let getDataID = parseInt(getFullClass.match(/\d+/g)[0],10)
@@ -1126,9 +1220,19 @@ function noteDelete(item) {
     setTimeout(() =>{
         noteDiv.style.gap = '12px'
         container.style.display = 'none' 
-    },2000)
-    console.log(realChild.scrollHeight)
+    },1100)
+    noteData.forEach(item => {
+        item.content = item.content.filter(itemm =>
+            itemm.id !== getDataID
+        )
+    })
+    renderNote(noteData)
+    setTimeout(() =>{
+        dataCheck(renderNote(noteData));
+    },800)
+    editCancel()
 }
+
 
 
 // phần thùng rác
@@ -1184,7 +1288,7 @@ let test = [1,2]
 //     date : '02/09/2025',
 //     time: '09:26'
 // }
-let content = document.getElementById('content')
+
 
 let data = [
     {
@@ -1278,7 +1382,7 @@ function renderTodoList(todoInf,num){
     return `
             <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px;cursor: pointer">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -1334,10 +1438,10 @@ function renderContent(data){
     `}).join('')}
 `
 }
-
+let timeOut
+let content = document.getElementById('content')
 function dataCheck(contentt) {
-    setTimeout(()=> {if(test.length > 0) {
+     timeOut = setTimeout(()=>
         content.innerHTML = contentt
-    }}, 1000)
-    console.log(noteData)
+    , 700)
 }
