@@ -1380,7 +1380,7 @@ function renderGroup(todoInf) {
 
 function renderTodoList(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px;cursor: pointer">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                             <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
@@ -1392,8 +1392,8 @@ function renderTodoList(todoInf,num){
                                     <div style="position: relative;">
                                         <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
                                         <div class="dupDel-${num}" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
-                                            <p style="padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
-                                            <p style="padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
+                                            <p onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
+                                            <p onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
                                         </div>
                                     </div>
                                 </div>
@@ -1438,10 +1438,15 @@ function renderContent(data){
     `}).join('')}
 `
 }
-let timeOut
 let content = document.getElementById('content')
 function dataCheck(contentt) {
-     timeOut = setTimeout(()=>
+     setTimeout(()=>
         content.innerHTML = contentt
     , 700)
+}
+
+window.myData = {
+    name:"myData's name",
+    id:1,
+    content:'đay là nội dung đẻ sử dụng ở file khác'
 }
