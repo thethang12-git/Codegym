@@ -63,6 +63,9 @@ function handleClick(e) {
 
 window.addEventListener('resize', function () {
     collapsed = false;
+    let button = document.querySelector('.toggleDisplay');
+    let button_left = document.querySelector('.toggle1');
+    let button_right = document.querySelector('.toggle2');
     if (window.innerWidth > 1400) {
         contain.style.left = ''
         contain.style.zIndex = ''
@@ -72,10 +75,15 @@ window.addEventListener('resize', function () {
         contain.style.width = '237px'
     } else if (window.innerWidth <= 1200) {
         document.querySelector('.toggleDisplay').style.display = 'none'
+        button.setAttribute('data-status', 'left');
+        button_left.style.borderRadius = '55px';
+        button_left.style.background = 'white';
+        button_right.style.background = '#E5E7EB';
         display()
     } else if (window.innerWidth > 1200) {
         document.querySelector('.toggleDisplay').style.display = 'flex'
         // contain.style.width = '237px'
+        // display()
     }
 })
 
@@ -177,15 +185,16 @@ function displayMenu() {
     let button_left = document.querySelector('.toggle1');
     let button_right = document.querySelector('.toggle2');
     if (button.getAttribute('data-status') === 'left') {
+        item.style.flexWrap = 'wrap'
         button.setAttribute('data-status', 'right');
         button_right.style.borderRadius = '55px';
         button_right.style.background = 'white';
         button_left.style.background = '#E5E7EB';
         //
         document.querySelectorAll('#content > div').forEach(div => div.style.width = '30%')
-        item1.style.width = '30%' //29.2rem
-        item2.style.width = '30%' //28.3rem
-        item3.style.width = '30%'
+        // item1.style.width = '30%' //29.2rem
+        // item2.style.width = '30%' //28.3rem
+        // item3.style.width = '30%'
         setTimeout(() => {
                 item.style.flexDirection = 'row'
             }
@@ -196,6 +205,7 @@ function displayMenu() {
         button_left.style.background = 'white';
         button_right.style.background = '#E5E7EB';
         //
+        item.style.flexWrap = 'nowrap'
         item3.style.width = '15rem'
         setTimeout(() => {
                 item1.style.width = '100%'
@@ -211,7 +221,7 @@ function displayMenu() {
             , 600)
         setTimeout(() => {
                 document.querySelectorAll('#content > div').forEach(div => div.style.width = '100%')
-                item.style.flexDirection = 'collumn'
+                item.style.flexDirection = 'column'
             }
             , 300)
     }
@@ -1240,7 +1250,6 @@ function noteDelete(item) {
 }
 
 
-
 // phần thùng rác
 function displayBinModifier(item) {
     let icon = item.querySelector('.bin-content--modifier');
@@ -1325,6 +1334,46 @@ let data = [
                 date : '02/09/2025',
                 time: '09:26',
             },
+            {
+                title:'nội dung 4',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 5',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 6',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 7',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 8',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
         ]
     },
     {
@@ -1351,6 +1400,50 @@ let data = [
     },
     {
         group: 'Nhóm 3' ,
+        content :
+            [
+                {
+                    title: 'nội dung 1',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','hehehe'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                },
+                {
+                    title: ' nội dung 2',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','hehehe'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                }
+            ]
+    },
+    {
+        group: 'Nhóm 4' ,
+        content :
+            [
+                {
+                    title: 'nội dung 1',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','hehehe'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                },
+                {
+                    title: ' nội dung 2',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','hehehe'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                },
+            ]
+    },
+    {
+        group: 'Nhóm 5' ,
         content :
             [
                 {
@@ -1425,9 +1518,10 @@ function renderTodoList(todoInf,num){
 
 function renderContent(data){
     let num = 0
+    let button = document.querySelector('.toggleDisplay');
     return `
     ${data.map((item,number) => {return `
-        <div style='width:100%;height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
+        <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
             ${renderGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
@@ -1454,6 +1548,7 @@ function dataCheck(contentt) {
 
 function toDoDelete(itemm){
     let bigContainer = itemm.closest('.content-body--container')
+    let body = document.querySelector('.content-body');
     // document.getElementById('content').style.flex = 'none'
     bigContainer.style.height = 'auto'
     let container = itemm.closest('.parent')
@@ -1463,6 +1558,7 @@ function toDoDelete(itemm){
     setTimeout(()=>{container.style.height = '0' ; },300)
     let getClass = container.querySelector('.parent-options').className
     let getID = parseInt(getClass.match(/\d+/g).toString())
+    // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
     setTimeout(() => {
         data.forEach((item) => {
             item.content = item.content.filter((itemm) => itemm.id !== getID)
