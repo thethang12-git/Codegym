@@ -1170,7 +1170,7 @@ function notePush(event) {
     if (flag){return}
     let text = document.getElementById('textarea')
     let currentContentID = document.getElementById('textarea').getAttribute('editingID')
-    if(currentContentID && text.value !== '') {
+    if(currentContentID && text.value.trim() !== '' ) {
         let element = document.querySelector(`[data-id = '${currentContentID}']`)
         let container= element.closest('.note-content-body') 
         let getFullClass = container.className
