@@ -206,7 +206,9 @@ function displayMenu() {
         button_right.style.background = '#E5E7EB';
         //
         item.style.flexWrap = 'nowrap'
-        item3.style.width = '15rem'
+        if(item3){
+            item3.style.width = '15rem'
+        }
         setTimeout(() => {
                 item1.style.width = '100%'
             }
@@ -1304,7 +1306,7 @@ let test = [1,2]
 //     time: '09:26'
 // }
 
-
+// Phần : Tất cả
 let data = [
     {
         group:'nhóm 1',
@@ -1539,11 +1541,12 @@ function renderContent(data){
 `
 }
 let content = document.getElementById('content')
+// Phần dataCheck
 function dataCheck(contentt) {
      setTimeout(()=>
         content.innerHTML = contentt
     , 700)
-    console.log(data)
+    console.log(next3DaysData)
 }
 
 function toDoDelete(itemm){
@@ -1571,7 +1574,6 @@ function toDoDelete(itemm){
     },200)
     console.log(data)
 }
-
 function duplicateHandle(item){
     let container = item.closest('.parent')
     let getClass = container.querySelector('.parent-options').className
@@ -1587,8 +1589,479 @@ function duplicateHandle(item){
     dataCheck(renderContent(data))
 }
 
-window.myData = {
-    name:"myData's name",
-    id:1,
-    content:'đay là nội dung đẻ sử dụng ở file khác'
+// Phần : Hôm nay
+
+let todayData = [{
+    group:'nhóm 1',
+        content :
+        [
+            {
+                title:'nội dung 1',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title: 'nội dung 2',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 3',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 4',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 5',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 6',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 7',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+            {
+                title:'nội dung 8',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+        ]
+    },
+]
+
+function renderTodayGroup(todoInf) {
+    return `
+        <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+            <div style="display: flex;flex-direction: row;gap: 16px">
+                <h3> ${todoInf.group} </h3>
+                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+            </div>
+            <p style="padding: 8px 16px">2</p>
+        </div>
+    `
+}
+
+function renderTodayList(todoInf,num){
+    return `
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+                        <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
+                            <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
+                                <div style="display: flex;justify-content:space-between ;">
+                                    <div>
+                                        <p style="font-weight: bold;margin-bottom: 4px">${todoInf.title}</p>
+                                        <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
+                                    </div>
+                                    <div style="position: relative;">
+                                        <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
+                                        <div class="dupDel-${num} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
+                                            <p onclick='duplicateTodayList(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
+                                            <p onclick='todayListDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: row;align-items: center;">
+                                    ${todoInf.tag.map(item => {return `<p style="padding: 4px 12px;font-size: 12px;color: #4D5761">${item}</p>`}).join('')}
+                                </div>
+                                ${todoInf.repeat
+                                ? 
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
+                                :   ''
+                                }
+                            </div>
+                        </div>
+                    </div>
+    `
+}
+
+function renderTodayContent(todayData){
+    let num = 0
+    let button = document.querySelector('.toggleDisplay');
+    return `
+    ${todayData.map((item,number) => {return `
+        <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
+            ${renderTodayGroup(item)}
+            <hr>
+            <div style="display: flex;flex-direction: column;gap: 8px;">
+            ${item.content.map((itemm) => {return `
+                ${( () => {
+                    num++
+                    itemm.id = num
+                    return renderTodayList(itemm,num)
+                })()
+    }
+            `}).join('<hr>')}
+            </div>
+        </div>
+    `}).join('')}
+`
+}
+
+function todayListDelete(itemm){
+    let bigContainer = itemm.closest('.content-body--container')
+    // document.getElementById('content').style.flex = 'none'
+    bigContainer.style.height = 'auto'
+    let container = itemm.closest('.parent')
+    container.style.height = (container.scrollHeight ) + 'px'
+    container.style.transition = 'all ease 0.5s'
+    container.style.opacity = '0'
+    setTimeout(()=>{container.style.height = '0' ; },300)
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
+    setTimeout(() => {
+        todayData.forEach((item) => {
+            item.content = item.content.filter((itemm) => itemm.id !== getID)
+            if(item.content.length === 0){
+                bigContainer.style.opacity = '0'
+                todayData = todayData.filter(item => item.content.length > 0)
+            }
+        } )
+        dataCheck(renderTodayContent(todayData))
+    },200)
+    console.log(todayData)
+}
+function duplicateTodayList(item){
+    let container = item.closest('.parent')
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    let choosedGroup = todayData.find(item => item.content.find(itemm => itemm.id === getID))
+    todayData.forEach(itm => {
+        let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        if(choosedItem) {
+            let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
+            choosedGroup.content.push(duplicatedItem)
+        }
+    })
+    dataCheck(renderTodayContent(todayData))
+}
+
+// Phần 3 ngày tới
+
+let next3DaysData = [{
+        group:'đây là nội dung của phần 3 ngày tới',
+        content :
+        [
+            {
+                title:'nội dung 1',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+        ]
+    },
+    {
+        group:'noiij dung của next 3 days nhóm 2',
+        content :
+        [
+            {
+                title:'nội dung 1 Phần 3 ngày tới ',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+        ]
+    },
+]
+
+function Next3daysGroup(todoInf) {
+    return `
+        <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+            <div style="display: flex;flex-direction: row;gap: 16px">
+                <h3> ${todoInf.group} </h3>
+                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+            </div>
+            <p style="padding: 8px 16px">2</p>
+        </div>
+    `
+}
+
+function Next3DaysContent(todoInf,num){
+    return `
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+                        <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
+                            <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
+                                <div style="display: flex;justify-content:space-between ;">
+                                    <div>
+                                        <p style="font-weight: bold;margin-bottom: 4px">${todoInf.title}</p>
+                                        <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
+                                    </div>
+                                    <div style="position: relative;">
+                                        <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
+                                        <div class="dupDel-${num} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
+                                            <p onclick='Next3DaysDuplicate(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
+                                            <p onclick='Next3DaysDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: row;align-items: center;">
+                                    ${todoInf.tag.map(item => {return `<p style="padding: 4px 12px;font-size: 12px;color: #4D5761">${item}</p>`}).join('')}
+                                </div>
+                                ${todoInf.repeat
+                                ? 
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
+                                :   ''
+                                }
+                            </div>
+                        </div>
+                    </div>
+    `
+}
+
+function renderNext3DaysContent(Next3DaysData){
+    let num = 0
+    let button = document.querySelector('.toggleDisplay');
+    return `
+    ${Next3DaysData.map((item,number) => {return `
+        <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
+            ${Next3daysGroup(item)}
+            <hr>
+            <div style="display: flex;flex-direction: column;gap: 8px;">
+            ${item.content.map((itemm) => {return `
+                ${( () => {
+                    num++
+                    itemm.id = num
+                    return Next3DaysContent(itemm,num)
+                })()
+    }
+            `}).join('<hr>')}
+            </div>
+        </div>
+    `}).join('')}
+`
+}
+
+function Next3DaysDelete(itemm){
+    let bigContainer = itemm.closest('.content-body--container')
+    // document.getElementById('content').style.flex = 'none'
+    bigContainer.style.height = 'auto'
+    let container = itemm.closest('.parent')
+    container.style.height = (container.scrollHeight ) + 'px'
+    container.style.transition = 'all ease 0.5s'
+    container.style.opacity = '0'
+    setTimeout(()=>{container.style.height = '0' ; },300)
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
+    setTimeout(() => {
+        next3DaysData.forEach((item) => {
+            item.content = item.content.filter((itemm) => itemm.id !== getID)
+            if(item.content.length === 0){
+                bigContainer.style.opacity = '0'
+                next3DaysData = next3DaysData.filter(item => item.content.length > 0)
+            }
+        } )
+        dataCheck(renderNext3DaysContent(next3DaysData))
+    },200)
+    console.log(next3DaysData)
+}
+function Next3DaysDuplicate(item){
+    let container = item.closest('.parent')
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    let choosedGroup = next3DaysData.find(item => item.content.find(itemm => itemm.id === getID))
+    next3DaysData.forEach(itm => {
+        let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        if(choosedItem) {
+            let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
+            choosedGroup.content.push(duplicatedItem)
+        }
+    })
+    dataCheck(renderNext3DaysContent(next3DaysData))
+}
+
+// Phần : 7 ngày tới
+
+let Next7DaysData = [{
+        group:'đây là nội dung của phần 7 ngày tới',
+        content :
+        [
+            {
+                title:'nội dung 1',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+        ]
+    },
+    {
+        group:'noiij dung của next 7 days nhóm 2',
+        content :
+        [
+            {
+                title:'nội dung 1 Phần 7 ngày tới ',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','hehehe'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+        ]
+    },
+]
+
+function Next7DaysGroup(todoInf) {
+    return `
+        <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+            <div style="display: flex;flex-direction: row;gap: 16px">
+                <h3> ${todoInf.group} </h3>
+                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+            </div>
+            <p style="padding: 8px 16px">2</p>
+        </div>
+    `
+}
+
+function Next7DaysContent(todoInf,num){
+    return `
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+                        <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
+                            <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
+                                <div style="display: flex;justify-content:space-between ;">
+                                    <div>
+                                        <p style="font-weight: bold;margin-bottom: 4px">${todoInf.title}</p>
+                                        <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
+                                    </div>
+                                    <div style="position: relative;">
+                                        <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
+                                        <div class="dupDel-${num} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
+                                            <p onclick='Next7DaysDuplicate(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
+                                            <p onclick='Next7DaysDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: row;align-items: center;">
+                                    ${todoInf.tag.map(item => {return `<p style="padding: 4px 12px;font-size: 12px;color: #4D5761">${item}</p>`}).join('')}
+                                </div>
+                                ${todoInf.repeat
+                                ? 
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
+                                :   ''
+                                }
+                            </div>
+                        </div>
+                    </div>
+    `
+}
+
+function renderNext7DaysContent(Next7DaysData){
+    let num = 0
+    let button = document.querySelector('.toggleDisplay');
+    return `
+    ${Next7DaysData.map((item,number) => {return `
+        <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
+            ${Next7DaysGroup(item)}
+            <hr>
+            <div style="display: flex;flex-direction: column;gap: 8px;">
+            ${item.content.map((itemm) => {return `
+                ${( () => {
+                    num++
+                    itemm.id = num
+                    return Next7DaysContent(itemm,num)
+                })()
+    }
+            `}).join('<hr>')}
+            </div>
+        </div>
+    `}).join('')}
+`
+}
+
+function Next7DaysDelete(itemm){
+    let bigContainer = itemm.closest('.content-body--container')
+    // document.getElementById('content').style.flex = 'none'
+    bigContainer.style.height = 'auto'
+    let container = itemm.closest('.parent')
+    container.style.height = (container.scrollHeight ) + 'px'
+    container.style.transition = 'all ease 0.5s'
+    container.style.opacity = '0'
+    setTimeout(()=>{container.style.height = '0' ; },300)
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
+    setTimeout(() => {
+        Next7DaysData.forEach((item) => {
+            item.content = item.content.filter((itemm) => itemm.id !== getID)
+            if(item.content.length === 0){
+                bigContainer.style.opacity = '0'
+                Next7DaysData = Next7DaysData.filter(item => item.content.length > 0)
+            }
+        } )
+        dataCheck(renderNext7DaysContent(Next7DaysData))
+    },200)
+    console.log(Next7DaysData)
+}
+function Next7DaysDuplicate(item){
+    let container = item.closest('.parent')
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    let choosedGroup = Next7DaysData.find(item => item.content.find(itemm => itemm.id === getID))
+    Next7DaysData.forEach(itm => {
+        let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        if(choosedItem) {
+            let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
+            choosedGroup.content.push(duplicatedItem)
+        }
+    })
+    dataCheck(renderNext7DaysContent(Next7DaysData))
 }
