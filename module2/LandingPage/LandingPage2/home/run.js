@@ -304,8 +304,6 @@ let userChoosedMonth = ''
 let userChoosedYear = ''
 
 function displayCalen(event) {
-    // let navbar = document.querySelector('.popUp-add-options-calendar__navbar');
-    // let popup = document.querySelector('.popUp-add')
     let calendar = document.querySelector('.calendar-display')
     let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
     let value = event.target.closest('td')
@@ -317,10 +315,6 @@ function displayCalen(event) {
         calendar.setAttribute('data-status', 'deactive');
         contentt.innerHTML = `${value.innerText}/${choosedMonth}/${choosedYear}`;
     } 
-    // else if (event.target.contains(calendar) === false) {
-    //     calendar.setAttribute('data-status', 'deactive');
-    //     console.log('case2')
-    // }
     if (event.target.closest('.undo')) {
         let iconn = document.querySelector('.options_num-1 i:first-of-type');
         let undo = document.querySelector('.undo');
@@ -328,6 +322,9 @@ function displayCalen(event) {
         iconn.style.display = 'block';
         contentt.innerText = ''
         calendar.style.display = 'none';
+        calendar.setAttribute('data-status', 'deactive');
+    }
+    if (calendar.style.display == 'none') {
         calendar.setAttribute('data-status', 'deactive');
     }
 }
@@ -399,10 +396,10 @@ function createCalendar(year, month) {
     let table = ''
     let currentMonth = getDaysInMonth(year, month)
     for (let i = 0; i < 35; i++) {
-        if (currentMonth[i] === undefined) {
+        if (currentMonth[i] == undefined) {
             continue
         }
-        if (currentMonth[i] === choosedDate && userChoosedMonth === choosedMonth && userChoosedYear === choosedYear) {
+        if (currentMonth[i] == choosedDate && userChoosedMonth == choosedMonth && userChoosedYear == choosedYear) {
             table += '<td style="background: #EF6820;color: white">' + currentMonth[i] + '</td>';
             continue
         }
@@ -411,11 +408,11 @@ function createCalendar(year, month) {
             table += '<td>' + currentMonth[i] + '</td>';
             continue
         }
-        if (i % 7 === 0 && i % 2 === 0) {
+        if (i % 7 == 0 && i % 2 == 0) {
             table += '</tr>'
 
             table += '<tr>';
-        } else if (i % 7 === 0 && i % 2 !== 0) {
+        } else if (i % 7 == 0 && i % 2 != 0) {
             table += '</tr>';
             table += '<tr>';
         }
@@ -427,8 +424,6 @@ function createCalendar(year, month) {
 let toggleTime = false
 
 function timeDisplay(event) {
-    // let calendar = document.querySelector('.calendar-display')
-    // let popup = document.querySelector('.popUp-add')
     let contain = document.querySelector('.options_num-2');
     let undo = document.querySelector('.options_num-2 .undo2');
     let icon = document.querySelector('.options_num-2 i:first-of-type')
@@ -436,26 +431,20 @@ function timeDisplay(event) {
     let hour = document.querySelector('.time-display_hour').value;
     let minute = document.querySelector('.time-display_minute').value;
     let display = document.querySelector('.options_num-2 div:first-of-type>p')
-    let p = contain.querySelector('div');
+    let p = contain.querySelector('p');
     let valid = event.target === contain || event.target === icon || event.target === p
     if (content.style.display === 'none' && valid) {
         content.style.display = 'flex'
         calenNavbarMain.style.display = 'none';
         repeatMain.style.display = 'none';
         tagMain.style.display = 'none';
-        // if(event.target.closest('.calendar-display')){
-        //     calendarMain.style.display = 'flex'
-        // }
-        // else {
-        //     calendarMain.style.display = 'none'
-        // }
         calendarMain.style.display = 'none'
     } 
     else if (valid && content.style.display === 'flex') {
         content.style.display = 'none'
     } 
     else if (hour !== '--' && minute !== '--') {
-        if (content.contains(event.target) && toggleTime) {
+        if (content.contains(event.target) && toggleTime ) {
             content.style.display = 'flex';
             toggleTime = false;
             return
@@ -492,7 +481,6 @@ function repeatCounter() {
         img.style.marginLeft = '0'
         return
     }
-
     img.setAttribute('src', '../asset/Radio2.png')
     img.style.width = '20px'
     img.style.height = '20px'
@@ -1253,6 +1241,18 @@ function noteDelete(item) {
 
 
 // phần thùng rác
+let recycleBin = []
+
+function pushRecycleBin(from,name,index,content) {
+    recycleBin.push(
+        {
+            from: from,
+            name :name,
+            index:index,
+            content:content,
+        }
+    )
+}
 function displayBinModifier(item) {
     let icon = item.querySelector('.bin-content--modifier');
     let star = item.querySelector('.fa-star');
@@ -1546,7 +1546,6 @@ function dataCheck(contentt) {
      setTimeout(()=>
         content.innerHTML = contentt
     , 700)
-    console.log(next3DaysData)
 }
 
 function toDoDelete(itemm){
@@ -1564,7 +1563,13 @@ function toDoDelete(itemm){
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
     setTimeout(() => {
         data.forEach((item) => {
-            item.content = item.content.filter((itemm) => itemm.id !== getID)
+            let deleteItem = item.content.find((itemm) => itemm.id === getID)
+            let index = data.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let name = item.group
+            if(deleteItem){
+                item.content = item.content.filter((itemm) => itemm.id !== getID)
+                pushRecycleBin('data',name,index,deleteItem)
+            }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
                 data = data.filter(item => item.content.length > 0)
@@ -1751,7 +1756,13 @@ function todayListDelete(itemm){
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
     setTimeout(() => {
         todayData.forEach((item) => {
-            item.content = item.content.filter((itemm) => itemm.id !== getID)
+            let deleteItem = item.content.find((itemm) => itemm.id === getID)
+            let index = todayData.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let name = item.group
+            if(deleteItem){
+                item.content = item.content.filter((itemm) => itemm.id !== getID)
+                pushRecycleBin('todayData',name,index,deleteItem)
+            }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
                 todayData = todayData.filter(item => item.content.length > 0)
@@ -1896,7 +1907,13 @@ function Next3DaysDelete(itemm){
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
     setTimeout(() => {
         next3DaysData.forEach((item) => {
-            item.content = item.content.filter((itemm) => itemm.id !== getID)
+            let deleteItem = item.content.find((itemm) => itemm.id === getID)
+            let index = next3DaysData.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let name = item.group
+            if(deleteItem){
+                item.content = item.content.filter((itemm) => itemm.id !== getID)
+                pushRecycleBin('next3DaysData',name,index,deleteItem)
+            }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
                 next3DaysData = next3DaysData.filter(item => item.content.length > 0)
@@ -2041,15 +2058,21 @@ function Next7DaysDelete(itemm){
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
     setTimeout(() => {
         Next7DaysData.forEach((item) => {
-            item.content = item.content.filter((itemm) => itemm.id !== getID)
+            let deleteItem = item.content.find((itemm) => itemm.id === getID)
+            let index = Next7DaysData.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let name = item.group
+            if(deleteItem){
+                item.content = item.content.filter((itemm) => itemm.id !== getID)
+                pushRecycleBin('Next7DaysData',name,index,deleteItem)
+            }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
                 Next7DaysData = Next7DaysData.filter(item => item.content.length > 0)
             }
         } )
+        console.log(recycleBin)
         dataCheck(renderNext7DaysContent(Next7DaysData))
     },200)
-    console.log(Next7DaysData)
 }
 function Next7DaysDuplicate(item){
     let container = item.closest('.parent')
@@ -2065,3 +2088,5 @@ function Next7DaysDuplicate(item){
     })
     dataCheck(renderNext7DaysContent(Next7DaysData))
 }
+
+
