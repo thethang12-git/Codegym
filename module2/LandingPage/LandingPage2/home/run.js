@@ -26,9 +26,17 @@ function onFocus(event) {
     }
 }
 
-function colorChange(event, color) {
+function colorChange(event,array) {
     let item = event.target;
-    item.style.color = color;
+    // item.style.color = color;
+    let container = item.closest('.parent')
+        let getClassName = container.querySelector('.parent-options').className
+        let getID = parseInt(getClassName.match(/\d+/g).toString())
+            array.forEach(item => item.content.forEach((itm) => {
+                if(itm.id == getID){
+                    itm.star = !itm.star
+                }
+            } ))
     if (event.target.classList.contains('fa-regular')) {
         item.classList.remove('fa-regular')
         item.classList.add('fa-solid');
@@ -38,6 +46,8 @@ function colorChange(event, color) {
         item.classList.add('fa-regular');
         item.style.color = 'black'
     }
+}
+function colorToFinish(event){
     if (event.target.getAttribute('src') === '../asset/Radio.png') {
         event.target.setAttribute('src', '../asset/Radio2.png')
         event.target.style.width = '20px'
@@ -706,50 +716,45 @@ function loadContent(url,contentt) {
 }
 
 // Click vào để chỉnh sửa thẻ
-function clickToModify(element, event, isallow ,dupDel) {
+function clickToModify(element, event, isallow ,dupDel,array) {
     if (isallow) {
         let icon = element.querySelector('i')
         let tab = document.createElement('i')
+        let container = icon.closest('.parent')
+        let getClassName = container.querySelector('.parent-options').className
+        let getID = parseInt(getClassName.match(/\d+/g).toString())
+        let chooseItem =  array.flatMap((item) => item.content).find((itm) => itm.id == getID)
         if(element.style.background === 'rgb(254, 250, 245)') {
-            tab.classList.add('fa-regular' , 'fa-star','tab-transition')
+            tab.className = (chooseItem.star ? 'fa-solid' : 'fa-regular') + ' fa-star tab-transition';
+            tab.style.color = chooseItem.star ? '#EF6820' : 'black'
+            tab.style.opacity = '0'
+            tab.onclick = function (event) {
+            colorChange(event, array)
+            stopPropa(event)
+}
             setTimeout(() => {tab.classList.remove('tab-transition');tab.style.opacity = '1';tab.style.transform = 'translateY(0)';},100)
-            tab.setAttribute('onclick', `colorChange(event);disable(this,'${dupDel}')`)
             icon.replaceWith(tab)
             element.style.background = 'white'
         }
         else  {
             tab.classList.add('fa-solid','fa-ellipsis','tab-transition')
             setTimeout(() => {tab.classList.remove('tab-transition');tab.style.opacity = '1';tab.style.transform = 'translateY(0)';},100)
-            tab.setAttribute('onclick', `dupDelFunc('${dupDel}');disable(this,'${dupDel}')`)
+            tab.setAttribute('onclick', `dupDelFunc('${dupDel}');stopPropa(event)`)
             icon.replaceWith(tab)
             element.style.background = '#FEFAF5'
         }
     }
 }
 
-// function reclick(parent) {
-//     parent.setAttribute('onclick','clickToModify(this,event,true)')
-//     console.log('xin chao')
+// function littleDisable(parent,dupDel) {
+//     parent.setAttribute('onclick',`clickToModify(this,event,true,'${dupDel}')`)
 // }
-// function disable(element,event) {
+
+// function disable(element,dupDel) {
 //     let parent = element.closest('.parent')
 //     parent.setAttribute('onclick','clickToModify(this,event,false)')
-//     document.addEventListener('click',() => reclick(parent))
-//     setTimeout(() => {
-//         document.removeEventListener('click',() => reclick(parent)) ;
-//         console.log('đã đóng') }
-//         ,1000)
+//     document.addEventListener('click',() => littleDisable(parent,dupDel), { once: true });
 // }
-
-function littleDisable(parent,dupDel) {
-    parent.setAttribute('onclick',`clickToModify(this,event,true,'${dupDel}')`)
-}
-
-function disable(element,dupDel) {
-    let parent = element.closest('.parent')
-    parent.setAttribute('onclick','clickToModify(this,event,false)')
-    document.addEventListener('click',() => littleDisable(parent,dupDel), { once: true });
-}
 
 function dupDelFunc (item) {
     let element = document.querySelector(item)
@@ -1313,6 +1318,7 @@ let data = [
         content :
         [
             {
+                star: true,
                 title:'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1321,6 +1327,7 @@ let data = [
                 time: '09:26',
             },
             {
+                star:true,
                 title: 'nội dung 2',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1329,6 +1336,7 @@ let data = [
                 time: '09:26',
             },
             {
+                star:false,
                 title:'nội dung 3',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1337,6 +1345,7 @@ let data = [
                 time: '09:26',
             },
             {
+                star:false,
                 title:'nội dung 4',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1345,6 +1354,7 @@ let data = [
                 time: '09:26',
             },
             {
+                star:false,
                 title:'nội dung 5',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1353,6 +1363,7 @@ let data = [
                 time: '09:26',
             },
             {
+                star:false,
                 title:'nội dung 6',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1361,6 +1372,7 @@ let data = [
                 time: '09:26',
             },
             {
+                star:false,
                 title:'nội dung 7',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1369,6 +1381,7 @@ let data = [
                 time: '09:26',
             },
             {
+                star:false,
                 title:'nội dung 8',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1383,6 +1396,7 @@ let data = [
         content : 
         [
             {
+                star:false,
                 title: 'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1391,6 +1405,7 @@ let data = [
                 time: '09:26',
             },
             {
+                star:false,
                 title: ' nội dung 2',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1405,6 +1420,7 @@ let data = [
         content :
             [
                 {
+                    star:true,
                     title: 'nội dung 1',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                     tag : ['công việc','hehehe'],
@@ -1413,6 +1429,7 @@ let data = [
                     time: '09:26',
                 },
                 {
+                    star:false,
                     title: ' nội dung 2',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                     tag : ['công việc','hehehe'],
@@ -1427,6 +1444,7 @@ let data = [
         content :
             [
                 {
+                    star:false,
                     title: 'nội dung 1',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                     tag : ['công việc','hehehe'],
@@ -1435,6 +1453,7 @@ let data = [
                     time: '09:26',
                 },
                 {
+                    star:false,
                     title: ' nội dung 2',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                     tag : ['công việc','hehehe'],
@@ -1449,6 +1468,7 @@ let data = [
         content :
             [
                 {
+                    star:false,
                     title: 'nội dung 1',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                     tag : ['công việc','hehehe'],
@@ -1457,6 +1477,7 @@ let data = [
                     time: '09:26',
                 },
                 {
+                    star:false,
                     title: ' nội dung 2',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                     tag : ['công việc','hehehe'],
@@ -1474,16 +1495,16 @@ function renderGroup(todoInf) {
                 <h3> ${todoInf.group} </h3>
                 <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
-            <p style="padding: 8px 16px">2</p>
+            <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
     `
 }
 
 function renderTodoList(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',data)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorToFinish(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -1491,7 +1512,7 @@ function renderTodoList(todoInf,num){
                                         <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
                                     </div>
                                     <div style="position: relative;">
-                                        <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
+                                        <i style="${todoInf.star? `color:#EF6820` : 'color:black'}" onclick="colorChange(event,data);stopPropa(event)"  class="${todoInf.star? 'fa-solid' : 'fa-regular'} fa-star"></i>
                                         <div class="dupDel-${num} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
                                             <p onclick='duplicateHandle(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
                                             <p onclick='toDoDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
@@ -1521,6 +1542,17 @@ function renderTodoList(todoInf,num){
 function renderContent(data){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
+    if(data.length === 0){
+        return `
+            <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
+        <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
+        <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
+            <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
+            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
+        </div>
+    </div>
+        `
+    }
     return `
     ${data.map((item,number) => {return `
         <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
@@ -1596,75 +1628,30 @@ function duplicateHandle(item){
 
 // Phần : Hôm nay
 
-let todayData = [{
-    group:'nhóm 1',
+let todayData = [
+    {
+        group: 'Nhóm 1 phần today' ,
         content :
-        [
-            {
-                title:'nội dung 1',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                title: 'nội dung 2',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                title:'nội dung 3',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                title:'nội dung 4',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                title:'nội dung 5',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                title:'nội dung 6',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                title:'nội dung 7',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                title:'nội dung 8',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-        ]
+            [
+                {
+                    star:true,
+                    title: 'nội dung 1',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','hehehe'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                },
+                {
+                    star:false,
+                    title: ' nội dung 2',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','hehehe'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                }
+            ]
     },
 ]
 
@@ -1675,16 +1662,16 @@ function renderTodayGroup(todoInf) {
                 <h3> ${todoInf.group} </h3>
                 <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
-            <p style="padding: 8px 16px">2</p>
+            <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
     `
 }
 
 function renderTodayList(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',todayData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorToFinish(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -1692,7 +1679,7 @@ function renderTodayList(todoInf,num){
                                         <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
                                     </div>
                                     <div style="position: relative;">
-                                        <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
+                                        <i style="${todoInf.star? `color:#EF6820` : 'color:black'}" onclick="colorChange(event,todayData);stopPropa(event)"  class="${todoInf.star? 'fa-solid' : 'fa-regular'} fa-star"></i>
                                         <div class="dupDel-${num} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
                                             <p onclick='duplicateTodayList(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
                                             <p onclick='todayListDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
@@ -1722,6 +1709,17 @@ function renderTodayList(todoInf,num){
 function renderTodayContent(todayData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
+    if(todayData.length === 0){
+        return `
+            <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
+        <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
+        <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
+            <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
+            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
+        </div>
+    </div>
+        `
+    }
     return `
     ${todayData.map((item,number) => {return `
         <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
@@ -1826,16 +1824,16 @@ function Next3daysGroup(todoInf) {
                 <h3> ${todoInf.group} </h3>
                 <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
-            <p style="padding: 8px 16px">2</p>
+            <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
     `
 }
 
 function Next3DaysContent(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',next3DaysData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorToFinish(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -1843,7 +1841,7 @@ function Next3DaysContent(todoInf,num){
                                         <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
                                     </div>
                                     <div style="position: relative;">
-                                        <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
+                                        <i style="${todoInf.star? `color:#EF6820` : 'color:black'}" onclick="colorChange(event,next3DaysData);stopPropa(event)"  class="${todoInf.star? 'fa-solid' : 'fa-regular'} fa-star"></i>
                                         <div class="dupDel-${num} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
                                             <p onclick='Next3DaysDuplicate(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
                                             <p onclick='Next3DaysDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
@@ -1873,6 +1871,17 @@ function Next3DaysContent(todoInf,num){
 function renderNext3DaysContent(Next3DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
+    if(next3DaysData.length === 0){
+        return `
+            <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
+        <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
+        <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
+            <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
+            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
+        </div>
+    </div>
+        `
+    }
     return `
     ${Next3DaysData.map((item,number) => {return `
         <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
@@ -1945,6 +1954,7 @@ let Next7DaysData = [{
         content :
         [
             {
+                // star:true,
                 title:'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1959,6 +1969,7 @@ let Next7DaysData = [{
         content :
         [
             {
+                // star:false,
                 title:'nội dung 1 Phần 7 ngày tới ',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','hehehe'],
@@ -1977,16 +1988,16 @@ function Next7DaysGroup(todoInf) {
                 <h3> ${todoInf.group} </h3>
                 <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
-            <p style="padding: 8px 16px">2</p>
+            <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
     `
 }
 
 function Next7DaysContent(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}')" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',Next7DaysData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img alt="..." onclick="colorChange(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorToFinish(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -1994,7 +2005,7 @@ function Next7DaysContent(todoInf,num){
                                         <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
                                     </div>
                                     <div style="position: relative;">
-                                        <i onclick="colorChange(event);stopPropa(event)"  class="fa-regular fa-star"></i>
+                                        <i style="${todoInf.star? `color:#EF6820` : 'color:black'}" onclick="colorChange(event,Next7DaysData);stopPropa(event)"  class="${todoInf.star? 'fa-solid' : 'fa-regular'} fa-star"></i>
                                         <div class="dupDel-${num} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
                                             <p onclick='Next7DaysDuplicate(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
                                             <p onclick='Next7DaysDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
@@ -2024,6 +2035,17 @@ function Next7DaysContent(todoInf,num){
 function renderNext7DaysContent(Next7DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
+    if(Next7DaysData.length === 0){
+        return `
+            <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
+        <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
+        <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
+            <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
+            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
+        </div>
+    </div>
+        `
+    }
     return `
     ${Next7DaysData.map((item,number) => {return `
         <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
@@ -2090,3 +2112,10 @@ function Next7DaysDuplicate(item){
 }
 
 
+// setInterval(()=>{
+//     // console.log('data',data)
+//     // console.log('today',todayData);
+//     // console.log('next3 day',next3DaysData)
+//     // console.log('next 7 days',Next7DaysData)
+//     console.log(Next7DaysData[0].content[0].star)
+// },500)
