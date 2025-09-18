@@ -1551,6 +1551,11 @@ function renderTodoList(todoInf,num){
 function renderContent(data){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
+    data.forEach((item) => {
+        if(item.content.length === 0){
+                data = data.filter(item => item.content.length > 0)
+            }
+        } )
     if(data.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -1585,7 +1590,13 @@ let content = document.getElementById('content')
 // Phần dataCheck
 let currentTab
 function dataCheck(contentt,tab) {
-    currentTab = tab
+    let star = document.getElementById('star')
+    if(tab){
+        currentTab = tab
+        star.classList.remove('fa-solid')
+        star.classList.add('fa-regular');
+        star.style.color = 'black'
+    }
      setTimeout(()=>
         content.innerHTML = contentt
     , 700)
@@ -1721,6 +1732,11 @@ function renderTodayList(todoInf,num){
 function renderTodayContent(todayData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
+    todayData.forEach((item) => {
+        if(item.content.length === 0){
+                todayData = todayData.filter(item => item.content.length > 0)
+            }
+        } )
     if(todayData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -1884,6 +1900,11 @@ function Next3DaysContent(todoInf,num){
 function renderNext3DaysContent(Next3DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
+    next3DaysData.forEach((item) => {
+        if(item.content.length === 0){
+                next3DaysData = next3DaysData.filter(item => item.content.length > 0)
+            }
+        } )
     if(next3DaysData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2049,6 +2070,11 @@ function Next7DaysContent(todoInf,num){
 function renderNext7DaysContent(Next7DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
+    Next7DaysData.forEach((item) => {
+        if(item.content.length === 0){
+                Next7DaysData = Next7DaysData.filter(item => item.content.length > 0)
+            }
+        } )
     if(Next7DaysData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2128,23 +2154,186 @@ function Next7DaysDuplicate(item){
 
 
 // Phần filter nếu user tích vào ngôi sao ở các tab
+let previous
+let filtered
 
-function listFilter(star) {
-    if(currentTab) {
-        let renderList = {
-            data : () => renderContent(temp),
-            todayData : () => renderTodayContent(temp),
-            next3DaysData : () => renderNext3DaysContent(temp),
-            Next7DaysData : () => renderNext7DaysContent(temp),
+function filterGroup(todoInf) {
+    return `
+        <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+            <div style="display: flex;flex-direction: row;gap: 16px">
+                <h3> ${todoInf.group} </h3>
+                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+            </div>
+            <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
+        </div>
+    `
+}
+
+function filterContent(todoInf,arrayName){
+    return `
+            <div onclick="clickToModify(this,event,true,'.dupDel-${todoInf.id}',previous)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+                        <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
+                            <img alt="..." onclick="colorToFinish(event,previous);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
+                            <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
+                                <div style="display: flex;justify-content:space-between ;">
+                                    <div>
+                                        <p style="font-weight: bold;margin-bottom: 4px">${todoInf.title}</p>
+                                        <p style="font-size: 12px;color:#9DA4AE">${todoInf.content}</p>
+                                    </div>
+                                    <div style="position: relative;">
+                                        <i style="${todoInf.star? `color:#EF6820` : 'color:black'}" onclick="colorChange(event,previous);stopPropa(event)"  class="${todoInf.star? 'fa-solid' : 'fa-regular'} fa-star"></i>
+                                        <div class="dupDel-${todoInf.id} parent-options" style="position: absolute;right: 0;width: 153px;height: 96px;padding: 8px;display: none;flex-direction: column;background: white;justify-content: space-between;border: 2px solid #F3F4F6;border-radius: 6px;color: #4D5761">
+                                            <p onclick='filterDuplicate(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;padding: 8px"><i style="margin-right: 6px" class="fa-solid fa-clone"></i> Nhân đôi</p>
+                                            <p onclick='filterDelete(this)' onmouseleave="this.style.background='white'" onmouseenter="this.style.background='#EF6820'" style="cursor: pointer;border-radius: 8px;;padding: 8px"><i class="fa-solid fa-trash-can"></i> Xoá</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: row;align-items: center;">
+                                    ${todoInf.tag.map(item => {return `<p style="padding: 4px 12px;font-size: 12px;color: #4D5761">${item}</p>`}).join('')}
+                                </div>
+                                ${todoInf.repeat
+                                ? 
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
+                                :   ''
+                                }
+                            </div>
+                        </div>
+                    </div>
+    `
+}
+
+function renderFilterContent(array){
+    let button = document.querySelector('.toggleDisplay');
+    array.forEach((item) => {
+        if(item.content.length === 0){
+                array = array.filter(item => item.content.length > 0)
+            }
+        } )
+    if(array.length === 0){
+        return `
+            <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
+        <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
+        <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
+            <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
+            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
+        </div>
+    </div>
+        `
+    }
+    return `
+    ${array.map((item,number) => {return `
+        <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
+            ${filterGroup(item)}
+            <hr>
+            <div style="display: flex;flex-direction: column;gap: 8px;">
+            ${item.content.map((itemm) => {return `
+                ${( () => {
+                    return filterContent(itemm)
+                })()
+    }
+            `}).join('<hr>')}
+            </div>
+        </div>
+    `}).join('')}
+`
+}
+
+function filterDelete(itemm){
+    let bigContainer = itemm.closest('.content-body--container')
+    // // document.getElementById('content').style.flex = 'none'
+    bigContainer.style.height = 'auto'
+    let container = itemm.closest('.parent')
+    container.style.height = (container.scrollHeight ) + 'px'
+    container.style.transition = 'all ease 0.5s'
+    container.style.opacity = '0'
+    setTimeout(()=>{container.style.height = '0' ; },300)
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
+    setTimeout(() => {
+        filtered.forEach((item) => {
+            let deleteItem = item.content.find((itemm) => itemm.id === getID)
+            if(deleteItem){
+                item.content = item.content.filter((itemm) => itemm.id !== getID)
+            }
+        } )
+        previous.forEach((item) => {
+            let deleteItem = item.content.find((itemm) => itemm.id === getID)
+            let index = previous.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let name = item.group
+            if(deleteItem){
+                item.content = item.content.filter((itemm) => itemm.id !== getID)
+                pushRecycleBin('test',name,index,deleteItem)
+            }
+            if(item.content.length === 0){
+                bigContainer.style.opacity = '0'
+                previous = previous.filter(item => item.content.length > 0)
+            }
+        } )
+    },200)
+    filterMode = false
+    setTimeout(() => {listFilter();filterMode = true},250)
+}
+function filterDuplicate(item){
+    let container = item.closest('.parent')
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    let choosedGroup = previous.find(item => item.content.find(itemm => itemm.id === getID))
+    previous.forEach(itm => {
+        let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        let index = itm.content.findIndex(itmm => itmm.id === getID)
+        if(choosedItem) {
+            let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
+            choosedGroup.content.splice(index + 1,0,duplicatedItem)
         }
-        let temp =
+    })
+    // dataCheck(renderNext7DaysContent(Next7DaysData))
+    filterMode = false
+    setTimeout(() => {listFilter();filterMode = true},250)
+}
+let star = document.getElementById('star')
+let filterMode = true
+let filteredStatus
+function listFilter() {
+    previous = currentTab
+    if(currentTab) {
+        filtered =
             currentTab.filter((item) => item.content.some(itm => itm.star === true))
                 .map(itm =>
                 ({
                     ...itm,
                     content: itm.content.filter(itmm => itmm.star === true)
                 }))
-        // console.log(currentTab)
-        // dataCheck(renderList.todayData())
+    if(filterMode){
+        if(star.classList.contains('fa-solid')) {
+            star.classList.remove('fa-solid')
+            star.classList.add('fa-regular');
+            star.style.color = 'black'
+            dataCheck(renderFilterContent(previous))
+            filteredStatus = true
+        }
+        else  {
+            star.classList.remove('fa-regular')
+            star.classList.add('fa-solid');
+            star.style.color = 'rgb(239, 104, 32)'
+            dataCheck(renderFilterContent(filtered))
+            filteredStatus = false
+        }
     }
+    else {
+        if(filteredStatus){
+            dataCheck(renderFilterContent(previous))
+        }
+        else {
+            dataCheck(renderFilterContent(filtered))
+        }
+    } 
+    }
+    console.log('filter', filtered)
 }
