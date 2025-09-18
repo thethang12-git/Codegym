@@ -28,15 +28,14 @@ function onFocus(event) {
 
 function colorChange(event,array) {
     let item = event.target;
-    // item.style.color = color;
     let container = item.closest('.parent')
-        let getClassName = container.querySelector('.parent-options').className
-        let getID = parseInt(getClassName.match(/\d+/g).toString())
-            array.forEach(item => item.content.forEach((itm) => {
-                if(itm.id == getID){
-                    itm.star = !itm.star
-                }
-            } ))
+    let getClassName = container.querySelector('.parent-options').className
+    let getID = parseInt(getClassName.match(/\d+/g).toString())
+    array.forEach(item => item.content.forEach((itm) => {
+        if(itm.id == getID){
+            itm.star = !itm.star
+        }
+    } ))
     if (event.target.classList.contains('fa-regular')) {
         item.classList.remove('fa-regular')
         item.classList.add('fa-solid');
@@ -47,7 +46,15 @@ function colorChange(event,array) {
         item.style.color = 'black'
     }
 }
-function colorToFinish(event){
+function colorToFinish(event,array){
+    let container = event.target.closest('.parent')
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    array.forEach(item => item.content.forEach((itm) => {
+        if(itm.id == getID){
+            itm.choosing = !itm.choosing
+        }
+    } ))
     if (event.target.getAttribute('src') === '../asset/Radio.png') {
         event.target.setAttribute('src', '../asset/Radio2.png')
         event.target.style.width = '20px'
@@ -127,20 +134,26 @@ function toggleSidebar() {
     collapsed = !collapsed;
 }
 
-function hehehe(idd, event) {
-    let item = document.getElementById(idd);
-    let currentColor = getComputedStyle(item).color;
-    if (currentColor === 'rgb(157, 164, 174)') {
-        item.style.color = '#F04438'
-    } else if (currentColor === 'rgb(240, 68, 56)') {
-        item.style.color = '#9DA4AE'
-    }
-    let currentColor2 = getComputedStyle(event.target).color;
-    if (currentColor2 === 'rgb(157, 164, 174)') {
+function repeatToggle(event,array) {
+    let container = event.target.closest('.parent')
+    let getClass = container.querySelector('.parent-options').className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    let item = array.flatMap(item => item.content).find(itm => itm.id == getID)
+    let div = event.target.closest('div');
+    let calendar = div.querySelector('.fa-calendar');
+    if(!item.repeat) {
+        calendar.style.color = '#F04438'
         event.target.style.color = '#F04438'
-    } else if (currentColor2 === 'rgb(240, 68, 56)') {
+    }
+    else {
+        calendar.style.color = '#9DA4AE'
         event.target.style.color = '#9DA4AE'
     }
+    array.forEach(item => item.content.forEach((itm) => {
+        if(itm.id == getID){
+            itm.repeat = !itm.repeat
+        }
+    } ))
 }
 
 
@@ -724,7 +737,7 @@ function clickToModify(element, event, isallow ,dupDel,array) {
         let getClassName = container.querySelector('.parent-options').className
         let getID = parseInt(getClassName.match(/\d+/g).toString())
         let chooseItem =  array.flatMap((item) => item.content).find((itm) => itm.id == getID)
-        if(element.style.background === 'rgb(254, 250, 245)') {
+        if(element.style.background === 'rgb(254, 246, 238)') {
             tab.className = (chooseItem.star ? 'fa-solid' : 'fa-regular') + ' fa-star tab-transition';
             tab.style.color = chooseItem.star ? '#EF6820' : 'black'
             tab.style.opacity = '0'
@@ -741,7 +754,8 @@ function clickToModify(element, event, isallow ,dupDel,array) {
             setTimeout(() => {tab.classList.remove('tab-transition');tab.style.opacity = '1';tab.style.transform = 'translateY(0)';},100)
             tab.setAttribute('onclick', `dupDelFunc('${dupDel}');stopPropa(event)`)
             icon.replaceWith(tab)
-            element.style.background = '#FEFAF5'
+            // element.style.background = 'rgb(254, 250, 245)'
+            element.style.background = 'rgb(254, 246, 238)'
         }
     }
 }
@@ -1301,16 +1315,6 @@ function binNavbar (item){
 
 // Xử lý dữ liệu và hiển thị, lưu trữ mảng các object thông tin để render HTML
 let test = [1,2]
-// let todoInf = {
-//     group : 'Khác',
-//     title : 'The standard Lorem Ipsum passage, used since the 1500s',
-//     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-//     tag : ['công việc','hehehe'],
-//     repeat: true,
-//     date : '02/09/2025',
-//     time: '09:26'
-// }
-
 // Phần : Tất cả
 let data = [
     {
@@ -1318,37 +1322,41 @@ let data = [
         content :
         [
             {
+                choosing: true,
                 star: true,
                 title:'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
             },
             {
+                choosing: true,
                 star:true,
                 title: 'nội dung 2',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
             },
             {
+                choosing: true,
                 star:false,
                 title:'nội dung 3',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
             },
             {
+                choosing: true,
                 star:false,
                 title:'nội dung 4',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1357,7 +1365,7 @@ let data = [
                 star:false,
                 title:'nội dung 5',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1366,7 +1374,7 @@ let data = [
                 star:false,
                 title:'nội dung 6',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1375,7 +1383,7 @@ let data = [
                 star:false,
                 title:'nội dung 7',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1384,7 +1392,7 @@ let data = [
                 star:false,
                 title:'nội dung 8',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1399,7 +1407,7 @@ let data = [
                 star:false,
                 title: 'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1408,7 +1416,7 @@ let data = [
                 star:false,
                 title: ' nội dung 2',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1420,10 +1428,11 @@ let data = [
         content :
             [
                 {
+                    choosing:false,
                     star:true,
                     title: 'nội dung 1',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','hehehe'],
+                    tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1432,7 +1441,7 @@ let data = [
                     star:false,
                     title: ' nội dung 2',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','hehehe'],
+                    tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1447,7 +1456,7 @@ let data = [
                     star:false,
                     title: 'nội dung 1',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','hehehe'],
+                    tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1456,7 +1465,7 @@ let data = [
                     star:false,
                     title: ' nội dung 2',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','hehehe'],
+                    tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1471,7 +1480,7 @@ let data = [
                     star:false,
                     title: 'nội dung 1',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','hehehe'],
+                    tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1480,7 +1489,7 @@ let data = [
                     star:false,
                     title: ' nội dung 2',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','hehehe'],
+                    tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1504,7 +1513,7 @@ function renderTodoList(todoInf,num){
     return `
             <div onclick="clickToModify(this,event,true,'.dupDel-${num}',data)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img alt="..." onclick="colorToFinish(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorToFinish(event,data);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -1527,8 +1536,8 @@ function renderTodoList(todoInf,num){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
                                 :   ''
@@ -1574,7 +1583,9 @@ function renderContent(data){
 }
 let content = document.getElementById('content')
 // Phần dataCheck
-function dataCheck(contentt) {
+let currentTab
+function dataCheck(contentt,tab) {
+    currentTab = tab
      setTimeout(()=>
         content.innerHTML = contentt
     , 700)
@@ -1618,9 +1629,10 @@ function duplicateHandle(item){
     let choosedGroup = data.find(item => item.content.find(itemm => itemm.id === getID))
     data.forEach(itm => {
         let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        let index = itm.content.findIndex(itemm => itemm.id === getID)
         if(choosedItem) {
             let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
-            choosedGroup.content.push(duplicatedItem)
+            choosedGroup.content.splice(index +1,0,duplicatedItem)
         }
     })
     dataCheck(renderContent(data))
@@ -1637,7 +1649,7 @@ let todayData = [
                     star:true,
                     title: 'nội dung 1',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','hehehe'],
+                    tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1646,7 +1658,7 @@ let todayData = [
                     star:false,
                     title: ' nội dung 2',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','hehehe'],
+                    tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1671,7 +1683,7 @@ function renderTodayList(todoInf,num){
     return `
             <div onclick="clickToModify(this,event,true,'.dupDel-${num}',todayData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img alt="..." onclick="colorToFinish(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorToFinish(event,todayData);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -1694,8 +1706,8 @@ function renderTodayList(todoInf,num){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
                                 :   ''
@@ -1777,9 +1789,10 @@ function duplicateTodayList(item){
     let choosedGroup = todayData.find(item => item.content.find(itemm => itemm.id === getID))
     todayData.forEach(itm => {
         let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        let index = itm.content.findIndex(itmm => itmm.id === getID)
         if(choosedItem) {
             let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
-            choosedGroup.content.push(duplicatedItem)
+            choosedGroup.content.splice(index + 1,0,duplicatedItem)
         }
     })
     dataCheck(renderTodayContent(todayData))
@@ -1794,7 +1807,7 @@ let next3DaysData = [{
             {
                 title:'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1808,7 +1821,7 @@ let next3DaysData = [{
             {
                 title:'nội dung 1 Phần 3 ngày tới ',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1833,7 +1846,7 @@ function Next3DaysContent(todoInf,num){
     return `
             <div onclick="clickToModify(this,event,true,'.dupDel-${num}',next3DaysData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img alt="..." onclick="colorToFinish(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorToFinish(event,next3DaysData);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -1856,8 +1869,8 @@ function Next3DaysContent(todoInf,num){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
                                 :   ''
@@ -1939,9 +1952,10 @@ function Next3DaysDuplicate(item){
     let choosedGroup = next3DaysData.find(item => item.content.find(itemm => itemm.id === getID))
     next3DaysData.forEach(itm => {
         let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        let index = itm.content.findIndex(itmm => itmm.id === getID)
         if(choosedItem) {
             let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
-            choosedGroup.content.push(duplicatedItem)
+            choosedGroup.content.splice(index + 1,0,duplicatedItem)
         }
     })
     dataCheck(renderNext3DaysContent(next3DaysData))
@@ -1957,7 +1971,7 @@ let Next7DaysData = [{
                 // star:true,
                 title:'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1972,7 +1986,7 @@ let Next7DaysData = [{
                 // star:false,
                 title:'nội dung 1 Phần 7 ngày tới ',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','hehehe'],
+                tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1997,7 +2011,7 @@ function Next7DaysContent(todoInf,num){
     return `
             <div onclick="clickToModify(this,event,true,'.dupDel-${num}',Next7DaysData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
-                            <img alt="..." onclick="colorToFinish(event);stopPropa(event)" style="cursor: pointer;" src="../asset/Radio.png" height="28" width="28"/>
+                            <img alt="..." onclick="colorToFinish(event,Next7DaysData);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                                 <div style="display: flex;justify-content:space-between ;">
                                     <div>
@@ -2020,8 +2034,8 @@ function Next7DaysContent(todoInf,num){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);hehehe('abcd',event)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
                                 :   ''
@@ -2103,19 +2117,34 @@ function Next7DaysDuplicate(item){
     let choosedGroup = Next7DaysData.find(item => item.content.find(itemm => itemm.id === getID))
     Next7DaysData.forEach(itm => {
         let choosedItem = itm.content.find(itmm => itmm.id === getID)
+        let index = itm.content.findIndex(itmm => itmm.id === getID)
         if(choosedItem) {
             let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
-            choosedGroup.content.push(duplicatedItem)
+            choosedGroup.content.splice(index + 1,0,duplicatedItem)
         }
     })
     dataCheck(renderNext7DaysContent(Next7DaysData))
 }
 
 
-// setInterval(()=>{
-//     // console.log('data',data)
-//     // console.log('today',todayData);
-//     // console.log('next3 day',next3DaysData)
-//     // console.log('next 7 days',Next7DaysData)
-//     console.log(Next7DaysData[0].content[0].star)
-// },500)
+// Phần filter nếu user tích vào ngôi sao ở các tab
+
+function listFilter(star) {
+    if(currentTab) {
+        let renderList = {
+            data : () => renderContent(temp),
+            todayData : () => renderTodayContent(temp),
+            next3DaysData : () => renderNext3DaysContent(temp),
+            Next7DaysData : () => renderNext7DaysContent(temp),
+        }
+        let temp =
+            currentTab.filter((item) => item.content.some(itm => itm.star === true))
+                .map(itm =>
+                ({
+                    ...itm,
+                    content: itm.content.filter(itmm => itmm.star === true)
+                }))
+        // console.log(currentTab)
+        // dataCheck(renderList.todayData())
+    }
+}

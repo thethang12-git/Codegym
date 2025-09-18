@@ -18,11 +18,11 @@
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
         <div onclick="onFocus(event)" class="navbar-options">
-            <div onclick="loadContent('./pages/today.js');dataCheck(renderTodayContent(todayData))" class="navbar-options-num num-1"><i class="fa-solid fa-circle-check"></i> <p style="flex: 1;margin-left: 8px;">Hôm nay</p> <p>12</p></div>
-            <div onclick="loadContent('./pages/Next3Days.html');dataCheck(renderNext3DaysContent(next3DaysData))"  class="navbar-options-num num-2"><i class="fa-solid fa-calendar"></i> <p style="flex: 1;margin-left: 8px;">3 ngày tới</p> <p>12</p></div>
-            <div onclick="loadContent('./pages/Next7Days.html');dataCheck(renderNext7DaysContent(Next7DaysData))" class="navbar-options-num num-3"><i class="fa-solid fa-calendar-week"></i> <p style="flex: 1;margin-left: 8px;">7 ngày tới</p> <p>12</p></div>
-            <div onclick="loadContent('all.html');dataCheck(renderContent(data))" class="navbar-options-num num-4"><i class="fa-solid fa-list"></i> <p style="flex: 1;margin-left: 8px;">Tất cả</p> <p>12</p></div>
-            <div onclick="loadContent('./pages/note.html');dataCheck(renderNote(noteData))" class="navbar-options-num num-5"><i class="fa-solid fa-list-check"></i> <p style="margin-left:8px ;flex: 1;">Ghi chú</p></div>
+            <div onclick="loadContent('./pages/today.js');dataCheck(renderTodayContent(todayData),todayData)" class="navbar-options-num num-1"><i class="fa-solid fa-circle-check"></i> <p style="flex: 1;margin-left: 8px;">Hôm nay</p> <p>12</p></div>
+            <div onclick="loadContent('./pages/Next3Days.html');dataCheck(renderNext3DaysContent(next3DaysData),next3DaysData)"  class="navbar-options-num num-2"><i class="fa-solid fa-calendar"></i> <p style="flex: 1;margin-left: 8px;">3 ngày tới</p> <p>12</p></div>
+            <div onclick="loadContent('./pages/Next7Days.html');dataCheck(renderNext7DaysContent(Next7DaysData),Next7DaysData)" class="navbar-options-num num-3"><i class="fa-solid fa-calendar-week"></i> <p style="flex: 1;margin-left: 8px;">7 ngày tới</p> <p>12</p></div>
+            <div onclick="loadContent('all.html');dataCheck(renderContent(data),data)" class="navbar-options-num num-4"><i class="fa-solid fa-list"></i> <p style="flex: 1;margin-left: 8px;">Tất cả</p> <p>12</p></div>
+            <div onclick="loadContent('./pages/note.html');dataCheck(renderNote(noteData),noteData)" class="navbar-options-num num-5"><i class="fa-solid fa-list-check"></i> <p style="margin-left:8px ;flex: 1;">Ghi chú</p></div>
             <div onclick="loadContent('./pages/empty.html');" class="navbar-options-num num-6"><i class="fa-solid fa-circle-check"></i> <p style="margin-left: 8px;flex: 1;">Hoàn thành</p></div>
             <div onclick="loadContent('./pages/repeat.html')" class="navbar-options-num num-7"><i class="fa-solid fa-repeat"></i> <p style="margin-left: 8px;flex: 1;">Lặp lại</p></div>
             <div onclick="loadContent('./pages/bin.html')" class="navbar-options-num num-8"><i class="fa-solid fa-trash"></i> <p style="margin-left: 8px;flex: 1;">Thùng rác</p></div>
@@ -64,7 +64,7 @@
                     <i style="position: absolute;top: 50%;transform: translate(-50%, -50%);left: 18px;color: white" class="fa-solid fa-circle-plus"></i>
                     <button class="add-Btn" onclick="addBtn()" style="padding: 8px 8px 8px 30px;border: none;cursor: pointer;outline: none;color:white;background: #EF6820;border-radius: 8px">Tạo mới</button>
                 </div>
-                <i onclick="colorChange(event)" class="fa-regular fa-star"></i>
+                <i onclick="listFilter(this)" class="fa-regular fa-star"></i>
                 <div onclick="displayMenu()" class="toggleDisplay" data-status="left" style="display: flex;flex-direction: row;border-radius: 25px;background: #E5E7EB;padding: 3px">
                     <div class="toggle1" style="display: flex;align-items: center;padding: 8px 8px 8px 8px;justify-items: center;border-radius: 55px;background: white"><i style="color: #EF6820" class="fa-solid fa-list" ></i></div>
                     <div class="toggle2" style="display: flex;align-items: center;padding: 8px 8px 8px 8px;justify-items: center"><img src="../asset/Vector.png" height="16" width="20"/></div>
