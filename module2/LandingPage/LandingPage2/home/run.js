@@ -1536,11 +1536,18 @@ function renderTodoList(todoInf,num){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
-                                :   ''
+                                :   
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
                                 }
                             </div>
                         </div>
@@ -1717,11 +1724,18 @@ function renderTodayList(todoInf,num){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
-                                :   ''
+                                :   
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
                                 }
                             </div>
                         </div>
@@ -1885,11 +1899,18 @@ function Next3DaysContent(todoInf,num){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
-                                :   ''
+                                :   
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
                                 }
                             </div>
                         </div>
@@ -2055,11 +2076,18 @@ function Next7DaysContent(todoInf,num){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
-                                :   ''
+                                :   
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
                                 }
                             </div>
                         </div>
@@ -2196,11 +2224,18 @@ function filterContent(todoInf,arrayName){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: ${todoInf.repeat? '#F04438' : '#9DA4AE'}" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
                                     </div>
                                 ` 
-                                :   ''
+                                :   
+                                `
+                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                    </div>
+                                ` 
                                 }
                             </div>
                         </div>
