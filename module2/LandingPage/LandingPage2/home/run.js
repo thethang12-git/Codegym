@@ -32,7 +32,7 @@ function colorChange(event,array) {
     let getClassName = container.querySelector('.parent-options').className
     let getID = parseInt(getClassName.match(/\d+/g).toString())
     array.forEach(item => item.content.forEach((itm) => {
-        if(itm.id == getID){
+        if(itm.id === getID){
             itm.star = !itm.star
         }
     } ))
@@ -45,13 +45,14 @@ function colorChange(event,array) {
         item.classList.add('fa-regular');
         item.style.color = 'black'
     }
+    console.log('arrray', array)
 }
 function colorToFinish(event,array){
     let container = event.target.closest('.parent')
     let getClass = container.querySelector('.parent-options').className
     let getID = parseInt(getClass.match(/\d+/g).toString())
     array.forEach(item => item.content.forEach((itm) => {
-        if(itm.id == getID){
+        if(itm.id === getID){
             itm.choosing = !itm.choosing
         }
     } ))
@@ -60,11 +61,38 @@ function colorToFinish(event,array){
         event.target.style.width = '20px'
         event.target.style.height = '20px'
         event.target.style.marginLeft = '8px'
-    } else if ((event.target.getAttribute('src') === '../asset/Radio2.png')) {
+        console.log('case finished!',previous)
+    //     viết câu lệnh để add vào data của finish ở đây
+        container.style.transition = 'all 0.5s ease-in'
+        container.style.transform = 'translate(-500px, -500px) rotate(-30deg)';
+        container.style.opacity = '0';
+        container.style.height = container.scrollHeight + 'px';
+        setTimeout(()=>{
+            container.style.height = '0'
+        //     xoá phần tử khỏi đối tượng hiện tại và thêm vào mục đã hoàn thành
+            array.forEach((item) => {
+                let deleteItem = item.content.find((itemm) => itemm.id === getID)
+                let index = previous.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+                let name = item.group
+                if(deleteItem){
+                    item.content = item.content.filter((itemm) => itemm.id !== getID)
+                    pushFinish(dataListToString,name,index,deleteItem)
+                }
+                if(item.content.length === 0){
+                    previous = previous.filter(item => item.content.length > 0)
+                }
+            } )
+        },100)
+        filterMode = false
+        setTimeout(() => {listFilter();filterMode = true},100)
+    //
+    }
+    else if ((event.target.getAttribute('src') === '../asset/Radio2.png')) {
         event.target.setAttribute('src', '../asset/Radio.png')
         event.target.style.width = '28px'
         event.target.style.height = '28px'
         event.target.style.marginLeft = '0'
+        console.log('case not finished!')
     }
 }
 
@@ -1261,7 +1289,64 @@ function noteDelete(item) {
 
 // phần thùng rác
 let recycleBin = []
-
+function renderRecycleBin(array){
+    currentTab = null
+    console.log(array)
+    return `
+<div class="content-bin" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 20px;color:#0D121C">
+    <div class="bin-header" style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+        <div style="display: flex;flex-direction: column;gap: 8px;width: 100%">
+            <div style="display: flex;flex-direction: row;justify-content: space-between;width: 100% ">
+                <div style="display: flex;flex-direction: row;align-items:center;gap: 16px">
+                    <h3> Thùng rác </h3>
+                    <i style="color: #F04438" class="fa-solid fa-trash-can"></i>
+                </div>
+                <p style="height: 32px;width:34px;justify-content: center;color: #EF6820;font-weight: 500;text-align: center;display: flex;align-items: center;border-radius: 8px;background: #FEF6EE">${array.length}</p>
+            </div>
+            <p style="font-weight: 400;font-size: 12px;border-radius: 8px;padding: 12px 8px;background: #FEF6EE"> <i style="margin-right: 5px;color: #EF6820" class="fa-solid fa-triangle-exclamation"></i> Toàn bộ dữ liệu sẽ bị xoá vĩnh viễn sau 30 ngày</p>
+        </div>
+    </div>
+    <hr style="color: #F38744">
+    <div class="bin-content" style="color:#9DA4AE; display: flex;flex-direction: column;gap: 8px;margin-top: -8px; ">
+        ${array.map((item) =>
+        `
+        <div onclick="displayBinModifier(this)" style="display: flex;flex-direction: column;gap: 8px;">
+            <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
+                <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
+                    <div style="display: flex;justify-content:space-between ;">
+                        <div>
+                            <p style="font-weight: bold;margin-bottom: 4px">${item.from}</p>
+                            <p style="font-size: 12px;color:#9DA4AE">${item.content.content}</p>
+                        </div>
+                        <div style="display: flex;flex-direction: row;gap: 8px;position: relative">
+                            <i style="position: absolute;transition: all 0.5s ease;" class="star-cc fa-regular fa-star"></i>
+                            <i onclick="stopPropa(event);binNavbar(this)" style="cursor: pointer;display: none;color: #121212" class="bin-content--modifier fa-solid fa-ellipsis"></i>
+                            <div onclick="stopPropa(event)" style="cursor: pointer;display: none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);width: 120px;position: absolute;flex-direction: column;border: 1px solid #F3F4F6;border-radius: 8px;top: 60%;left: -100px;background: white">
+                                <p style="font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-trash-can-arrow-up"></i> Khôi phục</p>
+                                <p style="font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-delete-left"></i> dọn dẹp</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex;flex-direction: row;align-items: center;gap:8px">
+                         ${item.content.tag.map(itm => `
+                             <p style="padding: 4px 12px;font-size: 12px;color:#D2D6DB;background: #F5F5F5;border-radius: 8px">${itm}</p>
+                         `).join('')}
+                    </div>
+                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                        <i style="color: #9DA4AE" class="fa-solid fa-calendar"></i>
+                        <p style="color: #9DA4AE" class="date">${item.content.date} - ${item.content.time}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    ).join('<hr>')
+    }
+    </div>
+</div>
+    `
+}
 function pushRecycleBin(from,name,index,content) {
     recycleBin.push(
         {
@@ -1322,7 +1407,7 @@ let data = [
         content :
         [
             {
-                choosing: true,
+                choosing: false,
                 star: true,
                 title:'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
@@ -1332,7 +1417,7 @@ let data = [
                 time: '09:26',
             },
             {
-                choosing: true,
+                choosing: false,
                 star:true,
                 title: 'nội dung 2',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
@@ -1342,7 +1427,7 @@ let data = [
                 time: '09:26',
             },
             {
-                choosing: true,
+                choosing: false,
                 star:false,
                 title:'nội dung 3',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
@@ -1352,7 +1437,7 @@ let data = [
                 time: '09:26',
             },
             {
-                choosing: true,
+                choosing: false,
                 star:false,
                 title:'nội dung 4',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
@@ -1537,7 +1622,7 @@ function renderTodoList(todoInf,num){
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 :   
@@ -1545,7 +1630,7 @@ function renderTodoList(todoInf,num){
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 }
@@ -1596,17 +1681,25 @@ function renderContent(data){
 let content = document.getElementById('content')
 // Phần dataCheck
 let currentTab
-function dataCheck(contentt,tab) {
+let dataListToString
+function dataCheck(contentt,tab,toString) {
     let star = document.getElementById('star')
     if(tab){
         currentTab = tab
+        previous = currentTab
         star.classList.remove('fa-solid')
         star.classList.add('fa-regular');
         star.style.color = 'black'
     }
+    if(toString) {
+        dataListToString = toString
+    }
      setTimeout(()=>
         content.innerHTML = contentt
     , 700)
+    if(filterMode ) {
+        filteredStatus = true
+    }
 }
 
 function toDoDelete(itemm){
@@ -1629,7 +1722,7 @@ function toDoDelete(itemm){
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
-                pushRecycleBin('data',name,index,deleteItem)
+                pushRecycleBin(dataListToString,name,index,deleteItem)
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
@@ -1670,7 +1763,7 @@ let todayData = [
                     tag : ['công việc','khác'],
                     repeat: true,
                     date : '02/09/2025',
-                    time: '09:26',
+                    time: '09:25',
                 },
                 {
                     star:false,
@@ -1725,7 +1818,7 @@ function renderTodayList(todoInf,num){
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 :   
@@ -1733,7 +1826,7 @@ function renderTodayList(todoInf,num){
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 }
@@ -1801,7 +1894,7 @@ function todayListDelete(itemm){
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
-                pushRecycleBin('todayData',name,index,deleteItem)
+                pushRecycleBin(dataListToString,name,index,deleteItem)
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
@@ -1840,7 +1933,7 @@ let next3DaysData = [{
                 tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
-                time: '09:26',
+                time: '09:50',
             },
         ]
     },
@@ -1854,7 +1947,7 @@ let next3DaysData = [{
                 tag : ['công việc','khác'],
                 repeat: true,
                 date : '02/09/2025',
-                time: '09:26',
+                time: '08:26',
             },
         ]
     },
@@ -1900,7 +1993,7 @@ function Next3DaysContent(todoInf,num){
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 :   
@@ -1908,7 +2001,7 @@ function Next3DaysContent(todoInf,num){
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 }
@@ -1976,7 +2069,7 @@ function Next3DaysDelete(itemm){
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
-                pushRecycleBin('next3DaysData',name,index,deleteItem)
+                pushRecycleBin(dataListToString,name,index,deleteItem)
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
@@ -2010,7 +2103,7 @@ let Next7DaysData = [{
         content :
         [
             {
-                // star:true,
+                star:true,
                 title:'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','khác'],
@@ -2025,7 +2118,7 @@ let Next7DaysData = [{
         content :
         [
             {
-                // star:false,
+                star:false,
                 title:'nội dung 1 Phần 7 ngày tới ',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
                 tag : ['công việc','khác'],
@@ -2077,7 +2170,7 @@ function Next7DaysContent(todoInf,num){
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 :   
@@ -2085,7 +2178,7 @@ function Next7DaysContent(todoInf,num){
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 }
@@ -2153,7 +2246,7 @@ function Next7DaysDelete(itemm){
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
-                pushRecycleBin('Next7DaysData',name,index,deleteItem)
+                pushRecycleBin(dataListToString,name,index,deleteItem)
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
@@ -2197,7 +2290,7 @@ function filterGroup(todoInf) {
     `
 }
 
-function filterContent(todoInf,arrayName){
+function filterContent(todoInf){
     return `
             <div onclick="clickToModify(this,event,true,'.dupDel-${todoInf.id}',previous)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
@@ -2224,16 +2317,16 @@ function filterContent(todoInf,arrayName){
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #F04438 " class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: #F04438" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 :   
                                 `
                                     <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
-                                        <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #9DA4AE" class="date">20/03/2025 - 07:00</p>
+                                        <i style="color: #9DA4AE" class="fa-solid fa-calendar"></i>
+                                        <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                     </div>
                                 ` 
                                 }
@@ -2292,19 +2385,13 @@ function filterDelete(itemm){
     let getID = parseInt(getClass.match(/\d+/g).toString())
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
     setTimeout(() => {
-        filtered.forEach((item) => {
-            let deleteItem = item.content.find((itemm) => itemm.id === getID)
-            if(deleteItem){
-                item.content = item.content.filter((itemm) => itemm.id !== getID)
-            }
-        } )
         previous.forEach((item) => {
             let deleteItem = item.content.find((itemm) => itemm.id === getID)
             let index = previous.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
-                pushRecycleBin('test',name,index,deleteItem)
+                pushRecycleBin(dataListToString,name,index,deleteItem)
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
@@ -2325,16 +2412,22 @@ function filterDuplicate(item){
         let index = itm.content.findIndex(itmm => itmm.id === getID)
         if(choosedItem) {
             let duplicatedItem = JSON.parse(JSON.stringify(choosedItem));
+            duplicatedItem.id++
             choosedGroup.content.splice(index + 1,0,duplicatedItem)
         }
     })
+    let number = 1
+    previous.forEach(item =>item.content =  item.content.map((itm) => ({
+        ...itm,
+        id : number++
+    })) )
     // dataCheck(renderNext7DaysContent(Next7DaysData))
     filterMode = false
     setTimeout(() => {listFilter();filterMode = true},250)
 }
 let star = document.getElementById('star')
 let filterMode = true
-let filteredStatus
+let filteredStatus = true
 function listFilter() {
     previous = currentTab
     if(currentTab) {
@@ -2352,6 +2445,7 @@ function listFilter() {
             star.style.color = 'black'
             dataCheck(renderFilterContent(previous))
             filteredStatus = true
+            console.log('previous', filtered)
         }
         else  {
             star.classList.remove('fa-regular')
@@ -2359,16 +2453,98 @@ function listFilter() {
             star.style.color = 'rgb(239, 104, 32)'
             dataCheck(renderFilterContent(filtered))
             filteredStatus = false
+            console.log('filter', filtered)
         }
     }
     else {
         if(filteredStatus){
             dataCheck(renderFilterContent(previous))
+            console.log('case previous')
         }
         else {
             dataCheck(renderFilterContent(filtered))
+            console.log('case filtered')
         }
     } 
     }
-    console.log('filter', filtered)
 }
+
+
+// Phần hoàn thành
+let finishList = []
+
+function pushFinish(from,name,index,content) {
+    finishList.push(
+        {
+            from: from,
+            name :name,
+            index:index,
+            content:content,
+        }
+    )
+}
+function renderFinish(array){
+    currentTab = null
+    console.log(array)
+    return `
+<div class="content-finish" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 20px;color:#0D121C">
+    <div class="finish-header" style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
+        <div style="display: flex;flex-direction: column;gap: 8px;width: 100%">
+            <div style="display: flex;flex-direction: row;justify-content: space-between;width: 100% ">
+                <div style="display: flex;flex-direction: row;align-items:center;gap: 16px">
+                    <h3> Hoàn thành </h3>
+                </div>
+                <p style="height: 32px;width:34px;justify-content: center;color: #EF6820;font-weight: 500;text-align: center;display: flex;align-items: center;border-radius: 8px;background: #FEF6EE">${array.length}</p>
+            </div>
+        </div>
+    </div>
+    <hr style="height: 1px; border: none;border-top: 2px solid #F38744 ">
+    <div class="finish-content" style="color:#9DA4AE; display: flex;flex-direction: column;gap: 8px;margin-top: -8px; ">
+        ${array.map((item) => 
+        `
+        <div onclick="displayBinModifier(this)" style="display: flex;flex-direction: column;gap: 8px;">
+            <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
+                <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
+                    <div style="display: flex;justify-content:space-between ;">
+                        <div>
+                            <p style="font-weight: bold;margin-bottom: 4px">${item.from}</p>
+                            <p style="font-size: 12px;color:#9DA4AE">${item.content.content}</p>
+                        </div>
+                        <div style="display: flex;flex-direction: row;gap: 8px;position: relative">
+                            <i style="position: absolute;transition: all 0.5s ease;" class="star-cc fa-regular fa-star"></i>
+                            <i onclick="stopPropa(event);binNavbar(this)" style="cursor: pointer;display: none;color: #121212" class="bin-content--modifier fa-solid fa-ellipsis"></i>
+                            <div onclick="stopPropa(event)" style="cursor: pointer;display: none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);width: 120px;position: absolute;flex-direction: column;border: 1px solid #F3F4F6;border-radius: 8px;top: 60%;left: -100px;background: white">
+                                <p style="font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-trash-can-arrow-up"></i> Khôi phục</p>
+                                <p style="font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-delete-left"></i> dọn dẹp</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex;flex-direction: row;align-items: center;gap:8px">
+                         ${item.content.tag.map(itm => `
+                             <p style="padding: 4px 12px;font-size: 12px;color:#D2D6DB;background: #F5F5F5;border-radius: 8px">${itm}</p>
+                         `).join('')}
+                    </div>
+                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                        <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                        <i style="color: #9DA4AE" class="fa-solid fa-calendar"></i>
+                        <p style="color: #9DA4AE" class="date">${item.content.date} - ${item.content.time}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+        ).join('<hr>')
+    }
+    </div>
+</div>
+    `
+}
+
+// lưu các giá trị dưới dạng string để làm dynamic key
+let dataList = {
+    'data' : data,
+    'todayData' : todayData,
+    'next3DaysData' : next3DaysData,
+    'Next7DaysData' : Next7DaysData,
+}
+// setInterval(() => console.log(finishList), 1)
