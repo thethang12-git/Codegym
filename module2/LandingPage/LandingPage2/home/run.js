@@ -1077,6 +1077,7 @@ let noteData = [
 ]
 
 function renderNote(noteData) {
+    currentTab = null
     window.addEventListener('keydown', e => {
         if(e.key === 'Enter'){
             let text = document.getElementById('textarea')
@@ -1293,13 +1294,30 @@ function renderRecycleBin(array){
     currentTab = null
     console.log(array)
     return `
-<div class="content-bin" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 20px;color:#0D121C">
+<div id="recycleBinPopUp" style="display:none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);border-radius: 8px;flex-direction: column;position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);background: white;height: auto;width: 357px;">
+    <div style="margin-left: 20px;display: flex;flex-direction: row;justify-content: left;space-evenly;align-items: center;height: 80px;gap: 20px;">
+        <i style="color: #F04438;padding: 8px;background-color: #FEF3F2;border-radius: 8px;" class="fa-solid fa-circle-exclamation"></i>
+        <div style="flex: 1;display: flex;flex-direction: column;gap: 8px;">
+            <p style="font-weight: 500;font-size: 18px;">Dọn dẹp thùng rác</p>
+            <p style="color: #4D5761;">Các mục sẽ được xóa vĩnh viễn</p>
+        </div>
+    </div>
+    <div style="display: flex;flex-direction: row;justify-content: space-evenly;align-items: center;height: 80px;">
+        <button onclick='deleteBinItems(undefined,"hủy")' style="border: none;border-radius: 8px;padding: 10px ;width: 150px;font-size: 14px;">
+            hủy
+        </button>
+        <button onclick='deleteBinItems(undefined,"xóa toàn bộ")' style="border: none;border-radius: 8px;padding: 10px;width: 150px; background: #F04438;color: white;font-size: 14px;">
+            Dọn dẹp
+        </button>
+    </div> 
+</div>
+<div class="content-bin" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 20px;color:#0D121C;">
     <div class="bin-header" style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
         <div style="display: flex;flex-direction: column;gap: 8px;width: 100%">
             <div style="display: flex;flex-direction: row;justify-content: space-between;width: 100% ">
                 <div style="display: flex;flex-direction: row;align-items:center;gap: 16px">
                     <h3> Thùng rác </h3>
-                    <i style="color: #F04438" class="fa-solid fa-trash-can"></i>
+                    <i onclick='deleteBinItems()' style="cursor:pointer;color: #F04438" class="fa-solid fa-trash-can"></i>
                 </div>
                 <p style="height: 32px;width:34px;justify-content: center;color: #EF6820;font-weight: 500;text-align: center;display: flex;align-items: center;border-radius: 8px;background: #FEF6EE">${array.length}</p>
             </div>
@@ -1308,9 +1326,11 @@ function renderRecycleBin(array){
     </div>
     <hr style="color: #F38744">
     <div class="bin-content" style="color:#9DA4AE; display: flex;flex-direction: column;gap: 8px;margin-top: -8px; ">
-        ${array.map((item) =>
-        `
-        <div onclick="displayBinModifier(this)" style="display: flex;flex-direction: column;gap: 8px;">
+        ${array.map((item,number) => 
+        { 
+        item.id = number
+        return `
+        <div class= 'bin-content-items num-${number}' onclick="displayBinModifier(this)" style="display: flex;flex-direction: column;gap: 8px;">
             <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                 <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                     <div style="display: flex;justify-content:space-between ;">
@@ -1321,9 +1341,9 @@ function renderRecycleBin(array){
                         <div style="display: flex;flex-direction: row;gap: 8px;position: relative">
                             <i style="position: absolute;transition: all 0.5s ease;" class="star-cc fa-regular fa-star"></i>
                             <i onclick="stopPropa(event);binNavbar(this)" style="cursor: pointer;display: none;color: #121212" class="bin-content--modifier fa-solid fa-ellipsis"></i>
-                            <div onclick="stopPropa(event)" style="cursor: pointer;display: none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);width: 120px;position: absolute;flex-direction: column;border: 1px solid #F3F4F6;border-radius: 8px;top: 60%;left: -100px;background: white">
-                                <p style="font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-trash-can-arrow-up"></i> Khôi phục</p>
-                                <p style="font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-delete-left"></i> dọn dẹp</p>
+                            <div onclick="stopPropa(event)" style="border-radius:8px;cursor: pointer;display: none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);width: 120px;position: absolute;flex-direction: column;border: 1px solid #F3F4F6;border-radius: 8px;top: 60%;left: -100px;background: white">
+                                <p onmouseleave="this.style.background= 'white'" onmouseenter =" this.style.background = '#D2D6DB'" style="border-radius:8px;font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-trash-can-arrow-up"></i> Khôi phục</p>
+                                <p onclick="deleteBinItems(this)" onmouseleave="this.style.background= 'white'" onmouseenter =" this.style.background = '#D2D6DB'" style="border-radius:8px;font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="border-radius:8px;margin-right: 5px" class="fa-solid fa-delete-left"></i> dọn dẹp</p>
                             </div>
                         </div>
                     </div>
@@ -1341,11 +1361,42 @@ function renderRecycleBin(array){
             </div>
         </div>
         `
-    ).join('<hr>')
+    }).join('<hr>') 
     }
     </div>
 </div>
     `
+}
+function deleteBinItems(item,func){
+    let popUp = document.getElementById('recycleBinPopUp')
+    if(item){
+        let container = item.closest('.bin-content-items')
+        let getID = parseInt(container.className.match(/\d+/g).toString())
+        // 
+        container.style.transition = 'all 0.3s ease-in';
+        container.style.background = '#F04438'
+        container.style.transform = 'translateY(360px) scale(2.5)';
+        container.style.opacity = '0';
+        recycleBin = recycleBin.filter(itm => itm.id !== getID)
+        dataCheck(renderRecycleBin(recycleBin))
+        return
+    }
+    popUp.style.display = 'flex'
+    popUp.style.opacity = '0'
+    popUp.style.zIndex = '99'
+    setTimeout(() =>{popUp.style.opacity = '1'},200 )
+    if(func === 'hủy'){
+        popUp.style.opacity = '0'
+        popUp.style.zIndex = '-9'
+        setTimeout(() =>{popUp.style.display = 'none'},200 )
+    }
+    else if(func === 'xóa toàn bộ'){
+        popUp.style.opacity = '0'
+        popUp.style.zIndex = '-9'
+        setTimeout(() =>{popUp.style.display = 'none'},200 )
+        recycleBin = []
+        dataCheck(renderRecycleBin(recycleBin))
+    }
 }
 function pushRecycleBin(from,name,index,content) {
     recycleBin.push(
@@ -2542,9 +2593,9 @@ function renderFinish(array){
 
 // lưu các giá trị dưới dạng string để làm dynamic key
 let dataList = {
-    'data' : data,
+    'all' : data,
     'todayData' : todayData,
     'next3DaysData' : next3DaysData,
     'Next7DaysData' : Next7DaysData,
 }
-// setInterval(() => console.log(finishList), 1)
+// setInterval(() => console.log(dataListToString), 1)
