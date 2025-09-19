@@ -1375,7 +1375,7 @@ function deleteBinItems(item,func){
         // 
         container.style.transition = 'all 0.3s ease-in';
         container.style.background = '#F04438'
-        container.style.transform = 'translateY(360px) scale(2.5)';
+        container.style.transform = 'translateY(360px) scale(1.5)';
         container.style.opacity = '0';
         recycleBin = recycleBin.filter(itm => itm.id !== getID)
         dataCheck(renderRecycleBin(recycleBin))
