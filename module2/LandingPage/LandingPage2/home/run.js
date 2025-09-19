@@ -67,6 +67,8 @@ function colorToFinish(event,array){
         container.style.transform = 'translate(-500px, -500px) rotate(-30deg)';
         container.style.opacity = '0';
         container.style.height = container.scrollHeight + 'px';
+        container.style.marginTop = '-15px'
+        setTimeout(() =>container.style.height = '0' ,200)
         setTimeout(()=>{
             container.style.height = '0'
         //     xoá phần tử khỏi đối tượng hiện tại và thêm vào mục đã hoàn thành
@@ -1793,7 +1795,8 @@ function toDoDelete(itemm){
     container.style.height = (container.scrollHeight ) + 'px'
     container.style.transition = 'all ease 0.5s'
     container.style.opacity = '0'
-    setTimeout(()=>{container.style.height = '0' ; },300)
+    container.style.marginTop = '-15px'
+    setTimeout(() =>container.style.height = '0' ,200)
     let getClass = container.querySelector('.parent-options').className
     let getID = parseInt(getClass.match(/\d+/g).toString())
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
@@ -1966,7 +1969,8 @@ function todayListDelete(itemm){
     container.style.height = (container.scrollHeight ) + 'px'
     container.style.transition = 'all ease 0.5s'
     container.style.opacity = '0'
-    setTimeout(()=>{container.style.height = '0' ; },300)
+    container.style.marginTop = '-15px'
+    setTimeout(() =>container.style.height = '0' ,200)
     let getClass = container.querySelector('.parent-options').className
     let getID = parseInt(getClass.match(/\d+/g).toString())
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
@@ -2141,7 +2145,8 @@ function Next3DaysDelete(itemm){
     container.style.height = (container.scrollHeight ) + 'px'
     container.style.transition = 'all ease 0.5s'
     container.style.opacity = '0'
-    setTimeout(()=>{container.style.height = '0' ; },300)
+    container.style.marginTop = '-15px'
+    setTimeout(() =>container.style.height = '0' ,200)
     let getClass = container.querySelector('.parent-options').className
     let getID = parseInt(getClass.match(/\d+/g).toString())
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
@@ -2319,7 +2324,8 @@ function Next7DaysDelete(itemm){
     container.style.height = (container.scrollHeight ) + 'px'
     container.style.transition = 'all ease 0.5s'
     container.style.opacity = '0'
-    setTimeout(()=>{container.style.height = '0' ; },300)
+    container.style.marginTop = '-15px'
+    setTimeout(() =>container.style.height = '0' ,200)
     let getClass = container.querySelector('.parent-options').className
     let getID = parseInt(getClass.match(/\d+/g).toString())
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
@@ -2465,7 +2471,8 @@ function filterDelete(itemm){
     container.style.height = (container.scrollHeight ) + 'px'
     container.style.transition = 'all ease 0.5s'
     container.style.opacity = '0'
-    setTimeout(()=>{container.style.height = '0' ; },300)
+    container.style.marginTop = '-15px'
+    setTimeout(() =>container.style.height = '0' ,200)
     let getClass = container.querySelector('.parent-options').className
     let getID = parseInt(getClass.match(/\d+/g).toString())
     // setTimeout(()=>{body.style.flexFlow = 'column wrap'},500)
@@ -2637,6 +2644,9 @@ function undoFinish(item) {
     item.style.width = '28px'
     item.style.height = '28px'
     container.style.opacity = '0'
+    container.style.height = container.scrollHeight + 'px'
+    container.style.marginTop = '-20px'
+    setTimeout(() =>container.style.height = '0',100)
     if(findGroup) {
         findGroup.content.splice(choosedObj.index,0,choosedObj.content)
     }
