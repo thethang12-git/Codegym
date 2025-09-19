@@ -35,6 +35,7 @@ body {
     gap: 8px;
     transition: width 0.3s ease,padding 0.3s ease, left 0.5s ease;
     border-right: 1px solid #D2D6DB;
+    color: #4D5761;
 }
 
 .navbar-search {

@@ -18,7 +18,7 @@ function onFocus(event) {
         for (let i = 0; i < 8; i++) {
             document.getElementsByClassName("navbar-options-num")[i].setAttribute('isChecked', 'false')
             document.getElementsByClassName("navbar-options-num")[i].style.background = 'white'
-            document.getElementsByClassName("navbar-options-num")[i].style.color = 'black'
+            document.getElementsByClassName("navbar-options-num")[i].style.color = '#4D5761'
         }
         event.target.closest('.navbar-options-num').style.background = '#FDEAD7'
         event.target.closest('.navbar-options-num').style.color = '#EF6820'
@@ -71,15 +71,15 @@ function colorToFinish(event,array){
             container.style.height = '0'
         //     xoá phần tử khỏi đối tượng hiện tại và thêm vào mục đã hoàn thành
             array.forEach((item) => {
-                let deleteItem = item.content.find((itemm) => itemm.id === getID)
-                let index = previous.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+                let finished = item.content.find((itemm) => itemm.id === getID)
+                let index = item.content.findIndex(itm => itm.id === getID)
                 let name = item.group
-                if(deleteItem){
+                if(finished){
                     item.content = item.content.filter((itemm) => itemm.id !== getID)
-                    pushFinish(dataListToString,name,index,deleteItem)
+                    pushFinish(dataListToString,name,index,finished)
                 }
                 if(item.content.length === 0){
-                    previous = previous.filter(item => item.content.length > 0)
+                    previous.splice(0,previous.length,...previous.filter(item =>item.content.length > 0))
                 }
             } )
         },100)
@@ -1291,8 +1291,15 @@ function noteDelete(item) {
 // phần thùng rác
 let recycleBin = []
 function renderRecycleBin(array){
-    currentTab = null
-    console.log(array)
+currentTab = null    
+if(recycleBin.length === 0){
+    return `
+        <div style="display: flex;width: 397px;height: 248px;margin: auto;flex-direction: column;gap: 24px;align-items: center;">
+            <img src="/module2/LandingPage/LandingPage2/asset/thungrac.png" height="228" width="188"/>
+        </div>
+    `
+}
+console.log(array)
     return `
 <div id="recycleBinPopUp" style="display:none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);border-radius: 8px;flex-direction: column;position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);background: white;height: auto;width: 357px;">
     <div style="margin-left: 20px;display: flex;flex-direction: row;justify-content: left;space-evenly;align-items: center;height: 80px;gap: 20px;">
@@ -1342,7 +1349,7 @@ function renderRecycleBin(array){
                             <i style="position: absolute;transition: all 0.5s ease;" class="star-cc fa-regular fa-star"></i>
                             <i onclick="stopPropa(event);binNavbar(this)" style="cursor: pointer;display: none;color: #121212" class="bin-content--modifier fa-solid fa-ellipsis"></i>
                             <div onclick="stopPropa(event)" style="border-radius:8px;cursor: pointer;display: none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);width: 120px;position: absolute;flex-direction: column;border: 1px solid #F3F4F6;border-radius: 8px;top: 60%;left: -100px;background: white">
-                                <p onmouseleave="this.style.background= 'white'" onmouseenter =" this.style.background = '#D2D6DB'" style="border-radius:8px;font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-trash-can-arrow-up"></i> Khôi phục</p>
+                                <p onclick="deleteBinItems(this,'recover')" onmouseleave="this.style.background= 'white'" onmouseenter =" this.style.background = '#D2D6DB'" style="border-radius:8px;font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="margin-right: 5px" class="fa-solid fa-trash-can-arrow-up"></i> Khôi phục</p>
                                 <p onclick="deleteBinItems(this)" onmouseleave="this.style.background= 'white'" onmouseenter =" this.style.background = '#D2D6DB'" style="border-radius:8px;font-size: 14px;color: #0D121C;padding: 8px 12px"> <i style="border-radius:8px;margin-right: 5px" class="fa-solid fa-delete-left"></i> dọn dẹp</p>
                             </div>
                         </div>
@@ -1369,13 +1376,37 @@ function renderRecycleBin(array){
 }
 function deleteBinItems(item,func){
     let popUp = document.getElementById('recycleBinPopUp')
+    if(func === 'recover' && item) {
+        let container = item.closest('.bin-content-items')
+        let getID = parseInt(container.className.match(/\d+/g).toString())
+        let element = recycleBin.find(itm => itm.id === getID)
+        let array =  dataList[element.from]
+        let relocate = array.find(item => item.group === element.name)
+        if(relocate){
+            relocate.content.splice(element.index,0,element.content)
+            recycleBin.splice(0,recycleBin.length,...recycleBin.filter(item => item.id !== getID))
+        }
+        else {
+            let newValue = {
+                group:element.name,
+                content :[element.content]
+            }
+            array.unshift(newValue)
+            recycleBin.splice(0,recycleBin.length,...recycleBin.filter(item => item.id !== getID))      
+        }
+        container.style.transition = 'all 0.5s ease-in';
+        container.style.background = '#F04438'
+        container.style.transform = 'translateY(-260px)';
+        container.style.opacity = '0';
+        dataCheck(renderRecycleBin(recycleBin))
+        return
+    }
     if(item){
         let container = item.closest('.bin-content-items')
         let getID = parseInt(container.className.match(/\d+/g).toString())
-        // 
         container.style.transition = 'all 0.3s ease-in';
         container.style.background = '#F04438'
-        container.style.transform = 'translateY(360px) scale(1.5)';
+        container.style.transform = 'translateY(360px)';
         container.style.opacity = '0';
         recycleBin = recycleBin.filter(itm => itm.id !== getID)
         dataCheck(renderRecycleBin(recycleBin))
@@ -1399,7 +1430,7 @@ function deleteBinItems(item,func){
     }
 }
 function pushRecycleBin(from,name,index,content) {
-    recycleBin.push(
+    recycleBin.unshift(
         {
             from: from,
             name :name,
@@ -1769,7 +1800,7 @@ function toDoDelete(itemm){
     setTimeout(() => {
         data.forEach((item) => {
             let deleteItem = item.content.find((itemm) => itemm.id === getID)
-            let index = data.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let index = item.content.findIndex(item => item.id ===getID)
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
@@ -1778,6 +1809,7 @@ function toDoDelete(itemm){
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
                 data = data.filter(item => item.content.length > 0)
+                data.splice(0,data.length,...data.filter(item => item.content.length > 0))
             }
         } )
         dataCheck(renderContent(data))
@@ -1941,7 +1973,7 @@ function todayListDelete(itemm){
     setTimeout(() => {
         todayData.forEach((item) => {
             let deleteItem = item.content.find((itemm) => itemm.id === getID)
-            let index = todayData.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let index = item.content.findIndex(item => item.id ===getID)
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
@@ -1949,7 +1981,7 @@ function todayListDelete(itemm){
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
-                todayData = todayData.filter(item => item.content.length > 0)
+                todayData.splice(0,todayData.length,...todayData.filter(item => item.content.length > 0))
             }
         } )
         dataCheck(renderTodayContent(todayData))
@@ -2116,7 +2148,7 @@ function Next3DaysDelete(itemm){
     setTimeout(() => {
         next3DaysData.forEach((item) => {
             let deleteItem = item.content.find((itemm) => itemm.id === getID)
-            let index = next3DaysData.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let index = item.content.findIndex(item => item.id ===getID)
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
@@ -2124,7 +2156,8 @@ function Next3DaysDelete(itemm){
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
-                next3DaysData = next3DaysData.filter(item => item.content.length > 0)
+                // next3DaysData = next3DaysData.filter(item => item.content.length > 0)
+                next3DaysData.splice(0,next3DaysData.length,...next3DaysData.filter(item => item.content.length > 0))
             }
         } )
         dataCheck(renderNext3DaysContent(next3DaysData))
@@ -2293,7 +2326,7 @@ function Next7DaysDelete(itemm){
     setTimeout(() => {
         Next7DaysData.forEach((item) => {
             let deleteItem = item.content.find((itemm) => itemm.id === getID)
-            let index = Next7DaysData.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let index = item.content.findIndex(item => item.id ===getID)
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
@@ -2301,7 +2334,8 @@ function Next7DaysDelete(itemm){
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
-                Next7DaysData = Next7DaysData.filter(item => item.content.length > 0)
+                // Next7DaysData = Next7DaysData.filter(item => item.content.length > 0)
+                Next7DaysData.splice(0,Next7DaysData.length,...Next7DaysData.filter(item => item.content.length > 0))
             }
         } )
         console.log(recycleBin)
@@ -2438,7 +2472,7 @@ function filterDelete(itemm){
     setTimeout(() => {
         previous.forEach((item) => {
             let deleteItem = item.content.find((itemm) => itemm.id === getID)
-            let index = previous.findIndex(itm => itm.content.find(itmm => itmm.id === getID))
+            let index = item.content.findIndex(item => item.id ===getID)
             let name = item.group
             if(deleteItem){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
@@ -2446,7 +2480,8 @@ function filterDelete(itemm){
             }
             if(item.content.length === 0){
                 bigContainer.style.opacity = '0'
-                previous = previous.filter(item => item.content.length > 0)
+                // previous = previous.filter(item => item.content.length > 0)
+                previous.splice(0,previous.length,...previous.filter(item => item.content.length > 0))
             }
         } )
     },200)
@@ -2496,7 +2531,6 @@ function listFilter() {
             star.style.color = 'black'
             dataCheck(renderFilterContent(previous))
             filteredStatus = true
-            console.log('previous', filtered)
         }
         else  {
             star.classList.remove('fa-regular')
@@ -2504,17 +2538,14 @@ function listFilter() {
             star.style.color = 'rgb(239, 104, 32)'
             dataCheck(renderFilterContent(filtered))
             filteredStatus = false
-            console.log('filter', filtered)
         }
     }
     else {
         if(filteredStatus){
             dataCheck(renderFilterContent(previous))
-            console.log('case previous')
         }
         else {
             dataCheck(renderFilterContent(filtered))
-            console.log('case filtered')
         }
     } 
     }
@@ -2525,7 +2556,7 @@ function listFilter() {
 let finishList = []
 
 function pushFinish(from,name,index,content) {
-    finishList.push(
+    finishList.unshift(
         {
             from: from,
             name :name,
@@ -2536,7 +2567,6 @@ function pushFinish(from,name,index,content) {
 }
 function renderFinish(array){
     currentTab = null
-    console.log(array)
     return `
 <div class="content-finish" style="flex: 1;position: relative;display: flex;flex-direction:column;gap: 20px;color:#0D121C">
     <div class="finish-header" style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
@@ -2551,15 +2581,19 @@ function renderFinish(array){
     </div>
     <hr style="height: 1px; border: none;border-top: 2px solid #F38744 ">
     <div class="finish-content" style="color:#9DA4AE; display: flex;flex-direction: column;gap: 8px;margin-top: -8px; ">
-        ${array.map((item) => 
-        `
-        <div onclick="displayBinModifier(this)" style="display: flex;flex-direction: column;gap: 8px;">
+        ${array.map((item,num) => {
+        item.id = num 
+        return `
+        <div class = "finish-content-items num-${num}" onclick="displayBinModifier(this)" style="display: flex;flex-direction: column;gap: 8px;">
             <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                 <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
                     <div style="display: flex;justify-content:space-between ;">
-                        <div>
-                            <p style="font-weight: bold;margin-bottom: 4px">${item.from}</p>
-                            <p style="font-size: 12px;color:#9DA4AE">${item.content.content}</p>
+                        <div style="display: flex;flex-direction:row;gap:12px">
+                            <img alt="..." onclick="undoFinish(this);stopPropa(event)" style="cursor: pointer;" src="${item.content.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${item.content.choosing?'20' : '28'}" width="${item.content.choosing? '20' : '28'}"/>
+                            <div style="display: flex;flex-direction:column">
+                                <p style="font-weight: bold;margin-bottom: 4px">${item.from} - ${item.name} - ${item.content.title}</p>
+                                <p style="font-size: 12px;color:#9DA4AE">${item.content.content}</p>
+                            </div>
                         </div>
                         <div style="display: flex;flex-direction: row;gap: 8px;position: relative">
                             <i style="position: absolute;transition: all 0.5s ease;" class="star-cc fa-regular fa-star"></i>
@@ -2584,11 +2618,37 @@ function renderFinish(array){
             </div>
         </div>
         `
-        ).join('<hr>')
+        }).join('<hr>')
     }
     </div>
 </div>
     `
+}
+
+function undoFinish(item) {
+    let container = item.closest('.finish-content-items')
+    let getClass = container.className
+    let getID = parseInt(getClass.match(/\d+/g).toString())
+    let choosedObj = finishList.find(item => item.id === getID)
+    let array = dataList[choosedObj.from]
+    let findGroup = array.find(itm => itm.group === choosedObj.name )
+    choosedObj.content.choosing = false
+    item.setAttribute('src' , '../asset/Radio.png')
+    item.style.width = '28px'
+    item.style.height = '28px'
+    container.style.opacity = '0'
+    if(findGroup) {
+        findGroup.content.splice(choosedObj.index,0,choosedObj.content)
+    }
+    else {
+        let value = {
+            group: choosedObj.name,
+            content : [choosedObj.content]
+        }
+        array.unshift(value)
+    }
+    finishList.splice(0,finishList.length,...finishList.filter(item => item.id !== getID))
+    dataCheck(renderFinish(finishList))
 }
 
 // lưu các giá trị dưới dạng string để làm dynamic key
@@ -2599,3 +2659,25 @@ let dataList = {
     'Next7DaysData' : Next7DaysData,
 }
 // setInterval(() => console.log(dataListToString), 1)
+// chooseObj = [
+//     {
+//         "id": 0,
+//         "from": "Next7DaysData",
+//         "name": "đây là nội dung của phần 7 ngày tới",
+//         "index": 0,
+//         "content": {
+//             "star": true,
+//             "title": "nội dung được recover từ thùng dác :))))",
+//             "content": "Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis",
+//             "tag": [
+//                 "công việc",
+//                 "khác"
+//             ],
+//             "repeat": true,
+//             "date": "02/09/2025",
+//             "time": "09:26",
+//             "id": 1
+//         },
+//     },
+// ]
+
