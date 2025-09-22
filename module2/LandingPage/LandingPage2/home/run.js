@@ -2696,19 +2696,19 @@ function renderNavbarGroup (){
     content.innerHTML = `
         ${groupList.map((itm,number) => `
                 <div onclick="groupSectionHanle(this)" 
-                    onmouseout="this.style.background = 'white';this.style.transform = 'scale(1)';this.style.border = 'none'" 
+                    onmouseout="this.style.background = 'white';this.style.transform = 'scale(1)'" 
                     onmouseover="this.style.background = '#F9FAFB';this.style.transform = 'scale(1.1)'" 
-                    class="groupList-items num-${number}" 
+                    class="groupList-items-num-${number}" 
                     style="border-radius: 4px;cursor: pointer;display: flex;flex-direction:row ;justify-content: space-between;padding: 4px 8px;height: 36px;align-items: center;border: none">
-                    <p>${itm}</p>
-                    <div style="flex: 1;display: flex;flex-direction:row;justify-content: end;gap: 8px;align-items: center;overflow-y:hidden;overflow-x: hidden ">
+                    <p style='flex:1'>${itm}</p>
+                    <div style="display: flex;flex-direction:row;justify-content: end;gap: 8px;align-items: center;overflow-y:hidden;overflow-x: hidden ">
                         <p>2</p>
                         <i style="width: 0;font-size: 15px" class="fa-solid fa-ellipsis"></i>
                     </div>
                 </div>
-                <div style="height: 0;overflow: hidden;display: flex;flex-direction: row;">
-                    <p style="flex: 1;text-align: center"> option 1</p>
-                    <p style="flex: 1;text-align: center;"> option 2</p>
+                <div class='modifiers num-${number}' style="height: 0;overflow: hidden;display: flex;flex-direction: row;justify-content:center;align-items:center;">
+                    <p onclick='groupsNameModifier(this)' onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style="border-radius:8px;flex: 1;text-align: center;"> Sửa tên</p>
+                    <p onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style="border-radius:8px;flex: 1;text-align: center"> Xóa nhóm</p>
                 </div>
         `).join('')}
     `
@@ -2729,7 +2729,7 @@ function groupSectionHanle(container) {
     let bar = container.nextElementSibling
     if(icon.style.width === '0px') {
         icon.style.width = '18px'
-        bar.style.height = bar.scrollHeight + 'px'
+        bar.style.height =  '20px'
     }
     setTimeout(() => window.addEventListener('click', (event) => {
         if(!container.contains(event.target)) {
@@ -2741,6 +2741,30 @@ function groupSectionHanle(container) {
         200)
 }
 
+function groupsNameModifier(item){
+    let container = item.closest('.modifiers')
+    let getID = parseInt(container.className.match(/\d+/g).toString())
+    console.log(getID)
+    let contain = document.querySelector(`.groupList-items-num-${getID}`)
+    contain.style.border = '2px solid #F3F4F6'
+    let input = contain.querySelector('p')
+    input.contentEditable = 'true'
+    input.innerText = ''
+    input.focus()
+    input.style.background = '#EF682024'
+    input.style.borderRadius = '3px'
+    setTimeout(() => {
+    window.addEventListener('click',(e) => {
+        if(!contain.contains(e.target)){
+            input.contentEditable = 'false'
+            input.blur()
+            input.style.background = 'white'
+            input.style.borderRadius = 'none'
+        }
+    },{once:true} )}
+    ,20
+    )
+}
 
 // Phần thẻ
 let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
@@ -2752,6 +2776,5 @@ function renderTagLists() {
         `).join('')}
     `
 }
-
 
 window.onload = function () {renderTagLists();renderNavbarGroup()}
