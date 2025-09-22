@@ -64,6 +64,7 @@ body {
     flex-direction:column ;
     gap: 4px;
     justify-content: space-evenly;
+    font-size: 14px;
 }
 .navbar-options div {
     height: 36px;
@@ -81,12 +82,21 @@ body {
 
 .navbar-groups {
     height: 108px;
-    margin-top: 8px;
+    position: relative;
+    overflow-y: auto;
 }
+
+.navbar-groups::-webkit-scrollbar {
+    display: none;
+}
+
 .navbar-tags {
     height: 100px;
-    margin-top: 8px;
-    overflow: auto;
+    overflow-y: auto;
+    position: relative;
+}
+.navbar-tags::-webkit-scrollbar {
+    display: none;
 }
 .navbar-tags p {
     display: inline-flex;

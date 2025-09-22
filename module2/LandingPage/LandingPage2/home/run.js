@@ -706,7 +706,8 @@ function tagAdd(status) {
     setTimeout(() => {
         if (status === 'true') {
             plus.style.display = 'block'
-        } else {
+        }
+        else {
             plus.style.display = 'none'
         }
     }, 100);
@@ -819,9 +820,6 @@ function dupDelFunc (item) {
                     element.style.scale = '0';
                     element.style.opacity = '0';
                     setTimeout(() => {element.style.display = 'none'}, 200)
-                }
-                else {
-
                 }
             },
         {once: true}
@@ -2691,3 +2689,69 @@ let dataList = {
 //     },
 // ]
 
+//  Phần nhóm
+let groupList = ['Cá nhân', 'Nhờ nguòi khác','cá nhân', 'công việc', 'du lịch','xin chao','heheh']
+function renderNavbarGroup (){
+    let content = document.querySelector('.navbar-groups-list')
+    content.innerHTML = `
+        ${groupList.map((itm,number) => `
+                <div onclick="groupSectionHanle(this)" 
+                    onmouseout="this.style.background = 'white';this.style.transform = 'scale(1)';this.style.border = 'none'" 
+                    onmouseover="this.style.background = '#F9FAFB';this.style.transform = 'scale(1.1)'" 
+                    class="groupList-items num-${number}" 
+                    style="border-radius: 4px;cursor: pointer;display: flex;flex-direction:row ;justify-content: space-between;padding: 4px 8px;height: 36px;align-items: center;border: none">
+                    <p>${itm}</p>
+                    <div style="flex: 1;display: flex;flex-direction:row;justify-content: end;gap: 8px;align-items: center;overflow-y:hidden;overflow-x: hidden ">
+                        <p>2</p>
+                        <i style="width: 0;font-size: 15px" class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+                <div style="height: 0;overflow: hidden;display: flex;flex-direction: row;">
+                    <p style="flex: 1;text-align: center"> option 1</p>
+                    <p style="flex: 1;text-align: center;"> option 2</p>
+                </div>
+        `).join('')}
+    `
+}
+function createGroup() {
+    let input = document.querySelector('.navbar-groups input')
+        input.style.display = 'block'
+        // container.scrollTo({
+        //     top: container.scrollHeight,
+        //     behavior: 'smooth',
+        // })
+        input.style.transform = 'scale(0)'
+        setTimeout(() =>{input.style.transform = 'scale(1)';input.focus()},100)
+}
+
+function groupSectionHanle(container) {
+    let icon = container.querySelector('i')
+    let bar = container.nextElementSibling
+    if(icon.style.width === '0px') {
+        icon.style.width = '18px'
+        bar.style.height = bar.scrollHeight + 'px'
+    }
+    setTimeout(() => window.addEventListener('click', (event) => {
+        if(!container.contains(event.target)) {
+            icon.style.width = '0'
+            bar.style.height = '0'
+            }
+        },
+        {once:true}),
+        200)
+}
+
+
+// Phần thẻ
+let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
+function renderTagLists() {
+    let content = document.querySelector('.navbar-tags-list')
+    content.innerHTML = `
+        ${tagsList.map(itm => `
+            <p>${itm}</p>
+        `).join('')}
+    `
+}
+
+
+window.onload = function () {renderTagLists();renderNavbarGroup()}
