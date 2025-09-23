@@ -2695,20 +2695,26 @@ function renderNavbarGroup (){
     let content = document.querySelector('.navbar-groups-list')
     content.innerHTML = `
         ${groupList.map((itm,number) => `
-                <div onclick="groupSectionHanle(this)" 
-                    onmouseout="this.style.background = 'white';this.style.transform = 'scale(1)'" 
-                    onmouseover="this.style.background = '#F9FAFB';this.style.transform = 'scale(1.1)'" 
-                    class="groupList-items-num-${number}" 
+                <div
+                    onmouseout="this.style.background = 'white';this.style.transform = 'scale(1)';
+                                let icon = this.querySelector('i')
+                                 icon.style.width = '0'
+                                " 
+                    onmouseover="this.style.background = '#F9FAFB';this.style.transform = 'scale(1.05)';
+                                 let icon = this.querySelector('i')
+                                 icon.style.width = '18px'
+                                 " 
+                    class="groupList-items-num-${number} parent" 
                     style="border-radius: 4px;cursor: pointer;display: flex;flex-direction:row ;justify-content: space-between;padding: 4px 8px;height: 36px;align-items: center;border: none">
                     <p style='flex:1'>${itm}</p>
                     <div style="display: flex;flex-direction:row;justify-content: end;gap: 8px;align-items: center;overflow-y:hidden;overflow-x: hidden ">
                         <p>2</p>
-                        <i style="width: 0;font-size: 15px" class="fa-solid fa-ellipsis"></i>
+                        <i onclick="groupSectionHanle(this)" style="width: 0;font-size: 15px" class="fa-solid fa-ellipsis"></i>
                     </div>
                 </div>
                 <div class='modifiers num-${number}' style="height: 0;overflow: hidden;display: flex;flex-direction: row;justify-content:center;align-items:center;">
-                    <p onclick='groupsNameModifier(this)' onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style="border-radius:8px;flex: 1;text-align: center;"> Sửa tên</p>
-                    <p onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style="border-radius:8px;flex: 1;text-align: center"> Xóa nhóm</p>
+                    <p onclick='groupsNameModifier(this)' onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style="cursor: pointer;border-radius:8px;flex: 1;text-align: center;"> Sửa tên</p>
+                    <p onclick="groupOptionsDelete(this)" onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style=";cursor:pointer;border-radius:8px;flex: 1;text-align: center"> Xóa nhóm</p>
                 </div>
         `).join('')}
     `
@@ -2724,27 +2730,29 @@ function createGroup() {
         setTimeout(() =>{input.style.transform = 'scale(1)';input.focus()},100)
 }
 
-function groupSectionHanle(container) {
-    let icon = container.querySelector('i')
+function groupSectionHanle(item) {
+    let container = item.closest('.parent')
     let bar = container.nextElementSibling
-    if(icon.style.width === '0px') {
-        icon.style.width = '18px'
+    if(bar.style.height !==  '20px') {
         bar.style.height =  '20px'
+    }
+    else {
+        bar.style.height =  '0'
     }
     setTimeout(() => window.addEventListener('click', (event) => {
         if(!container.contains(event.target)) {
-            icon.style.width = '0'
+            item.style.width = '0'
             bar.style.height = '0'
             }
         },
         {once:true}),
         200)
 }
-
+let tagsHandleClick = 0
 function groupsNameModifier(item){
+    tagsHandleClick = 0
     let container = item.closest('.modifiers')
     let getID = parseInt(container.className.match(/\d+/g).toString())
-    console.log(getID)
     let contain = document.querySelector(`.groupList-items-num-${getID}`)
     contain.style.border = '2px solid #F3F4F6'
     let input = contain.querySelector('p')
@@ -2753,28 +2761,134 @@ function groupsNameModifier(item){
     input.focus()
     input.style.background = '#EF682024'
     input.style.borderRadius = '3px'
+    input.style.height = '20px'
     setTimeout(() => {
-    window.addEventListener('click',(e) => {
-        if(!contain.contains(e.target)){
-            input.contentEditable = 'false'
-            input.blur()
-            input.style.background = 'white'
-            input.style.borderRadius = 'none'
-        }
-    },{once:true} )}
+    window.addEventListener('click',() => {groupsNameModifierHandeClick (input,contain)})
+    }
     ,20
     )
 }
 
+function groupsNameModifierHandeClick (input,contain) {
+    tagsHandleClick++
+    if(input.innerText !== '' ){
+        if(tagsHandleClick === 10) return
+        input.contentEditable = 'false'
+        input.blur()
+        input.style.background = 'none'
+        input.style.borderRadius = 'none'
+        contain.style.border = 'none'
+        input.style.height = '15px'
+    }
+    // window.removeEventListener('click', groupsNameModifierHandeClick)
+}
+
+function groupOptionsDelete(item) {
+    let container = item.closest('.modifiers')
+    let getIndex = parseInt(container.className.match(/\d+/g).toString())
+    groupList.splice(getIndex,1)
+    renderNavbarGroup()
+
+}
 // Phần thẻ
 let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
 function renderTagLists() {
     let content = document.querySelector('.navbar-tags-list')
     content.innerHTML = `
-        ${tagsList.map(itm => `
-            <p>${itm}</p>
+        ${tagsList.map((itm,num) => `
+            <p oninput="tagEditingFunc(this)" onclick="displayNavTags(this)" class="tagsList tags-num-${num}">${itm}</p>
+            <div class="tags-modifiers tags-modifiers--num-${num}"  style="position: absolute;display: none;flex-direction: column;height: 84px;width: 122px;border-radius: 8px;border: 1px solid #F3F4F6;background: white">
+                <p onclick="tagEditFunc(this)" style="flex: 1" >sửa</p>
+                <p style="flex: 1;" >xoá</p>
+            </div>
         `).join('')}
     `
+}
+
+function creatTags() {
+    let input = document.querySelector('.navbar-tags input')
+    input.style.display = 'block'
+    // container.scrollTo({
+    //     top: container.scrollHeight,
+    //     behavior: 'smooth',
+    // })
+    input.style.transform = 'scale(0)'
+    setTimeout(() =>{input.style.transform = 'scale(1)';input.focus()},100)
+}
+// gỡ sự kiện window eventlistener
+function displayNavTags(element)
+{
+    let div = element.nextElementSibling
+    if(div.style.display === 'none'){
+        div.style.transform = 'scale(1)'
+        setTimeout(() =>{div.style.display = 'flex';
+            div.scrollIntoView({
+                behavior: 'smooth',
+            });
+            }, 500)
+    }
+    const handler = tagsClickOutsideHandle(element, div);
+    window.addEventListener('click', handler);
+}
+function tagsClickOutsideHandle(element,div) {
+    function handler(e) {
+        if (!element.contains(e.target)) {
+            div.style.transform = 'scale(0)';
+            setTimeout(() => {div.style.display = 'none';},300)
+            window.removeEventListener('click', handler);
+        }
+    }
+    return handler;
+}
+//
+function tagEditFunc(item) {
+    let getIndex = parseInt(item.closest('.tags-modifiers').className.match(/\d+/g))
+    let edit = document.querySelector(`.tags-num-${getIndex}`)
+    edit.contentEditable = 'true'
+    edit.innerText = ''
+    edit.focus()
+    let clickOutside = displayClickOutside(edit)
+    window.addEventListener('click', clickOutside)
+}
+function tagEditingFunc(item) {
+    if(item.innerText.trim() !== '' && !item.contains(event.target)){
+        window.removeEventListener('click',window.clickOutSide)
+    }
+    const keydownHandler = e => {
+        if (e.key !== 'Backspace') e.preventDefault();
+    };
+    const pasteHandler = e => {
+        e.preventDefault();
+    };
+
+
+    if(!item.keydownHandle) item.keydownHandle = keydownHandler
+    if(!item.pasteHandle) item.pasteHandle = pasteHandler
+    if (item.innerText.length === 15) {
+        item.addEventListener('keydown', item.keydownHandle);
+        item.addEventListener('paste', item.pasteHandle);
+    } else {
+        item.removeEventListener('keydown', item.keydownHandle);
+        item.removeEventListener('paste', item.pasteHandle);
+    }
+
+    item.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter') {
+            item.contentEditable = 'false'
+            item.blur()
+        }
+    });
+}
+// gỡ event listener
+function displayClickOutside(item) {
+    function handler(e) {
+        if(item.innerText.trim() !== '' && !item.contains(event.target)){
+            item.contentEditable = 'false'
+            item.blur()
+            window.removeEventListener('click', handler);
+        }
+    }
+    return handler
 }
 
 window.onload = function () {renderTagLists();renderNavbarGroup()}
