@@ -2423,11 +2423,11 @@ function filterContent(todoInf){
 
 function renderFilterContent(array){
     let button = document.querySelector('.toggleDisplay');
-    // array.forEach((item) => {
-    //     if(item.content.length === 0){
-    //             array = array.filter(item => item.content.length > 0)
-    //         }
-    //     } )
+    array.forEach((item) => {
+        if(item.content.length === 0){
+                array.splice(0,array.length,...array.filter(item => item.content.length > 0))
+            }
+        } )
     if(array.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2479,11 +2479,11 @@ function filterDelete(itemm){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
                 pushRecycleBin(dataListToString,name,index,deleteItem)
             }
-            if(item.content.length === 0){
-                bigContainer.style.opacity = '0'
-                // previous = previous.filter(item => item.content.length > 0)
-                previous.splice(0,previous.length,...previous.filter(item => item.content.length > 0))
-            }
+            // if(item.content.length === 0){
+            //     bigContainer.style.opacity = '0'
+            //     // previous = previous.filter(item => item.content.length > 0)
+            //     previous.splice(0,previous.length,...previous.filter(item => item.content.length > 0))
+            // }
         } )
     },200)
     filterMode = false
@@ -2788,9 +2788,7 @@ function groupSectionHanle(item) {
         {once:true}),
         200)
 }
-let tagsHandleClick = 0
 function groupsNameModifier(item){
-    tagsHandleClick = 0
     let container = item.closest('.modifiers')
     let getID = parseInt(container.className.match(/\d+/g).toString())
     let contain = document.querySelector(`.groupList-items-num-${getID}`)
@@ -2803,16 +2801,19 @@ function groupsNameModifier(item){
     input.style.borderRadius = '3px'
     input.style.height = '20px'
     setTimeout(() => {
-    window.addEventListener('click',() => {groupsNameModifierHandeClick (input,contain)})
+    window.addEventListener('click',() => {
+        groupsNameModifierHandeClick (input,contain)
+    },{once:true})
     }
     ,20
     )
 }
 
 function groupsNameModifierHandeClick (input,contain) {
-    tagsHandleClick++
-    if(input.innerText !== '' ){
-        if(tagsHandleClick === 10) return
+    let container = input.closest('.parent')
+    let getIndex = parseInt(container.className.match(/\d+/g).toString())
+    if(input.innerText.trim() !== '' ){
+        currentTab[getIndex].group = input.innerText
         input.contentEditable = 'false'
         input.blur()
         input.style.background = 'none'
@@ -2820,15 +2821,14 @@ function groupsNameModifierHandeClick (input,contain) {
         contain.style.border = 'none'
         input.style.height = '15px'
     }
-    // window.removeEventListener('click', groupsNameModifierHandeClick)
+    dataCheck(renderFilterContent(currentTab))
 }
 
 function groupOptionsDelete(item) {
     let container = item.closest('.modifiers')
-    // Chức năng xóa chính
-    
-    // Sau đó gọi lại render
-    renderNavbarGroup()
+    let getID = parseInt(container.className.match(/\d+/g).toString())
+    currentTab.splice(getID,1)
+    dataCheck(renderFilterContent(currentTab))
 }
 // Phần thẻ
 let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
@@ -2938,5 +2938,21 @@ function displayClickOutside(item) {
     return handler
 }
 
-// window.onload = function () {renderTagLists();renderNavbarGroup()}
+// 
+
+
+
+function TagsHandler(){
+    let temp = []
+    let final = []
+    data.forEach(itm => itm.content.forEach(item => item.tag.flatMap(itm => temp.push(itm))))
+    temp.forEach(
+        itme => {
+            final.push(itme)
+            temp.splice(0,temp.length,...temp.filter(itm => itm !== itme))
+        }
+    )
+    return final
+}
+console.log(TagsHandler())
 
