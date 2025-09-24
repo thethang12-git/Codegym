@@ -1485,7 +1485,7 @@ let test = [1,2]
 // Phần : Tất cả
 let data = [
     {
-        group:'nhóm 1',
+        group:'Nhóm 1',
         content :
         [
             {
@@ -1727,8 +1727,8 @@ function renderContent(data){
     let button = document.querySelector('.toggleDisplay');
     data.forEach((item) => {
         if(item.content.length === 0){
-                data = data.filter(item => item.content.length > 0)
-            }
+            data.splice(0,data.length,...data.filter(item => item.content.length > 0))
+        }
         } )
     if(data.length === 0){
         return `
@@ -1807,11 +1807,10 @@ function toDoDelete(itemm){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
                 pushRecycleBin(dataListToString,name,index,deleteItem)
             }
-            if(item.content.length === 0){
-                bigContainer.style.opacity = '0'
-                data = data.filter(item => item.content.length > 0)
-                data.splice(0,data.length,...data.filter(item => item.content.length > 0))
-            }
+            // if(item.content.length === 0){
+            //     bigContainer.style.opacity = '0'
+            //     data.splice(0,data.length,...data.filter(item => item.content.length > 0))
+            // }
         } )
         dataCheck(renderContent(data))
     },200)
@@ -1837,7 +1836,7 @@ function duplicateHandle(item){
 
 let todayData = [
     {
-        group: 'Nhóm 1 phần today' ,
+        group: 'Nhóm 1' ,
         content :
             [
                 {
@@ -1925,7 +1924,7 @@ function renderTodayContent(todayData){
     let button = document.querySelector('.toggleDisplay');
     todayData.forEach((item) => {
         if(item.content.length === 0){
-                todayData = todayData.filter(item => item.content.length > 0)
+            todayData.splice(0,todayData.length,...todayData.filter(item => item.content.length > 0))
             }
         } )
     if(todayData.length === 0){
@@ -1981,10 +1980,10 @@ function todayListDelete(itemm){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
                 pushRecycleBin(dataListToString,name,index,deleteItem)
             }
-            if(item.content.length === 0){
-                bigContainer.style.opacity = '0'
-                todayData.splice(0,todayData.length,...todayData.filter(item => item.content.length > 0))
-            }
+            // if(item.content.length === 0){
+            //     bigContainer.style.opacity = '0'
+            //     todayData.splice(0,todayData.length,...todayData.filter(item => item.content.length > 0))
+            // }
         } )
         dataCheck(renderTodayContent(todayData))
     },200)
@@ -2009,7 +2008,7 @@ function duplicateTodayList(item){
 // Phần 3 ngày tới
 
 let next3DaysData = [{
-        group:'đây là nội dung của phần 3 ngày tới',
+        group:'Nhóm 1',
         content :
         [
             {
@@ -2023,7 +2022,7 @@ let next3DaysData = [{
         ]
     },
     {
-        group:'noiij dung của next 3 days nhóm 2',
+        group:'Nhóm 2',
         content :
         [
             {
@@ -2096,12 +2095,12 @@ function Next3DaysContent(todoInf,num){
     `
 }
 
-function renderNext3DaysContent(Next3DaysData){
+function renderNext3DaysContent(next3DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
     next3DaysData.forEach((item) => {
         if(item.content.length === 0){
-                next3DaysData = next3DaysData.filter(item => item.content.length > 0)
+            next3DaysData.splice(0,next3DaysData.length,...next3DaysData.filter(item => item.content.length > 0))
             }
         } )
     if(next3DaysData.length === 0){
@@ -2116,7 +2115,7 @@ function renderNext3DaysContent(Next3DaysData){
         `
     }
     return `
-    ${Next3DaysData.map((item,number) => {return `
+    ${next3DaysData.map((item,number) => {return `
         <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
             ${Next3daysGroup(item)}
             <hr>
@@ -2157,11 +2156,6 @@ function Next3DaysDelete(itemm){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
                 pushRecycleBin(dataListToString,name,index,deleteItem)
             }
-            if(item.content.length === 0){
-                bigContainer.style.opacity = '0'
-                // next3DaysData = next3DaysData.filter(item => item.content.length > 0)
-                next3DaysData.splice(0,next3DaysData.length,...next3DaysData.filter(item => item.content.length > 0))
-            }
         } )
         dataCheck(renderNext3DaysContent(next3DaysData))
     },200)
@@ -2186,7 +2180,7 @@ function Next3DaysDuplicate(item){
 // Phần : 7 ngày tới
 
 let Next7DaysData = [{
-        group:'đây là nội dung của phần 7 ngày tới',
+        group:'Nhóm 1',
         content :
         [
             {
@@ -2201,7 +2195,7 @@ let Next7DaysData = [{
         ]
     },
     {
-        group:'noiij dung của next 7 days nhóm 2',
+        group:'Nhóm 2 ',
         content :
         [
             {
@@ -2280,7 +2274,7 @@ function renderNext7DaysContent(Next7DaysData){
     let button = document.querySelector('.toggleDisplay');
     Next7DaysData.forEach((item) => {
         if(item.content.length === 0){
-                Next7DaysData = Next7DaysData.filter(item => item.content.length > 0)
+            Next7DaysData.splice(0,Next7DaysData.length,...Next7DaysData.filter(item => item.content.length > 0))
             }
         } )
     if(Next7DaysData.length === 0){
@@ -2336,11 +2330,11 @@ function Next7DaysDelete(itemm){
                 item.content = item.content.filter((itemm) => itemm.id !== getID)
                 pushRecycleBin(dataListToString,name,index,deleteItem)
             }
-            if(item.content.length === 0){
-                bigContainer.style.opacity = '0'
-                // Next7DaysData = Next7DaysData.filter(item => item.content.length > 0)
-                Next7DaysData.splice(0,Next7DaysData.length,...Next7DaysData.filter(item => item.content.length > 0))
-            }
+            // if(item.content.length === 0){
+            //     bigContainer.style.opacity = '0'
+            //     // Next7DaysData = Next7DaysData.filter(item => item.content.length > 0)
+            //     Next7DaysData.splice(0,Next7DaysData.length,...Next7DaysData.filter(item => item.content.length > 0))
+            // }
         } )
         console.log(recycleBin)
         dataCheck(renderNext7DaysContent(Next7DaysData))
@@ -2427,11 +2421,11 @@ function filterContent(todoInf){
 
 function renderFilterContent(array){
     let button = document.querySelector('.toggleDisplay');
-    array.forEach((item) => {
-        if(item.content.length === 0){
-                array = array.filter(item => item.content.length > 0)
-            }
-        } )
+    // array.forEach((item) => {
+    //     if(item.content.length === 0){
+    //             array = array.filter(item => item.content.length > 0)
+    //         }
+    //     } )
     if(array.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2659,40 +2653,69 @@ function undoFinish(item) {
     dataCheck(renderFinish(finishList))
 }
 
-// lưu các giá trị dưới dạng string để làm dynamic key
+// lưu các giá trị để làm dynamic key
 let dataList = {
     'all' : data,
     'todayData' : todayData,
     'next3DaysData' : next3DaysData,
     'Next7DaysData' : Next7DaysData,
 }
-// setInterval(() => console.log(dataListToString), 1)
-// chooseObj = [
-//     {
-//         "id": 0,
-//         "from": "Next7DaysData",
-//         "name": "đây là nội dung của phần 7 ngày tới",
-//         "index": 0,
-//         "content": {
-//             "star": true,
-//             "title": "nội dung được recover từ thùng dác :))))",
-//             "content": "Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis",
-//             "tag": [
-//                 "công việc",
-//                 "khác"
-//             ],
-//             "repeat": true,
-//             "date": "02/09/2025",
-//             "time": "09:26",
-//             "id": 1
-//         },
-//     },
-// ]
+
+// xử lý dữ liệu để hiênr thị cho phần nhóm và thẻ
+let cloneData = [data,todayData,next3DaysData,Next7DaysData]
+function renderClone(array) {
+    let duplicate = []
+    let temporary = []
+    array.forEach(item => item.map(itm => temporary.push({ group: itm.group,counter:itm.content.length})) )
+    let count
+    temporary.forEach(itm => {
+        let value = temporary.pop()
+        count = value.counter
+        if(temporary.some(itm => itm.group === value.group )){
+            let tempArr = temporary.filter(itm => itm.group === value.group)
+            duplicate.push({group:value.group,counter: tempArr.map(itm => (count += itm.counter))})
+            temporary.splice(0,temporary.length,...temporary.filter(itm => itm.group !== value.group))
+        }
+    })
+    return temporary.concat(duplicate)
+}
+
+// optimizing version
+
+// let duplicate = [];
+// let cloneData = [data, todayData, next3DaysData, Next7DaysData];
+// let temporary = [];
+//
+// function renderClone(array) {
+//     // Lấy tất cả phần tử với group và counter
+//     array.forEach(item => {
+//         item.forEach(itm => {
+//             temporary.push({ group: itm.group, counter: itm.content.length });
+//         });
+//     });
+//
+//     // Gom nhóm và cộng dồn counter theo group
+//     const grouped = temporary.reduce((acc, curr) => {
+//         if (!acc[curr.group]) {
+//             acc[curr.group] = 0;
+//         }
+//         acc[curr.group] += curr.counter;
+//         return acc;
+//     }, {});
+//
+//     // Chuyển đổi thành mảng duplicate
+//     duplicate = Object.entries(grouped).map(([group, counter]) => ({ group, counter }));
+//
+//     console.log(temporary, duplicate);
+// }
+//
+// renderClone(cloneData);
 
 //  Phần nhóm
-let groupList = ['Cá nhân', 'Nhờ nguòi khác','cá nhân', 'công việc', 'du lịch','xin chao','heheh']
+let groupList = renderClone(cloneData).map(itm => itm.group)
 function renderNavbarGroup (){
     let content = document.querySelector('.navbar-groups-list')
+    groupList = renderClone(cloneData).map(itm => itm.group)
     content.innerHTML = `
         ${groupList.map((itm,number) => `
                 <div
@@ -2719,6 +2742,7 @@ function renderNavbarGroup (){
         `).join('')}
     `
 }
+
 function createGroup() {
     let input = document.querySelector('.navbar-groups input')
         input.style.display = 'block'
@@ -2788,7 +2812,7 @@ function groupOptionsDelete(item) {
     let getIndex = parseInt(container.className.match(/\d+/g).toString())
     groupList.splice(getIndex,1)
     renderNavbarGroup()
-
+    console.log(groupList)
 }
 // Phần thẻ
 let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
@@ -2892,3 +2916,7 @@ function displayClickOutside(item) {
 }
 
 window.onload = function () {renderTagLists();renderNavbarGroup()}
+
+
+
+
