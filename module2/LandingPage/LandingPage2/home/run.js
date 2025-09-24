@@ -1766,6 +1766,7 @@ let currentTab
 let dataListToString
 function dataCheck(contentt,tab,toString) {
     let star = document.getElementById('star')
+    // cập nhật dữ liệu của mục group thanh bên phải
     if(tab){
         currentTab = tab
         previous = currentTab
@@ -1773,6 +1774,7 @@ function dataCheck(contentt,tab,toString) {
         star.classList.add('fa-regular');
         star.style.color = 'black'
     }
+    renderNavbarGroup()
     if(toString) {
         dataListToString = toString
     }
@@ -2680,7 +2682,7 @@ function renderClone(array) {
     return temporary.concat(duplicate)
 }
 
-// optimizing version
+// optimizing version để gom tất cả các dữ liệu và lọc những phần tử trùng nhau cộng dồn vào 1
 
 // let duplicate = [];
 // let cloneData = [data, todayData, next3DaysData, Next7DaysData];
@@ -2712,12 +2714,11 @@ function renderClone(array) {
 // renderClone(cloneData);
 
 //  Phần nhóm
-let groupList = renderClone(cloneData).map(itm => itm.group)
 function renderNavbarGroup (){
     let content = document.querySelector('.navbar-groups-list')
-    groupList = renderClone(cloneData).map(itm => itm.group)
+    if(!currentTab){content.innerHTML = null;return}
     content.innerHTML = `
-        ${groupList.map((itm,number) => `
+        ${currentTab.map((itm,number) => `
                 <div
                     onmouseout="this.style.background = 'white';this.style.transform = 'scale(1)';
                                 let icon = this.querySelector('i')
@@ -2729,15 +2730,16 @@ function renderNavbarGroup (){
                                  " 
                     class="groupList-items-num-${number} parent" 
                     style="border-radius: 4px;cursor: pointer;display: flex;flex-direction:row ;justify-content: space-between;padding: 4px 8px;height: 36px;align-items: center;border: none">
-                    <p style='flex:1'>${itm}</p>
+                    <p style='flex:1'>${itm.group}</p>
                     <div style="display: flex;flex-direction:row;justify-content: end;gap: 8px;align-items: center;overflow-y:hidden;overflow-x: hidden ">
-                        <p>2</p>
+                        <p>${itm.content.length}</p>
                         <i onclick="groupSectionHanle(this)" style="width: 0;font-size: 15px" class="fa-solid fa-ellipsis"></i>
                     </div>
+                    
                 </div>
-                <div class='modifiers num-${number}' style="height: 0;overflow: hidden;display: flex;flex-direction: row;justify-content:center;align-items:center;">
-                    <p onclick='groupsNameModifier(this)' onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style="cursor: pointer;border-radius:8px;flex: 1;text-align: center;"> Sửa tên</p>
-                    <p onclick="groupOptionsDelete(this)" onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style=";cursor:pointer;border-radius:8px;flex: 1;text-align: center"> Xóa nhóm</p>
+                <div class='modifiers num-${number}' style="box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);margin-bottom:2px;border: 1px solid #F3F4F6;display:none;height: 84px;width:122px;flex-direction: column;border-radius: 8px;margin-left:auto;margin-right:2px">
+                    <p onclick='groupsNameModifier(this)' onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style="display:flex;flex-direction:row;justify-content:space-evenly;font-size:13px;align-items:center;height:36px;cursor: pointer;border-radius:8px;flex: 1;"><i class="fa-solid fa-pen"></i> Sửa tên</p>
+                    <p onclick="groupOptionsDelete(this)" onmouseover='this.style.background = "#EF6820"' onmouseleave='this.style.background = "white"' style="display:flex;flex-direction:row;justify-content:space-evenly;font-size:13px;align-items:center;height:36px;cursor:pointer;border-radius:8px;flex: 1;"> <i class="fa-solid fa-trash"></i> Xóa nhóm</p>
                 </div>
         `).join('')}
     `
@@ -2757,16 +2759,30 @@ function createGroup() {
 function groupSectionHanle(item) {
     let container = item.closest('.parent')
     let bar = container.nextElementSibling
-    if(bar.style.height !==  '20px') {
-        bar.style.height =  '20px'
+    if(bar.style.display === 'none') {
+        bar.style.transform = 'scale(0)'
+        setTimeout(() => {
+            bar.style.transform = 'scale(1)'
+            bar.style.display = 'flex'
+            bar.scrollIntoView({
+                behavior: 'smooth',
+            });
+        },200)
+        
     }
     else {
-        bar.style.height =  '0'
+        bar.style.transform = 'scale(0)'
+        setTimeout(() => {
+            bar.style.display = 'none'
+        },200)
     }
     setTimeout(() => window.addEventListener('click', (event) => {
         if(!container.contains(event.target)) {
             item.style.width = '0'
-            bar.style.height = '0'
+            bar.style.transform = 'scale(0)'
+            setTimeout(() => {
+            bar.style.display = 'none'
+            },200)
             }
         },
         {once:true}),
@@ -2809,10 +2825,10 @@ function groupsNameModifierHandeClick (input,contain) {
 
 function groupOptionsDelete(item) {
     let container = item.closest('.modifiers')
-    let getIndex = parseInt(container.className.match(/\d+/g).toString())
-    groupList.splice(getIndex,1)
+    // Chức năng xóa chính
+    
+    // Sau đó gọi lại render
     renderNavbarGroup()
-    console.log(groupList)
 }
 // Phần thẻ
 let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
@@ -2823,7 +2839,7 @@ function renderTagLists() {
             <p oninput="tagEditingFunc(this)" onclick="displayNavTags(this)" class="tagsList tags-num-${num}">${itm}</p>
             <div class="tags-modifiers tags-modifiers--num-${num}"  style="position: absolute;display: none;flex-direction: column;height: 84px;width: 122px;border-radius: 8px;border: 1px solid #F3F4F6;background: white">
                 <p onclick="tagEditFunc(this)" style="flex: 1" >sửa</p>
-                <p style="flex: 1;" >xoá</p>
+                <p onclick="tagDelete(this)" style="flex: 1;" >xoá</p>
             </div>
         `).join('')}
     `
@@ -2903,6 +2919,13 @@ function tagEditingFunc(item) {
         }
     });
 }
+function tagDelete(item) {
+    let container = item.closest('.tags-modifiers')
+    let getIndex = parseInt(container.className.match(/\d+/g).toString())
+    tagsList.splice(getIndex,1)
+    console.log(tagsList)
+    renderTagLists()
+}
 // gỡ event listener
 function displayClickOutside(item) {
     function handler(e) {
@@ -2915,8 +2938,5 @@ function displayClickOutside(item) {
     return handler
 }
 
-window.onload = function () {renderTagLists();renderNavbarGroup()}
-
-
-
+// window.onload = function () {renderTagLists();renderNavbarGroup()}
 

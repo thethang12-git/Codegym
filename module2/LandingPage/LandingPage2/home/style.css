@@ -38,9 +38,7 @@ body {
     color: #4D5761;
     overflow: auto;
 }
-.navbar-tags-list {
-    /*position: relative;*/
-}
+
 .navbar-tags-list p:hover {
     background: #E5E7EB;
     cursor: pointer;
@@ -89,7 +87,6 @@ body {
 
 .navbar-groups {
     height: 108px;
-    position: relative;
     overflow-y: auto;
 }
 
