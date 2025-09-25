@@ -1774,6 +1774,7 @@ function dataCheck(contentt,tab,toString) {
         star.classList.add('fa-regular');
         star.style.color = 'black'
         tagsFilter = null
+        tagTempoValue = null
     }
     renderNavbarGroup()
     renderTagLists()
@@ -2488,8 +2489,12 @@ function filterDelete(itemm){
             // }
         } )
     },200)
+// 
+    
+// 
     filterMode = false
     setTimeout(() => {listFilter();filterMode = true},250)
+    console.log('deleted!')
 }
 function filterDuplicate(item){
     let container = item.closest('.parent')
@@ -2555,7 +2560,14 @@ function listFilter() {
     } 
     }
     else {
-        console.log('hehehe')
+        console.log('tagsFilter case')
+        tagsFilter = currentTab.map(item => ({
+        ...item,
+        content: item.content.filter(child =>
+            child.tag.includes(tagTempoValue)
+        )
+        }))
+        .filter(item => item.content.length > 0);
         filtered =
             tagsFilter.filter((item) => item.content.some(itm => itm.star === true))
                 .map(itm =>
@@ -2563,18 +2575,42 @@ function listFilter() {
                     ...itm,
                     content: itm.content.filter(itmm => itmm.star === true)
                 }))
+        // if(star.classList.contains('fa-solid')) {
+        //     star.classList.remove('fa-solid')
+        //     star.classList.add('fa-regular');
+        //     star.style.color = 'black'
+        //     dataCheck(renderFilterContent(tagsFilter))
+        // }
+        // else  {
+        //     star.classList.remove('fa-regular')
+        //     star.classList.add('fa-solid');
+        //     star.style.color = 'rgb(239, 104, 32)'
+        //     dataCheck(renderFilterContent(filtered))
+        // }
+        if(filterMode){
         if(star.classList.contains('fa-solid')) {
             star.classList.remove('fa-solid')
             star.classList.add('fa-regular');
             star.style.color = 'black'
             dataCheck(renderFilterContent(tagsFilter))
+            filteredStatus = true
         }
         else  {
             star.classList.remove('fa-regular')
             star.classList.add('fa-solid');
             star.style.color = 'rgb(239, 104, 32)'
             dataCheck(renderFilterContent(filtered))
+            filteredStatus = false
         }
+    }
+    else {
+        if(filteredStatus){
+            dataCheck(renderFilterContent(tagsFilter))
+        }
+        else {
+            dataCheck(renderFilterContent(filtered))
+        }
+    } 
     }
 }
 
