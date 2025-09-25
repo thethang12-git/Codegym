@@ -1773,6 +1773,7 @@ function dataCheck(contentt,tab,toString) {
         star.classList.remove('fa-solid')
         star.classList.add('fa-regular');
         star.style.color = 'black'
+        tagsFilter = null
     }
     renderNavbarGroup()
     renderTagLists()
@@ -2518,7 +2519,8 @@ let filterMode = true
 let filteredStatus = true
 function listFilter() {
     previous = currentTab
-    if(currentTab) {
+    if(currentTab && !tagsFilter) {
+        console.log('filtered currentTab')
         filtered =
             currentTab.filter((item) => item.content.some(itm => itm.star === true))
                 .map(itm =>
@@ -2526,6 +2528,7 @@ function listFilter() {
                     ...itm,
                     content: itm.content.filter(itmm => itmm.star === true)
                 }))
+            
     if(filterMode){
         if(star.classList.contains('fa-solid')) {
             star.classList.remove('fa-solid')
@@ -2550,6 +2553,28 @@ function listFilter() {
             dataCheck(renderFilterContent(filtered))
         }
     } 
+    }
+    else {
+        console.log('hehehe')
+        filtered =
+            tagsFilter.filter((item) => item.content.some(itm => itm.star === true))
+                .map(itm =>
+                ({
+                    ...itm,
+                    content: itm.content.filter(itmm => itmm.star === true)
+                }))
+        if(star.classList.contains('fa-solid')) {
+            star.classList.remove('fa-solid')
+            star.classList.add('fa-regular');
+            star.style.color = 'black'
+            dataCheck(renderFilterContent(tagsFilter))
+        }
+        else  {
+            star.classList.remove('fa-regular')
+            star.classList.add('fa-solid');
+            star.style.color = 'rgb(239, 104, 32)'
+            dataCheck(renderFilterContent(filtered))
+        }
     }
 }
 
@@ -2854,7 +2879,7 @@ function renderTagLists() {
     if(!currentTab) {content.innerHTML=null;return}
     content.innerHTML = `
         ${TagsHandler().map((itm,num) => `
-            <p oninput="tagEditingFunc(this)" onclick="displayNavTags(this)" class="tagsList tags-num-${num}">${itm}</p>
+            <p style='${itm === tagTempoValue?'background: rgb(253, 234, 215)' : 'background :#F5F5F5' }' oninput="tagEditingFunc(this)" onclick="displayNavTags(this)" class="tagsList tags-num-${num}">${itm}</p>
             <div class="tags-modifiers tags-modifiers--num-${num}"  style="position: absolute;display: none;flex-direction: column;height: 84px;width: 122px;border-radius: 8px;border: 1px solid #F3F4F6;background: white">
                 <p onclick="tagEditFunc(this)" style="flex: 1" >sửa</p>
                 <p onclick="tagDelete(this)" style="flex: 1;" >xoá</p>
@@ -2879,7 +2904,6 @@ function displayNavTags(element)
 {
     let div = element.nextElementSibling
     if(div.style.display === 'none'){
-        tagsDelFunc(currentTab,tagTempoValue,'show')
         if(element.style.background === 'rgb(253, 234, 215)') {
             div.style.transform = 'scale(1)'
             setTimeout(() =>{div.style.display = 'flex';
@@ -2890,8 +2914,13 @@ function displayNavTags(element)
         }
         if(element.innerText.trim() !== ''){
             tagTempoValue = element.innerText
+            tagsDelFunc(currentTab,tagTempoValue,'show')
         }
+        let container = element.closest('.navbar-tags-list')
+        let p = container.querySelectorAll('p')
+        p.forEach(itm => itm.style.background = '#F5F5F5')
         element.style.background = 'rgb(253, 234, 215)'
+        // renderTagLists()
     }
     const handler = tagsClickOutsideHandle(element, div);
     window.addEventListener('click', handler);
@@ -2903,6 +2932,7 @@ function tagsClickOutsideHandle(element,div) {
                 element.innerText = tagTempoValue
             }
             div.style.transform = 'scale(0)';
+            // dataCheck(renderFilterContent(currentTab))
             element.style.background = '#F5F5F5'
             setTimeout(() => {div.style.display = 'none';},300)
             window.removeEventListener('click', handler);
@@ -2980,30 +3010,6 @@ function displayClickOutside(item) {
 
 //
 
-
-// let data = [
-//     {
-//         group:'Nhóm 1',
-//         content :
-//             [
-//                 {
-//                     choosing: false,
-//                     star: true,
-//                     title:'nội dung 1',
-//                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-//                     tag : ['công việc','khác'],
-//                     repeat: true,
-//                     date : '02/09/2025',
-//                     time: '09:26',
-//                 },
-//              ]
-// Array(2)
-// 0
-// :
-// (2) ['công việc', 'khác']
-// 1
-// :
-// (2) ['công việc', 'khác']
 function tagsEditFunc(array,originValue,newTagName) {
     let clone = []
     array.forEach(item => clone.push(item.content.map(itm => itm.tag))  )
@@ -3017,16 +3023,30 @@ function tagsEditFunc(array,originValue,newTagName) {
     ))
     return clone
 }
-
+// lưu biến chứa các thẻ lọc được user chọn
+let tagsFilter
 function tagsDelFunc(array,value,action) {
     if(action === 'show') {
-        let filtered = array.map(itm => itm.content.filter(itm => itm.tag.includes(value))).filter(itm => itm.length > 0)
-        console.log(filtered)
-        // dataCheck(renderFilterContent(filtered))
+        tagsFilter = array.map(item => ({
+        ...item,
+        content: item.content.filter(child =>
+            child.tag.includes(value)
+        )
+        }))
+        .filter(item => item.content.length > 0);   
+        // tagsFilter = array.filter(itm =>  itm.content.some(itm => itm.tag.some(itm => itm === value)))
+        // let filteredItem = tagsFilter.map(itm =>  itm.content.filter(itm => itm.tag.some(itm => itm === value)))
+        // tagsFilter.forEach((itm,num) => itm.content = filteredItem[num])
+        star.classList.remove('fa-solid')
+            star.classList.add('fa-regular');
+            star.style.color = 'black'
+        content.innerHTML = renderFilterContent(tagsFilter)
     }
     else {
         array.forEach(itm => itm.content.splice(0,itm.content.length,...itm.content.filter(itm => itm.tag.every( itm => itm.trim() !== value))).filter(itm => itm.length > 0))
     }
 
 }
+
+// setInterval(()=> console.log(previous),10)
 
