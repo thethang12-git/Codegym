@@ -1493,7 +1493,7 @@ let data = [
                 star: true,
                 title:'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
+                tag : ['công việc'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1503,7 +1503,7 @@ let data = [
                 star:true,
                 title: 'nội dung 2',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
+                tag : ['công việc','Nhờ người khác'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1513,7 +1513,7 @@ let data = [
                 star:false,
                 title:'nội dung 3',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
+                tag : ['công việc'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1574,7 +1574,7 @@ let data = [
                 star:false,
                 title: 'nội dung 1',
                 content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
+                tag : ['công việc'],
                 repeat: true,
                 date : '02/09/2025',
                 time: '09:26',
@@ -1599,7 +1599,7 @@ let data = [
                     star:true,
                     title: 'nội dung 1',
                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
+                    tag : ['công việc'],
                     repeat: true,
                     date : '02/09/2025',
                     time: '09:26',
@@ -1775,6 +1775,7 @@ function dataCheck(contentt,tab,toString) {
         star.style.color = 'black'
     }
     renderNavbarGroup()
+    renderTagLists()
     if(toString) {
         dataListToString = toString
     }
@@ -2831,11 +2832,28 @@ function groupOptionsDelete(item) {
     dataCheck(renderFilterContent(currentTab))
 }
 // Phần thẻ
-let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
+// lưu tạm giá trị text của thẻ được ấn vào ở biến nayf
+let tagTempoValue
+// let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
+function TagsHandler(){
+    let temp = []
+    let final = []
+    if(currentTab) {
+        currentTab.forEach(itm => itm.content.forEach(item => item.tag.flatMap(itm => temp.push(itm))))
+        temp.forEach(
+            itme => {
+                final.push(itme)
+                temp.splice(0, temp.length, ...temp.filter(itm => itm !== itme))
+            }
+        )
+    }
+    return temp.concat(final)
+}
 function renderTagLists() {
     let content = document.querySelector('.navbar-tags-list')
+    if(!currentTab) {content.innerHTML=null;return}
     content.innerHTML = `
-        ${tagsList.map((itm,num) => `
+        ${TagsHandler().map((itm,num) => `
             <p oninput="tagEditingFunc(this)" onclick="displayNavTags(this)" class="tagsList tags-num-${num}">${itm}</p>
             <div class="tags-modifiers tags-modifiers--num-${num}"  style="position: absolute;display: none;flex-direction: column;height: 84px;width: 122px;border-radius: 8px;border: 1px solid #F3F4F6;background: white">
                 <p onclick="tagEditFunc(this)" style="flex: 1" >sửa</p>
@@ -2856,24 +2874,36 @@ function creatTags() {
     setTimeout(() =>{input.style.transform = 'scale(1)';input.focus()},100)
 }
 // gỡ sự kiện window eventlistener
+
 function displayNavTags(element)
 {
     let div = element.nextElementSibling
     if(div.style.display === 'none'){
-        div.style.transform = 'scale(1)'
-        setTimeout(() =>{div.style.display = 'flex';
-            div.scrollIntoView({
-                behavior: 'smooth',
-            });
+        tagsDelFunc(currentTab,tagTempoValue,'show')
+        if(element.style.background === 'rgb(253, 234, 215)') {
+            div.style.transform = 'scale(1)'
+            setTimeout(() =>{div.style.display = 'flex';
+                div.scrollIntoView({
+                    behavior: 'smooth',
+                });
             }, 500)
+        }
+        if(element.innerText.trim() !== ''){
+            tagTempoValue = element.innerText
+        }
+        element.style.background = 'rgb(253, 234, 215)'
     }
     const handler = tagsClickOutsideHandle(element, div);
     window.addEventListener('click', handler);
 }
 function tagsClickOutsideHandle(element,div) {
     function handler(e) {
-        if (!element.contains(e.target)) {
+        if (!element.contains(e.target) && !div.contains(e.target)) {
+            if(element.innerText.trim() === '') {
+                element.innerText = tagTempoValue
+            }
             div.style.transform = 'scale(0)';
+            element.style.background = '#F5F5F5'
             setTimeout(() => {div.style.display = 'none';},300)
             window.removeEventListener('click', handler);
         }
@@ -2884,9 +2914,12 @@ function tagsClickOutsideHandle(element,div) {
 function tagEditFunc(item) {
     let getIndex = parseInt(item.closest('.tags-modifiers').className.match(/\d+/g))
     let edit = document.querySelector(`.tags-num-${getIndex}`)
+    let container = item.closest('.tags-modifiers')
     edit.contentEditable = 'true'
     edit.innerText = ''
     edit.focus()
+    container.style.transform = 'scale(0)';
+    setTimeout(() => {container.style.display = 'none';},300)
     let clickOutside = displayClickOutside(edit)
     window.addEventListener('click', clickOutside)
 }
@@ -2900,8 +2933,6 @@ function tagEditingFunc(item) {
     const pasteHandler = e => {
         e.preventDefault();
     };
-
-
     if(!item.keydownHandle) item.keydownHandle = keydownHandler
     if(!item.pasteHandle) item.pasteHandle = pasteHandler
     if (item.innerText.length === 15) {
@@ -2914,22 +2945,31 @@ function tagEditingFunc(item) {
 
     item.addEventListener('keydown', (e) => {
         if(e.key === 'Enter') {
+            // sửa ở đây
+            tagsEditFunc(currentTab,tagTempoValue,item.innerText)
+            renderTagLists()
+            dataCheck(renderFilterContent(currentTab))
+            //
             item.contentEditable = 'false'
             item.blur()
         }
     });
 }
 function tagDelete(item) {
-    let container = item.closest('.tags-modifiers')
-    let getIndex = parseInt(container.className.match(/\d+/g).toString())
-    tagsList.splice(getIndex,1)
-    console.log(tagsList)
+    tagsDelFunc(currentTab,tagTempoValue)
+    console.log(currentTab,tagTempoValue)
     renderTagLists()
+    dataCheck(renderFilterContent(currentTab))
 }
 // gỡ event listener
 function displayClickOutside(item) {
     function handler(e) {
         if(item.innerText.trim() !== '' && !item.contains(event.target)){
+            // sửa ở đây
+            tagsEditFunc(currentTab,tagTempoValue,item.innerText)
+            renderTagLists()
+            dataCheck(renderFilterContent(currentTab))
+            //
             item.contentEditable = 'false'
             item.blur()
             window.removeEventListener('click', handler);
@@ -2938,21 +2978,55 @@ function displayClickOutside(item) {
     return handler
 }
 
-// 
+//
 
 
-
-function TagsHandler(){
-    let temp = []
-    let final = []
-    data.forEach(itm => itm.content.forEach(item => item.tag.flatMap(itm => temp.push(itm))))
-    temp.forEach(
-        itme => {
-            final.push(itme)
-            temp.splice(0,temp.length,...temp.filter(itm => itm !== itme))
+// let data = [
+//     {
+//         group:'Nhóm 1',
+//         content :
+//             [
+//                 {
+//                     choosing: false,
+//                     star: true,
+//                     title:'nội dung 1',
+//                     content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+//                     tag : ['công việc','khác'],
+//                     repeat: true,
+//                     date : '02/09/2025',
+//                     time: '09:26',
+//                 },
+//              ]
+// Array(2)
+// 0
+// :
+// (2) ['công việc', 'khác']
+// 1
+// :
+// (2) ['công việc', 'khác']
+function tagsEditFunc(array,originValue,newTagName) {
+    let clone = []
+    array.forEach(item => clone.push(item.content.map(itm => itm.tag))  )
+    clone = clone.map(item => item.map((itm) => itm.map(
+        (value,num) => {
+            if(value.trim() === originValue){
+                itm[num] = newTagName
+    }
         }
-    )
-    return final
+        )
+    ))
+    return clone
 }
-console.log(TagsHandler())
+
+function tagsDelFunc(array,value,action) {
+    if(action === 'show') {
+        let filtered = array.map(itm => itm.content.filter(itm => itm.tag.includes(value))).filter(itm => itm.length > 0)
+        console.log(filtered)
+        // dataCheck(renderFilterContent(filtered))
+    }
+    else {
+        array.forEach(itm => itm.content.splice(0,itm.content.length,...itm.content.filter(itm => itm.tag.every( itm => itm.trim() !== value))).filter(itm => itm.length > 0))
+    }
+
+}
 

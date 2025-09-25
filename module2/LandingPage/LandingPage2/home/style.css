@@ -95,7 +95,8 @@ body {
 }
 
 .navbar-tags {
-    max-height: 100px;
+    height: 120px;
+    max-height: 150px;
     overflow-y: auto;
     position: relative;
 }
