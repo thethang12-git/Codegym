@@ -717,13 +717,15 @@ function tagAddHandle() {
     let container = document.querySelector('.tag-display-options')
     let contain = document.querySelector('.tag-display-add')
     let input = contain.querySelector('input')
-// Xử lý thêm 1 thẻ mới vào giữa những thẻ có sẵn    
-    let newTag = document.createElement('p');
-    newTag.setAttribute('data-isChoosed', 'false')
-    newTag.textContent = input.value
-    newTag.setAttribute('style', "font-size:13px;border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
-    container.insertBefore(newTag, contain);
-    input.value = ''
+// Xử lý thêm 1 thẻ mới vào giữa những thẻ có sẵn   
+    if(input.value.trim() && input.value.length <= 18) {
+        let newTag = document.createElement('p');
+        newTag.setAttribute('data-isChoosed', 'false')
+        newTag.textContent = input.value
+        newTag.setAttribute('style', "font-size:13px;border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
+        container.insertBefore(newTag, contain);
+        input.value = ''
+    }
 }
 
 function handlePopup(e) {
@@ -3064,7 +3066,6 @@ function tagEditingFunc(item) {
     item.addEventListener('keydown', (e) => {
         if(e.key === 'Enter') {
             e.preventDefault()
-            console.log(input.innerText)
             // sửa ở đây
             if(item.innerText.trim()){
                 tagsEditFunc(currentTab,tagTempoValue,item.innerText)
