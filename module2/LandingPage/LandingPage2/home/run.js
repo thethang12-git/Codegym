@@ -2875,18 +2875,35 @@ function groupSectionHanle(item) {
         {once:true}),
         200)
 }
+let groupEditing
 function groupsNameModifier(item){
     let container = item.closest('.modifiers')
     let getID = parseInt(container.className.match(/\d+/g).toString())
     let contain = document.querySelector(`.groupList-items-num-${getID}`)
     contain.style.border = '2px solid #F3F4F6'
     let input = contain.querySelector('p')
+    groupEditing = input.innerText
     input.contentEditable = 'true'
     input.innerText = ''
     input.focus()
     input.style.background = '#EF682024'
     input.style.borderRadius = '3px'
     input.style.height = '20px'
+    input.addEventListener('keydown', (e) => {
+        let container = input.closest('.parent')
+        let getIndex = parseInt(container.className.match(/\d+/g).toString())
+        if(e.key === 'Enter' && input.innerText.trim()) {
+            currentTab[getIndex].group = input.innerText
+            input.contentEditable = 'false'
+            input.blur()
+            input.style.background = 'none'
+            input.style.borderRadius = 'none'
+            contain.style.border = 'none'
+            input.style.height = '15px'
+            renderForAddTodo()
+            dataCheck(renderFilterContent(currentTab))
+        }
+        });
     setTimeout(() => {
     window.addEventListener('click',() => {
         groupsNameModifierHandeClick (input,contain)
@@ -2898,17 +2915,27 @@ function groupsNameModifier(item){
 
 function groupsNameModifierHandeClick (input,contain) {
     let container = input.closest('.parent')
-    let getIndex = parseInt(container.className.match(/\d+/g).toString())
-    if(input.innerText.trim() !== '' ){
-        currentTab[getIndex].group = input.innerText
-        input.contentEditable = 'false'
-        input.blur()
-        input.style.background = 'none'
-        input.style.borderRadius = 'none'
-        contain.style.border = 'none'
-        input.style.height = '15px'
-    }
-    dataCheck(renderFilterContent(currentTab))
+    let inputt = container.querySelector('p')
+    inputt.innerText = groupEditing
+    input.contentEditable = 'false'
+    input.blur()
+    input.style.background = 'none'
+    input.style.borderRadius = 'none'
+    contain.style.border = 'none'
+    input.style.height = '15px'
+    // let getIndex = parseInt(container.className.match(/\d+/g).toString())
+    // if(input.innerText.trim() !== '' ){
+    //     console.log('hê hê')
+    //     currentTab[getIndex].group = input.innerText
+    //     input.contentEditable = 'false'
+    //     input.blur()
+    //     input.style.background = 'none'
+    //     input.style.borderRadius = 'none'
+    //     contain.style.border = 'none'
+    //     input.style.height = '15px'
+    //     renderForAddTodo()
+    // }
+    // dataCheck(renderFilterContent(currentTab))
 }
 
 function groupOptionsDelete(item) {
@@ -3036,13 +3063,18 @@ function tagEditingFunc(item) {
 
     item.addEventListener('keydown', (e) => {
         if(e.key === 'Enter') {
+            e.preventDefault()
+            console.log(input.innerText)
             // sửa ở đây
-            tagsEditFunc(currentTab,tagTempoValue,item.innerText)
-            renderTagLists()
-            dataCheck(renderFilterContent(currentTab))
+            if(item.innerText.trim()){
+                tagsEditFunc(currentTab,tagTempoValue,item.innerText)
+                renderTagLists()
+                dataCheck(renderFilterContent(currentTab))
+                renderForAddTodo()
+                item.contentEditable = 'false'
+                item.blur()
+            }
             //
-            item.contentEditable = 'false'
-            item.blur()
         }
     });
 }
@@ -3051,6 +3083,7 @@ function tagDelete(item) {
     console.log(currentTab,tagTempoValue)
     renderTagLists()
     dataCheck(renderFilterContent(currentTab))
+    renderForAddTodo()
 }
 // gỡ event listener
 function displayClickOutside(item) {
@@ -3059,7 +3092,9 @@ function displayClickOutside(item) {
             // sửa ở đây
             tagsEditFunc(currentTab,tagTempoValue,item.innerText)
             renderTagLists()
-            dataCheck(renderFilterContent(currentTab))
+            content.innerHTML = renderFilterContent(tagsFilter)
+            // dataCheck(renderFilterContent(currentTab))
+            renderForAddTodo()
             //
             item.contentEditable = 'false'
             item.blur()
