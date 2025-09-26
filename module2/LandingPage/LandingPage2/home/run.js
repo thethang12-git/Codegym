@@ -1739,7 +1739,6 @@ function renderContent(data){
         <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
         <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
             <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
-            <button onclick='addBtn()' style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
         </div>
     </div>
         `
@@ -1945,7 +1944,6 @@ function renderTodayContent(todayData){
         <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
         <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
             <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
-            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
         </div>
     </div>
         `
@@ -2123,7 +2121,6 @@ function renderNext3DaysContent(next3DaysData){
         <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
         <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
             <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
-            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
         </div>
     </div>
         `
@@ -2314,7 +2311,6 @@ function renderNext7DaysContent(Next7DaysData){
         <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
         <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
             <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
-            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
         </div>
     </div>
         `
@@ -2465,7 +2461,6 @@ function renderFilterContent(array){
         <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
         <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
             <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
-            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
         </div>
     </div>
         `
