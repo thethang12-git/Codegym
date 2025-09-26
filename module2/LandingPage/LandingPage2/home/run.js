@@ -80,9 +80,9 @@ function colorToFinish(event,array){
                     item.content = item.content.filter((itemm) => itemm.id !== getID)
                     pushFinish(dataListToString,name,index,finished)
                 }
-                if(item.content.length === 0){
-                    previous.splice(0,previous.length,...previous.filter(item =>item.content.length > 0))
-                }
+                // if(item.content.length === 0){
+                //     previous.splice(0,previous.length,...previous.filter(item =>item.content.length > 0))
+                // }
             } )
         },100)
         filterMode = false
@@ -573,7 +573,7 @@ function repeatNav1(event) {
         content.style.display = 'none'
         if (target.innerText !== 'Không lặp lại ') {
             container.style.background = '#FEFAF5'
-            icon.style.color = '#EF6820'
+            icon.style.color = 'rgb(239, 104, 32)'
             return
         }
         container.style.background = 'white'
@@ -878,7 +878,6 @@ function addGroups(){
         container.insertBefore(newTag, contain);
         newTag.setAttribute('onclick',`choosedGroup(this)`)
         input.value = ''
-        console.log('heheheheh')
     }
     
 }
@@ -1740,7 +1739,7 @@ function renderContent(data){
         <img src="/module2/LandingPage/LandingPage2/asset/Group 26810.png" alt="">
         <div style="display: flex;flex-direction: column;align-items: center;flex: 1;justify-content: space-between;">
             <p style="font-size: 24px;color: #4D5761;font-weight: 500;margin: 0;"> Tạo danh sách việc cần làm !</p>
-            <button style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
+            <button onclick='addBtn()' style="padding: 8px 14px;background: #EF6820;color: white; border: none;outline: none;border-radius: 8px;"> <i style="margin-right: 10px;" class="fa-solid fa-circle-plus"></i>Tạo mới</button>
         </div>
     </div>
         `
@@ -3156,16 +3155,6 @@ tag.innerHTML = `
 }
 }
 
-let newTodo = {
-    title : document.querySelector('.currentTab-title'),
-    content : document.querySelector('.currentTab-content'),
-    star : document.querySelector('.currentTab-star'),
-    group : document.querySelector('.currentTab-group'),
-    day : document.querySelector('.currentTab-day'),
-    time : document.querySelector('.currentTab-time'),
-    isRepeat : document.querySelector('.currentTab-isRepeat'),
-    tag : document.querySelector('.currentTab-tag')
-}
 
 function resetDataAddSection(){
     let popUpContent = document.querySelector('.popUp-add')
@@ -3176,15 +3165,15 @@ function resetDataAddSection(){
                 <input class="currentTab-title" type="text" placeholder="Nhập ghi chú mới" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
                 <input class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
             </div>
-            <i onclick="if (!this.getAttribute('isChoosed') || this.getAttribute('isChoosed') === 'false')
+            <i onclick="if (!this.getAttribute('ischoosed') || this.getAttribute('ischoosed') === 'false')
             {
-                this.setAttribute('isChoosed', 'true');
+                this.setAttribute('ischoosed', 'true');
                 this.classList.remove('fa-regular')
                 this.classList.add('fa-solid');
                 this.style.color = 'rgb(239, 104, 32)'
             }
             else {
-                this.setAttribute('isChoosed', 'false');
+                this.setAttribute('ischoosed', 'false');
                 this.classList.remove('fa-solid')
                 this.classList.add('fa-regular');
                 this.style.color = 'black'
@@ -3199,12 +3188,7 @@ function resetDataAddSection(){
                 <i style="margin-left: 12px;cursor: pointer" class="fa-solid fa-caret-down"></i>
             </div>
             <div class="groups-choose-navbar" style="display: none;position: absolute;top: 100%;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 207px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;z-index: 9999;">
-                <!-- <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Khác <span ><i class="fa-solid fa-check"></i></span></p>
-                <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Cá nhân <span  ><i class="fa-solid fa-check"></i></span></p>
-                <div class="groups-choose-navbar-addGroup" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
-                    <input onblur="focusOnGroups('true')" onfocus="focusOnGroups('false')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm nhóm">
-                    <span onclick="addGroups()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;cursor: pointer;"><i class="fa-solid fa-plus"></i></span>
-                </div> -->
+                
             </div>
         </div>
         <div class="popUp-add-options" style="display: flex;flex-direction: row;align-items: center;gap: 10px;">
@@ -3281,11 +3265,11 @@ function resetDataAddSection(){
                 </div>
             </div>
             <div onclick="repeatDisplay(event)" class="options_num-3" style="cursor: pointer;position: relative;color: black;border-radius: 8px;">
-                <i class="fa-solid fa-repeat"></i>
+                <i class="fa-solid fa-repeat currentTab-isRepeat"></i>
                 <div class="repeat-display" style="display: none;width: 328px;height: 216px;position: absolute;padding: 12px;background: white;left:-50px;flex-direction: column;justify-content: left;gap: 4px;;border: 2px solid #F3F4F6;border-radius: 8px;">
                     <p style="font-weight:500 ;font-size: 14px;"> Lặp lại</p>
                     <div class="repeat-display_navbar" onclick="repeatNav1(event)" style="position: relative;display: flex;flex-direction: row;padding: 10px 12px;width: 100%;height: 40px;border-radius:8px;background: white;justify-content: space-between;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
-                        <p class="currentTab-isRepeat">Không lặp lại</p>
+                        <p class="">Không lặp lại</p>
                         <i class="fa-solid fa-caret-down"></i>
                         <div class="repeat-display_navbar-1" style="display: none;flex-direction: column;gap: 4px;padding: 8px;width: 100%;position: absolute;left: 0;top: 100%;border: 2px solid #F3F4F6;border-radius: 8px;background: white;height: 172px;">
                             <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Không lặp lại <span  ><i class="fa-solid fa-check check-1"></i></span></p>
@@ -3320,19 +3304,14 @@ function resetDataAddSection(){
                 <i class="fa-solid fa-tags"></i>
                 <p class="currentTab-tag" style="display: none;height: 16px;width: 180px;white-space: nowrap;overflow: hidden;"> </p>
                 <div class="tag-display-options" style="display: none;position: absolute;top: 100%;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 153px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;">
-                    <!-- <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Công việc <span ><i class="fa-solid fa-check"></i></span></p>
-                    <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Cá nhân <span  ><i class="fa-solid fa-check"></i></span></p>
-                    <div class="tag-display-add" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
-                        <input onfocusout="tagAdd('false')" onfocus="tagAdd('true')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm thẻ">
-                        <span onclick="tagAddHandle()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;"><i class="fa-solid fa-plus"></i></span>
-                    </div> -->
+                    
                 </div>
             </div>
         </div>
     </div>
     <hr style="color: #FFFFFF;border: 1px solid #F3F4F6;">
     <div style="display: flex;padding: 8px 16px;flex: 1;justify-content: flex-end;margin-right: 20px;">
-        <button onmouseover="this.style.background ='#EF6820';this.style.color = 'white'" onmouseout="this.style.background = '#F3F4F6';this.style.color = '#4D5761'" style="border: none;outline: none;border-radius: 8px;font-weight: 700;padding: 8px 14px;cursor: pointer">Tạo mới</button>
+        <button class="newTodoAdd" onclick="newTodoAdd()" onmouseover="this.style.background ='#EF6820';this.style.color = 'white'" onmouseout="this.style.background = '#F3F4F6';this.style.color = '#4D5761'" style="border: none;outline: none;border-radius: 8px;font-weight: 700;padding: 8px 14px;cursor: pointer">Tạo mới</button>
     </div>
     `
     // lấy lại phần tử DOM  
@@ -3342,4 +3321,85 @@ function resetDataAddSection(){
     repeatMain = document.querySelector('.repeat-display')
     tagMain = document.querySelector('.tag-display-options')
     groupsChoosing = document.querySelector('.groups-choose-navbar')
+}
+// Các thẻ chứa dữ liệu để thêm vào nhóm khi ấn chức năng thêm mới
+let newTodo = {
+    title : document.querySelector('.currentTab-title'),
+    content : document.querySelector('.currentTab-content'),
+    star : document.querySelector('.currentTab-star'),
+    group : document.querySelector('.currentTab-group'),
+    day : document.querySelector('.currentTab-day'),
+    time : document.querySelector('.currentTab-time'),
+    isRepeat : document.querySelector('.currentTab-isRepeat'),
+    tag : document.querySelector('.currentTab-tag')
+}
+// Tìm hàm render với đúng data của tab hiện tại
+let findTabRenderFunction = {
+    'all' : () => dataCheck(renderContent(data)),
+    'todayData' : () => dataCheck(renderTodayContent(todayData)),
+    'next3DaysData' : () => dataCheck(renderNext3DaysContent(next3DaysData)),
+    'Next7DaysData' : () => dataCheck(renderNext7DaysContent(Next7DaysData)),
+}
+function newTodoAdd(){
+    // gán lại các giá trị cho DOM mới 
+    newTodo = {
+    title : document.querySelector('.currentTab-title'),
+    content : document.querySelector('.currentTab-content'),
+    star : document.querySelector('.currentTab-star'),
+    group : document.querySelector('.currentTab-group'),
+    day : document.querySelector('.currentTab-day'),
+    time : document.querySelector('.currentTab-time'),
+    isRepeat : document.querySelector('.currentTab-isRepeat'),
+    tag : document.querySelector('.currentTab-tag')
+}
+    
+    let isValid = true
+    // lọc dữ liệu
+    if(!newTodo.group.innerText?.trim()) {
+        isValid = false;
+    }
+    if(!newTodo.title.value?.trim()){
+        isValid = false;
+    }
+    if(!newTodo.content.value?.trim()) {
+        isValid = false;
+    } 
+    if(!newTodo.day.innerText?.trim()) {
+        isValid = false;
+    }
+    if(!newTodo.time.innerText?.trim()){
+        isValid = false;
+    }
+    // 
+
+    if(!isValid){
+        return
+    }
+    let newValue = {
+        group:newTodo.group.innerText.trim(),
+        content: [
+            {
+                choosing: false,
+                star: newTodo.star.getAttribute('ischoosed')? true : false,
+                title : newTodo.title.value.trim(),
+                content : newTodo.content.value.trim(),
+                tag : newTodo.tag.innerText.split(','),
+                repeat: newTodo.isRepeat.style.color === '#EF6820',
+                date : newTodo.day.innerText.trim(),
+                time: newTodo.time.innerText.trim(),
+            }
+        ]
+    }
+    // thêm vào currentTab và render lại dữ liệu
+    if(currentTab) {
+        let findGroup = dataList[dataListToString].find(itm => itm.group.trim() == newValue.group.trim())
+        if(findGroup){
+            findGroup.content.unshift(newValue.content[0])
+            findTabRenderFunction[dataListToString]()
+        }
+        else {
+            dataList[dataListToString].unshift(newValue)
+            findTabRenderFunction[dataListToString]()
+        }
+    }
 }
