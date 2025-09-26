@@ -310,7 +310,7 @@ function addBtn() {
     popup.style.opacity = '1';
     container.style.filter = 'blur(3px)';
     setTimeout(() => {
-        popup.style.display = 'block';
+        popup.style.display = 'flex';
         document.addEventListener('click', handlePopup);
     }, 10)
 }
@@ -904,9 +904,9 @@ function choosedGroup(itemed){
         itemed.style.background = 'white'
         itemed.setAttribute('data-isChoosed','false')
         itemed.querySelector('span').style.display = 'block'
-        content.innerText = 'Không chọn'
+        content.innerText = 'Khác'
     }
-    if(div.innerText === 'Không chọn') {
+    if(div.innerText === 'Khác') {
         div.style.background = 'white'
         div.style.color = '#4D5761'
     }
@@ -1838,7 +1838,6 @@ function duplicateHandle(item){
 }
 
 // Phần : Hôm nay
-
 let todayData = [
     {
         group: 'Nhóm 1' ,
@@ -1927,11 +1926,11 @@ function renderTodayList(todoInf,num){
 function renderTodayContent(todayData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
-    todayData.forEach((item) => {
-        if(item.content.length === 0){
-            todayData.splice(0,todayData.length,...todayData.filter(item => item.content.length > 0))
-            }
-        } )
+    // todayData.forEach((item) => {
+    //     if(item.content.length === 0){
+    //         todayData.splice(0,todayData.length,...todayData.filter(item => item.content.length > 0))
+    //         }
+    //     } )
     if(todayData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -1949,14 +1948,16 @@ function renderTodayContent(todayData){
             ${renderTodayGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
-            ${item.content.map((itemm) => {return `
+            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
+            item.content.map((itemm) => {return `
                 ${( () => {
                     num++
                     itemm.id = num
                     return renderTodayList(itemm,num)
                 })()
+        }
+            `}).join('<hr>')
     }
-            `}).join('<hr>')}
             </div>
         </div>
     `}).join('')}
@@ -2103,11 +2104,11 @@ function Next3DaysContent(todoInf,num){
 function renderNext3DaysContent(next3DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
-    next3DaysData.forEach((item) => {
-        if(item.content.length === 0){
-            next3DaysData.splice(0,next3DaysData.length,...next3DaysData.filter(item => item.content.length > 0))
-            }
-        } )
+    // next3DaysData.forEach((item) => {
+    //     if(item.content.length === 0){
+    //         next3DaysData.splice(0,next3DaysData.length,...next3DaysData.filter(item => item.content.length > 0))
+    //         }
+    //     } )
     if(next3DaysData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2124,15 +2125,17 @@ function renderNext3DaysContent(next3DaysData){
         <div style='width:${button.getAttribute('data-status') === 'left'? '100%' : '30%'};height:auto;transition:  width 1s ease, height 1s ease;' class="content-body--${number+1} content-body--container">
             ${Next3daysGroup(item)}
             <hr>
-            <div style="display: flex;flex-direction: column;gap: 8px;">
-            ${item.content.map((itemm) => {return `
+            <div style="display: flex;flex-direction: column;gap: 8px">
+            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
+            item.content.map((itemm) => {return `
                 ${( () => {
                     num++
                     itemm.id = num
                     return Next3DaysContent(itemm,num)
                 })()
+        }
+            `}).join('<hr>')
     }
-            `}).join('<hr>')}
             </div>
         </div>
     `}).join('')}
@@ -2214,6 +2217,21 @@ let Next7DaysData = [{
             },
         ]
     },
+    {
+        group:'Nhóm 3 ',
+        content :
+            [
+                {
+                    star:false,
+                    title:'nội dung 1 Phần 7 ngày tới ',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','khác'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                },
+            ]
+    }
 ]
 
 function Next7DaysGroup(todoInf) {
@@ -2277,11 +2295,11 @@ function Next7DaysContent(todoInf,num){
 function renderNext7DaysContent(Next7DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
-    Next7DaysData.forEach((item) => {
-        if(item.content.length === 0){
-            Next7DaysData.splice(0,Next7DaysData.length,...Next7DaysData.filter(item => item.content.length > 0))
-            }
-        } )
+    // Next7DaysData.forEach((item) => {
+    //     if(item.content.length === 0){
+    //         Next7DaysData.splice(0,Next7DaysData.length,...Next7DaysData.filter(item => item.content.length > 0))
+    //         }
+    //     } )
     if(Next7DaysData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2299,14 +2317,16 @@ function renderNext7DaysContent(Next7DaysData){
             ${Next7DaysGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
-            ${item.content.map((itemm) => {return `
+            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
+            item.content.map((itemm) => {return `
                 ${( () => {
                     num++
                     itemm.id = num
                     return Next7DaysContent(itemm,num)
                 })()
+        }
+            `}).join('<hr>')
     }
-            `}).join('<hr>')}
             </div>
         </div>
     `}).join('')}
@@ -2426,11 +2446,11 @@ function filterContent(todoInf){
 
 function renderFilterContent(array){
     let button = document.querySelector('.toggleDisplay');
-    array.forEach((item) => {
-        if(item.content.length === 0){
-                array.splice(0,array.length,...array.filter(item => item.content.length > 0))
-            }
-        } )
+    // array.forEach((item) => {
+    //     if(item.content.length === 0){
+    //             array.splice(0,array.length,...array.filter(item => item.content.length > 0))
+    //         }
+    //     } )
     if(array.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2448,12 +2468,14 @@ function renderFilterContent(array){
             ${filterGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
-            ${item.content.map((itemm) => {return `
+            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
+            item.content.map((itemm) => {return `
                 ${( () => {
                     return filterContent(itemm)
                 })()
+        }
+            `}).join('<hr>')
     }
-            `}).join('<hr>')}
             </div>
         </div>
     `}).join('')}
@@ -3059,7 +3081,7 @@ function tagsEditFunc(array,originValue,newTagName) {
     ))
     return clone
 }
-// lưu biến chứa các thẻ lọc được user chọn
+// lưu biến chứa các thẻ lọc được user chọn, biến này không có tham chiếu tới dữ liệu gốc
 let tagsFilter
 function tagsDelFunc(array,value,action) {
     if(action === 'show') {
@@ -3083,6 +3105,20 @@ function tagsDelFunc(array,value,action) {
     }
 
 }
-
+function cancelTagFilter() {
+    if(tagTempoValue || tagsFilter) {
+        tagTempoValue = null
+        tagsFilter = null
+        dataCheck(renderFilterContent(currentTab))
+    }
+}
 // setInterval(()=> console.log(previous),10)
+
+
+
+// Phần thêm mới
+function renderForAddTodo(){
+//     Phần chọn thẻ
+
+}
 
