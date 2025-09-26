@@ -710,7 +710,7 @@ function tagAdd(status) {
         else {
             plus.style.display = 'none'
         }
-    }, 100);
+    }, 1000);
 }
 
 function tagAddHandle() {
@@ -721,7 +721,7 @@ function tagAddHandle() {
     let newTag = document.createElement('p');
     newTag.setAttribute('data-isChoosed', 'false')
     newTag.textContent = input.value
-    newTag.setAttribute('style', "border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
+    newTag.setAttribute('style', "font-size:13px;border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
     container.insertBefore(newTag, contain);
     input.value = ''
 }
@@ -863,7 +863,7 @@ function focusOnGroups(status){
     else {
         icon.style.display = 'block'
     }
-},100)
+},1000)
 }
 
 function addGroups(){
@@ -871,12 +871,16 @@ function addGroups(){
     let contain = container.querySelector('.groups-choose-navbar-addGroup')
     let input = container.querySelector('input')
     let newTag = document.createElement('p');
-    newTag.setAttribute('data-isChoosed', 'false')
-    newTag.innerHTML = input.value + '<span ><i class="fa-solid fa-check"></i></span>'
-    newTag.setAttribute('style', "border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
-    container.insertBefore(newTag, contain);
-    newTag.setAttribute('onclick',`choosedGroup(this)`)
-    input.value = ''
+    if(input.value.trim() !== ''){
+        newTag.setAttribute('data-isChoosed', 'false')
+        newTag.innerHTML = input.value + '<span ><i class="fa-solid fa-check"></i></span>'
+        newTag.setAttribute('style', "border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
+        container.insertBefore(newTag, contain);
+        newTag.setAttribute('onclick',`choosedGroup(this)`)
+        input.value = ''
+        console.log('heheheheh')
+    }
+    
 }
 
 function choosedGroup(itemed){
@@ -1725,11 +1729,11 @@ function renderTodoList(todoInf,num){
 function renderContent(data){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
-    data.forEach((item) => {
-        if(item.content.length === 0){
-            data.splice(0,data.length,...data.filter(item => item.content.length > 0))
-        }
-        } )
+    // data.forEach((item) => {
+    //     if(item.content.length === 0){
+    //         data.splice(0,data.length,...data.filter(item => item.content.length > 0))
+    //     }
+    //     } )
     if(data.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -1747,14 +1751,16 @@ function renderContent(data){
             ${renderGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
-            ${item.content.map((itemm) => {return `
+            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
+            item.content.map((itemm) => {return `
                 ${( () => {
                     num++
                     itemm.id = num
                     return renderTodoList(itemm,num)
                 })()
     }
-            `}).join('<hr>')}
+            `}).join('<hr>')
+}
             </div>
         </div>
     `}).join('')}
@@ -1775,7 +1781,10 @@ function dataCheck(contentt,tab,toString) {
         star.style.color = 'black'
         tagsFilter = null
         tagTempoValue = null
+        setTimeout(()=>renderForAddTodo(),1000)
+        resetDataAddSection()
     }
+    
     renderNavbarGroup()
     renderTagLists()
     if(toString) {
@@ -3118,7 +3127,219 @@ function cancelTagFilter() {
 
 // Phần thêm mới
 function renderForAddTodo(){
-//     Phần chọn thẻ
+if(currentTab){
+// reset dữ liệu khi chuyển tab khác
 
+//     Phần chọn nhóm
+let group = document.querySelector('.groups-choose-navbar')
+group.innerHTML = `
+    ${currentTab.map(group =>  `
+            <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">${group.group} <span ><i class="fa-solid fa-check"></i></span></p>
+        `).join('')}
+    <div class="groups-choose-navbar-addGroup" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
+        <input onblur="focusOnGroups('true')" onfocus="focusOnGroups('false')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm nhóm">
+        <span onclick="addGroups()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;cursor: pointer;"><i class="fa-solid fa-plus"></i></span>
+    </div>
+`
+// 
+// Phần chọn thẻ
+let tag = document.querySelector('.tag-display-options')
+tag.innerHTML = `
+    ${TagsHandler().map(tags =>  `
+            <p data-isChoosed="false" style="font-size:13px;border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">${tags} <span ><i class="fa-solid fa-check"></i></span></p>
+        `).join('')}
+    <div class="tag-display-add" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
+        <input onfocusout="tagAdd('false')" onfocus="tagAdd('true')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm thẻ">
+        <span onclick="tagAddHandle()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;"><i class="fa-solid fa-plus"></i></span>
+    </div>
+`
+}
 }
 
+let newTodo = {
+    title : document.querySelector('.currentTab-title'),
+    content : document.querySelector('.currentTab-content'),
+    star : document.querySelector('.currentTab-star'),
+    group : document.querySelector('.currentTab-group'),
+    day : document.querySelector('.currentTab-day'),
+    time : document.querySelector('.currentTab-time'),
+    isRepeat : document.querySelector('.currentTab-isRepeat'),
+    tag : document.querySelector('.currentTab-tag')
+}
+
+function resetDataAddSection(){
+    let popUpContent = document.querySelector('.popUp-add')
+    popUpContent.innerHTML = `
+    <div style="display: flex;flex-direction: column;gap: 8px;padding: 12px 20px">
+        <div style="display: flex;flex-direction: row;justify-content: space-between;">
+            <div  style="display: flex;flex-direction: column;gap: 3px;">
+                <input class="currentTab-title" type="text" placeholder="Nhập ghi chú mới" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
+                <input class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
+            </div>
+            <i onclick="if (!this.getAttribute('isChoosed') || this.getAttribute('isChoosed') === 'false')
+            {
+                this.setAttribute('isChoosed', 'true');
+                this.classList.remove('fa-regular')
+                this.classList.add('fa-solid');
+                this.style.color = 'rgb(239, 104, 32)'
+            }
+            else {
+                this.setAttribute('isChoosed', 'false');
+                this.classList.remove('fa-solid')
+                this.classList.add('fa-regular');
+                this.style.color = 'black'
+            }
+            "
+            class="fa-regular fa-star currentTab-star">
+            </i>
+        </div>
+        <div onclick="groupChoose(event)" class=" groups-choose" style="color: #4D5761;font-size: 13px;position: relative;height: 28px;">
+            <div style="display: flex;flex-direction: row;padding: 8px 12px;width: fit-content;border-radius: 8px;" >
+                <p class="currentTab-group" style="width: auto;overflow: hidden;max-width: 400px;"> Khác </p>
+                <i style="margin-left: 12px;cursor: pointer" class="fa-solid fa-caret-down"></i>
+            </div>
+            <div class="groups-choose-navbar" style="display: none;position: absolute;top: 100%;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 207px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;z-index: 9999;">
+                <!-- <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Khác <span ><i class="fa-solid fa-check"></i></span></p>
+                <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Cá nhân <span  ><i class="fa-solid fa-check"></i></span></p>
+                <div class="groups-choose-navbar-addGroup" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
+                    <input onblur="focusOnGroups('true')" onfocus="focusOnGroups('false')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm nhóm">
+                    <span onclick="addGroups()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;cursor: pointer;"><i class="fa-solid fa-plus"></i></span>
+                </div> -->
+            </div>
+        </div>
+        <div class="popUp-add-options" style="display: flex;flex-direction: row;align-items: center;gap: 10px;">
+            <div onclick="addCalendarBtn(event)" class="options_num-1" style="cursor: pointer;position: relative;display: flex;">
+                <i class="fa-solid fa-calendar "></i>
+                <div style="display: flex;flex-direction: row;width: 100%;height: 100%;padding:0;gap: 8px;">
+                    <p class="currentTab-day" style="display: none;font-weight: 480;color:#FF4405"></p>
+                    <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo"></i>
+                </div>
+                <div style="display: none;position: absolute;border: 2px solid #F3F4F6;border-radius: 8px;" class="popUp-add-options-calendar__navbar">
+                    <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Hôm nay</p>
+                    <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Ngày mai</p>
+                    <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event)">Tuần này</p>
+                    <p onclick="setValue('.options_num-1','.options_num-1 i:first-of-type','.options_num-1 div:first-of-type>p',event);calendarDisplay()" >Tuỳ chỉnh <i style="margin-left: 28px" class="fa-solid fa-arrow-right"></i> </p>
+                </div>
+            </div>
+            <div onclick="timeDisplay(event)" class="options_num-2" style="cursor: pointer;position: relative;display: flex;border-radius: 8px">
+                <i class="fa-solid fa-clock"></i>
+                <div style="display: flex;flex-direction: row;width: 100%;height: 100%;padding:0;gap: 8px;">
+                    <p class="currentTab-time" style="display: none;font-weight: 480;color:#FF4405"></p>
+                    <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo2"></i>
+                </div>
+                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 276px;top: 100%;left: -350%;border-radius: 8px;padding: 8px;">
+                    <div style="height: 36px;display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 22px 12px;background: #F5F5F5    ;border-radius: 8px">
+                        <i onclick="previousMonth()" style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-left"></i>
+                        <p class="calendar-date">date here</p>
+                        <i onclick="nextMonth()" style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-right"></i>
+                    </div>
+                    <div style="flex: 1;padding: 0" class="options_num-2-navbar">
+                        <table class="calendar_table" style="width: 100%;font-size: 12px;color: #9DA4AE;border-spacing: 10px">
+
+                        </table>
+                    </div>
+                </div>
+                <div  class="time-display" style="z-index: 1;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 320px;height: 84px;top: 100%;left: -350%;border-radius: 8px;padding: 12px;gap: 8px">
+                    <p>Thời gian</p>
+                    <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 0;gap: 8px";>
+                        <select onchange="timeDisplay(event)" class="time-display_hour" style="width: 100%;padding: 8px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;appearance: none;text-align: center">
+                            <option > --</option>
+                            <option >01</option>
+                            <option >02</option>
+                            <option >03</option>
+                            <option >04</option>
+                            <option >05</option>
+                            <option >06</option>
+                            <option >07</option>
+                            <option>08</option>
+                            <option>09</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                            <option>13</option>
+                            <option>14</option>
+                            <option >15</option>
+                            <option >16</option>
+                            <option >17</option>
+                            <option >18</option>
+                            <option >19</option>
+                            <option>20</option>
+                            <option>21</option>
+                            <option >22</option>
+                            <option>23</option>
+                            <option>24</option>
+                        </select>
+                        <p>:</p>
+                        <select onchange="timeDisplay(event)" class="time-display_minute" style="width: 100%;padding: 8px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;appearance: none;text-align: center">
+                            <option > -- </option>
+                            <option >00</option>
+                            <option >15</option>
+                            <option >30</option>
+                            <option >45</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div onclick="repeatDisplay(event)" class="options_num-3" style="cursor: pointer;position: relative;color: black;border-radius: 8px;">
+                <i class="fa-solid fa-repeat"></i>
+                <div class="repeat-display" style="display: none;width: 328px;height: 216px;position: absolute;padding: 12px;background: white;left:-50px;flex-direction: column;justify-content: left;gap: 4px;;border: 2px solid #F3F4F6;border-radius: 8px;">
+                    <p style="font-weight:500 ;font-size: 14px;"> Lặp lại</p>
+                    <div class="repeat-display_navbar" onclick="repeatNav1(event)" style="position: relative;display: flex;flex-direction: row;padding: 10px 12px;width: 100%;height: 40px;border-radius:8px;background: white;justify-content: space-between;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
+                        <p class="currentTab-isRepeat">Không lặp lại</p>
+                        <i class="fa-solid fa-caret-down"></i>
+                        <div class="repeat-display_navbar-1" style="display: none;flex-direction: column;gap: 4px;padding: 8px;width: 100%;position: absolute;left: 0;top: 100%;border: 2px solid #F3F4F6;border-radius: 8px;background: white;height: 172px;">
+                            <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Không lặp lại <span  ><i class="fa-solid fa-check check-1"></i></span></p>
+                            <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;"> Hằng ngày <span ><i class="fa-solid fa-check check-2"></i></span></p>
+                            <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;"> Ngày trong tuần <span ><i class="fa-solid fa-check check-3"></i></span></p>
+                            <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;"> Hằng tháng <span ><i class="fa-solid fa-check check-4"></i></span></p>
+                        </div>
+                    </div>
+                    <p style="font-weight:500 ;font-size: 14px;"> Kết thúc </p>
+                    <div class="repeatCounter-container" style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;background: white;">
+                        <img onclick="focusChange('.repeatCounter')" style="cursor: pointer;margin-right: 5px;" src="../asset/Radio.png" height="26" width="26"/>
+                        <p style="flex: 1;font-size: 15px;"> Số lần lặp lại</p>
+                        <input class="repeatCounter no-arrow" style="width: 37px;height: 40px;padding: 10px 10px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);" type="number">
+                    </div>
+                    <div class="repeat-calendarModify" style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;background: white;">
+                        <img onclick="focusChange('.repeat-calendar-num-1')" style="cursor: pointer;margin-right: 5px;" src="../asset/Radio.png" height="26" width="26"/>
+                        <p style="font-size: 15px;"> Vào ngày</p>
+                        <div style="flex: 1;display: flex;flex-direction: row;justify-content: right;align-items: center;">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <div style="display: flex;flex-direction: row;padding: 8px 0 8px 8px">
+                                <input onfocusout="calendarModify(event,this.value >= 0 && this.value <= 31)" oninput="calendarModify(event,this.value >= 0 && this.value <= 31);counter(event)" class="no-arrow repeat-calendar-num-1" style="width: 16px;border: none;outline:none" type="number" placeholder="--">
+                                /
+                                <input onfocusout="calendarModify(event,this.value >= 0 && this.value <= 12)" oninput="calendarModify(event,this.value >= 0 && this.value <= 12);counter(event)" class="no-arrow repeat-calendar-num-2" style="width: 16px;border: none;outline:none" type="number" placeholder="--">
+                                /
+                                <input max="9999" onclick="reset(event)" oninput="calendarModify(event,this.value >= 2000 && this.value < 9999);counter2(event,this.value >= 2000 && this.value < 9999)" class="no-arrow repeat-calendar-num-3" style="width: 30px;border: none;outline:none" type="number" placeholder="--">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div onclick="tagDisplay(event)" class="options_num-4" style="cursor: pointer;position: relative;border-radius: 8px;">
+                <i class="fa-solid fa-tags"></i>
+                <p class="currentTab-tag" style="display: none;height: 16px;width: 180px;white-space: nowrap;overflow: hidden;"> </p>
+                <div class="tag-display-options" style="display: none;position: absolute;top: 100%;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 153px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;">
+                    <!-- <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Công việc <span ><i class="fa-solid fa-check"></i></span></p>
+                    <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Cá nhân <span  ><i class="fa-solid fa-check"></i></span></p>
+                    <div class="tag-display-add" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
+                        <input onfocusout="tagAdd('false')" onfocus="tagAdd('true')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm thẻ">
+                        <span onclick="tagAddHandle()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;"><i class="fa-solid fa-plus"></i></span>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr style="color: #FFFFFF;border: 1px solid #F3F4F6;">
+    <div style="display: flex;padding: 8px 16px;flex: 1;justify-content: flex-end;margin-right: 20px;">
+        <button onmouseover="this.style.background ='#EF6820';this.style.color = 'white'" onmouseout="this.style.background = '#F3F4F6';this.style.color = '#4D5761'" style="border: none;outline: none;border-radius: 8px;font-weight: 700;padding: 8px 14px;cursor: pointer">Tạo mới</button>
+    </div>
+    `
+    // lấy lại phần tử DOM  
+    calenNavbarMain = document.querySelector('.popUp-add-options-calendar__navbar')
+    calendarMain = document.querySelector('.calendar-display')
+    timeMain = document.querySelector('.time-display')
+    repeatMain = document.querySelector('.repeat-display')
+    tagMain = document.querySelector('.tag-display-options')
+    groupsChoosing = document.querySelector('.groups-choose-navbar')
+}

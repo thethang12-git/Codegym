@@ -48,8 +48,9 @@
                          this.blur()
                          this.value = ''
                          renderNavbarGroup()
-                         console.log(next3DaysData,currentTab)
                          dataCheck(renderFilterContent(currentTab))
+                         console.log(currentTab,data)
+                         renderForAddTodo()
                         }
                     "
                     maxlength="18" type="text" style="display: none;margin-top: 6px;width: 100%;padding: 8px 20px 8px 8px;border: 1px solid #F3F4F6;border-radius: 8px;outline: none;background:#F9FAFB "
@@ -422,10 +423,10 @@
 </div>
 <div class="popUp-add"  >
     <div style="display: flex;flex-direction: column;gap: 8px;padding: 12px 20px">
-        <div class="currentTab-title-content-star" style="display: flex;flex-direction: row;justify-content: space-between;">
+        <div style="display: flex;flex-direction: row;justify-content: space-between;">
             <div  style="display: flex;flex-direction: column;gap: 3px;">
-                <input type="text" placeholder="Nhập ghi chú mới" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
-                <input type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
+                <input class="currentTab-title" type="text" placeholder="Nhập ghi chú mới" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
+                <input class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
             </div>
             <i onclick="if (!this.getAttribute('isChoosed') || this.getAttribute('isChoosed') === 'false')
             {
@@ -441,7 +442,7 @@
                 this.style.color = 'black'
             }
             "
-            class="fa-regular fa-star">
+            class="fa-regular fa-star currentTab-star">
             </i>
         </div>
         <div onclick="groupChoose(event)" class=" groups-choose" style="color: #4D5761;font-size: 13px;position: relative;height: 28px;">
@@ -450,12 +451,12 @@
                 <i style="margin-left: 12px;cursor: pointer" class="fa-solid fa-caret-down"></i>
             </div>
             <div class="groups-choose-navbar" style="display: none;position: absolute;top: 100%;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 207px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;z-index: 9999;">
-                <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Khác <span ><i class="fa-solid fa-check"></i></span></p>
+                <!-- <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Khác <span ><i class="fa-solid fa-check"></i></span></p>
                 <p onclick="choosedGroup(this)" data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Cá nhân <span  ><i class="fa-solid fa-check"></i></span></p>
                 <div class="groups-choose-navbar-addGroup" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
                     <input onblur="focusOnGroups('true')" onfocus="focusOnGroups('false')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm nhóm">
                     <span onclick="addGroups()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;cursor: pointer;"><i class="fa-solid fa-plus"></i></span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="popUp-add-options" style="display: flex;flex-direction: row;align-items: center;gap: 10px;">
@@ -536,7 +537,7 @@
                 <div class="repeat-display" style="display: none;width: 328px;height: 216px;position: absolute;padding: 12px;background: white;left:-50px;flex-direction: column;justify-content: left;gap: 4px;;border: 2px solid #F3F4F6;border-radius: 8px;">
                     <p style="font-weight:500 ;font-size: 14px;"> Lặp lại</p>
                     <div class="repeat-display_navbar" onclick="repeatNav1(event)" style="position: relative;display: flex;flex-direction: row;padding: 10px 12px;width: 100%;height: 40px;border-radius:8px;background: white;justify-content: space-between;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
-                        <p >Không lặp lại</p>
+                        <p class="currentTab-isRepeat">Không lặp lại</p>
                         <i class="fa-solid fa-caret-down"></i>
                         <div class="repeat-display_navbar-1" style="display: none;flex-direction: column;gap: 4px;padding: 8px;width: 100%;position: absolute;left: 0;top: 100%;border: 2px solid #F3F4F6;border-radius: 8px;background: white;height: 172px;">
                             <p style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Không lặp lại <span  ><i class="fa-solid fa-check check-1"></i></span></p>
@@ -569,19 +570,19 @@
             </div>
             <div onclick="tagDisplay(event)" class="options_num-4" style="cursor: pointer;position: relative;border-radius: 8px;">
                 <i class="fa-solid fa-tags"></i>
-                <p style="display: none;height: 16px;width: 180px;white-space: nowrap;overflow: hidden;"> </p>
+                <p class="currentTab-tag" style="display: none;height: 16px;width: 180px;white-space: nowrap;overflow: hidden;"> </p>
                 <div class="tag-display-options" style="display: none;position: absolute;top: 100%;background: white;border: 2px solid #F3F4F6;;border-radius: 8px;width: 153px;padding: 8px;flex-direction: column;gap: 4px;justify-content: center;">
-                    <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Công việc <span ><i class="fa-solid fa-check"></i></span></p>
+                    <!-- <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Công việc <span ><i class="fa-solid fa-check"></i></span></p>
                     <p data-isChoosed="false" style="border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">Cá nhân <span  ><i class="fa-solid fa-check"></i></span></p>
                     <div class="tag-display-add" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
                         <input onfocusout="tagAdd('false')" onfocus="tagAdd('true')" style="width: 100%;padding: 8px 20px 8px 8px;border: none;border-radius: 8px;outline: none;" type="text" placeholder="Thêm thẻ">
                         <span onclick="tagAddHandle()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;"><i class="fa-solid fa-plus"></i></span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
     </div>
-    <hr style="">
+    <hr style="color: #FFFFFF;border: 1px solid #F3F4F6;">
     <div style="display: flex;padding: 8px 16px;flex: 1;justify-content: flex-end;margin-right: 20px;">
         <button onmouseover="this.style.background ='#EF6820';this.style.color = 'white'" onmouseout="this.style.background = '#F3F4F6';this.style.color = '#4D5761'" style="border: none;outline: none;border-radius: 8px;font-weight: 700;padding: 8px 14px;cursor: pointer">Tạo mới</button>
     </div>
