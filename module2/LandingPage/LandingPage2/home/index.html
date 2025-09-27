@@ -44,7 +44,7 @@
                     "
                     onkeydown="
                         if (event.key === 'Enter' && this.value.trim() !== '' && currentTab) {
-                         currentTab.unshift({group:this.value,content:[]})
+                         currentTab.unshift({group:this.value,notAllowDel:true,content:[]})
                          this.blur()
                          this.value = ''
                          renderNavbarGroup()

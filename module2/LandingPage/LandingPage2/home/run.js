@@ -1730,11 +1730,11 @@ function renderTodoList(todoInf,num){
 function renderContent(data){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
-    // data.forEach((item) => {
-    //     if(item.content.length === 0){
-    //         data.splice(0,data.length,...data.filter(item => item.content.length > 0))
-    //     }
-    //     } )
+    data.forEach((item) => {
+        if(item.content.length === 0 ){
+            data.splice(0,data.length,...data.filter(item => item.content.length > 0))
+        }
+        } )
     if(data.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -1751,8 +1751,7 @@ function renderContent(data){
             ${renderGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
-            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
-            item.content.map((itemm) => {return `
+            ${item.content.map((itemm) => {return `
                 ${( () => {
                     num++
                     itemm.id = num
@@ -1784,7 +1783,6 @@ function dataCheck(contentt,tab,toString) {
         setTimeout(()=>renderForAddTodo(),1000)
         resetDataAddSection()
     }
-    
     renderNavbarGroup()
     renderTagLists()
     if(toString) {
@@ -1827,6 +1825,7 @@ function toDoDelete(itemm){
             // }
         } )
         dataCheck(renderContent(data))
+        renderForAddTodo()
     },200)
     console.log(data)
 }
@@ -1932,14 +1931,16 @@ function renderTodayList(todoInf,num){
     `
 }
 
+// ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
+
 function renderTodayContent(todayData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
-    // todayData.forEach((item) => {
-    //     if(item.content.length === 0){
-    //         todayData.splice(0,todayData.length,...todayData.filter(item => item.content.length > 0))
-    //         }
-    //     } )
+    todayData.forEach((item) => {
+        if(item.content.length === 0){
+            todayData.splice(0,todayData.length,...todayData.filter(item => item.content.length > 0))
+            }
+        } )
     if(todayData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -1956,8 +1957,7 @@ function renderTodayContent(todayData){
             ${renderTodayGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
-            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
-            item.content.map((itemm) => {return `
+            ${item.content.map((itemm) => {return `
                 ${( () => {
                     num++
                     itemm.id = num
@@ -2108,15 +2108,16 @@ function Next3DaysContent(todoInf,num){
                     </div>
     `
 }
+// ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
 
 function renderNext3DaysContent(next3DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
-    // next3DaysData.forEach((item) => {
-    //     if(item.content.length === 0){
-    //         next3DaysData.splice(0,next3DaysData.length,...next3DaysData.filter(item => item.content.length > 0))
-    //         }
-    //     } )
+    next3DaysData.forEach((item) => {
+        if(item.content.length === 0){
+            next3DaysData.splice(0,next3DaysData.length,...next3DaysData.filter(item => item.content.length > 0))
+            }
+        } )
     if(next3DaysData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2133,8 +2134,7 @@ function renderNext3DaysContent(next3DaysData){
             ${Next3daysGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px">
-            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
-            item.content.map((itemm) => {return `
+            ${item.content.map((itemm) => {return `
                 ${( () => {
                     num++
                     itemm.id = num
@@ -2298,15 +2298,16 @@ function Next7DaysContent(todoInf,num){
                     </div>
     `
 }
+// ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
 
 function renderNext7DaysContent(Next7DaysData){
     let num = 0
     let button = document.querySelector('.toggleDisplay');
-    // Next7DaysData.forEach((item) => {
-    //     if(item.content.length === 0){
-    //         Next7DaysData.splice(0,Next7DaysData.length,...Next7DaysData.filter(item => item.content.length > 0))
-    //         }
-    //     } )
+    Next7DaysData.forEach((item) => {
+        if(item.content.length === 0){
+            Next7DaysData.splice(0,Next7DaysData.length,...Next7DaysData.filter(item => item.content.length > 0))
+            }
+        } )
     if(Next7DaysData.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2323,8 +2324,7 @@ function renderNext7DaysContent(Next7DaysData){
             ${Next7DaysGroup(item)}
             <hr>
             <div style="display: flex;flex-direction: column;gap: 8px;">
-            ${item.content.length === 0 ? `<div style="color:#EF6820;font-size: 20px;font-style: italic;margin: auto;display: flex;flex-direction: row;gap: 10px;align-items: center"><i class="fa-solid fa-exclamation"></i> &lt; Nhóm này đang trống, vui lòng thêm mới &gt; </div>` :
-            item.content.map((itemm) => {return `
+            ${item.content.map((itemm) => {return `
                 ${( () => {
                     num++
                     itemm.id = num
@@ -2452,11 +2452,11 @@ function filterContent(todoInf){
 
 function renderFilterContent(array){
     let button = document.querySelector('.toggleDisplay');
-    // array.forEach((item) => {
-    //     if(item.content.length === 0){
-    //             array.splice(0,array.length,...array.filter(item => item.content.length > 0))
-    //         }
-    //     } )
+    array.forEach((item) => {
+        if(item.content.length === 0 && !item.notAllowDel){
+                array.splice(0,array.length,...array.filter(item => item.content.length > 0))
+            }
+        } )
     if(array.length === 0){
         return `
             <div style="width: 397px;height: 248px;margin: auto;display: flex;flex-direction: column;gap: 24px;align-items: center;">
@@ -2949,7 +2949,6 @@ function groupOptionsDelete(item) {
 // Phần thẻ
 // lưu tạm giá trị text của thẻ được ấn vào ở biến nayf
 let tagTempoValue
-// let tagsList = ['cá nhân', 'công việc', 'du lịch','xin chao','heheh']
 function TagsHandler(){
     let temp = []
     let final = []
@@ -3174,8 +3173,10 @@ group.innerHTML = `
 // 
 // Phần chọn thẻ
 let tag = document.querySelector('.tag-display-options')
+let filterTagsHandler = TagsHandler()
+filterTagsHandler.splice(0,filterTagsHandler.length,...filterTagsHandler.filter(itm => itm.trim()))
 tag.innerHTML = `
-    ${TagsHandler().map(tags =>  `
+    ${filterTagsHandler.map(tags =>  `
             <p data-isChoosed="false" style="font-size:13px;border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;">${tags} <span ><i class="fa-solid fa-check"></i></span></p>
         `).join('')}
     <div class="tag-display-add" style="position: relative;border: 2px solid #F3F4F6;border-radius: 8px;padding: 0;">
@@ -3408,6 +3409,7 @@ function newTodoAdd(){
     }
     let newValue = {
         group:newTodo.group.innerText.trim(),
+        notAllowDel:false,
         content: [
             {
                 choosing: false,
@@ -3427,10 +3429,14 @@ function newTodoAdd(){
         if(findGroup){
             findGroup.content.unshift(newValue.content[0])
             findTabRenderFunction[dataListToString]()
+            resetDataAddSection()
+            setTimeout(()=>renderForAddTodo(),1000)
         }
         else {
             dataList[dataListToString].unshift(newValue)
             findTabRenderFunction[dataListToString]()
+            resetDataAddSection()
+            setTimeout(()=>renderForAddTodo(),1000)
         }
     }
 }
