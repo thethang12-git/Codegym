@@ -62,7 +62,7 @@ function colorToFinish(event,array){
         event.target.style.height = '20px'
         event.target.style.marginLeft = '8px'
         console.log('case finished!',previous)
-    //     viết câu lệnh để add vào data của finish ở đây
+
         container.style.transition = 'all 0.5s ease-in'
         container.style.transform = 'translate(-500px, -500px) rotate(-30deg)';
         container.style.opacity = '0';
@@ -100,12 +100,12 @@ function colorToFinish(event,array){
 
 let contain = document.querySelector('.navbar');
 let collapsed = false;
-
+// click bất kỳ đâu cũng đóng sidebar
 function handleClick(e) {
-    if (!contain.contains(e.target)) {
+    // if (!contain.contains(e.target) ) {
         contain.style.left = '-300px'
         document.removeEventListener('click', handleClick);
-    }
+    // }
 }
 
 window.addEventListener('resize', function () {
@@ -287,6 +287,7 @@ function addBtn() {
     let popup = document.querySelector('.popUp-add')
     let container = document.querySelector('.container')
     let button = document.querySelector('.add-Btn')
+    let overlay = document.querySelector('.blur-overlay')
     popup.setAttribute('data-status', 'actived');
     if (popup.getAttribute('data-status') === 'actived') {
         setTimeout(() => {
@@ -299,7 +300,8 @@ function addBtn() {
                         }, 10)
                         popup.style.opacity = '0'
                         popup.style.visibility = 'hidden'
-                        container.style.filter = 'blur(0)'
+                        // container.style.filter = 'blur(0)'
+                        overlay.style.display = 'none'
                     }
                 })
             }, 1000
@@ -308,11 +310,13 @@ function addBtn() {
     popup.style.transform = 'scale(1)';
     popup.style.visibility = 'visible';
     popup.style.opacity = '1';
-    container.style.filter = 'blur(3px)';
+    popup.style.zIndex = '11'
+    // container.style.filter = 'blur(3px)';
     setTimeout(() => {
         popup.style.display = 'flex';
         document.addEventListener('click', handlePopup);
     }, 10)
+    overlay.style.display = 'block'
 }
 
 function addCalendarBtn(event) {
@@ -717,8 +721,8 @@ function tagAddHandle() {
     let container = document.querySelector('.tag-display-options')
     let contain = document.querySelector('.tag-display-add')
     let input = contain.querySelector('input')
-// Xử lý thêm 1 thẻ mới vào giữa những thẻ có sẵn   
-    if(input.value.trim() && input.value.length <= 18) {
+// Xử lý thêm 1 thẻ mới vào giữa những thẻ có sẵn  
+    if(input.value.trim() && input.value.length <= 30) {
         let newTag = document.createElement('p');
         newTag.setAttribute('data-isChoosed', 'false')
         newTag.textContent = input.value
@@ -2968,7 +2972,7 @@ function renderTagLists() {
     if(!currentTab) {content.innerHTML=null;return}
     content.innerHTML = `
         ${TagsHandler().map((itm,num) => `
-            <p style='${itm === tagTempoValue?'background: rgb(253, 234, 215)' : 'background :#F5F5F5' }' oninput="tagEditingFunc(this)" onclick="displayNavTags(this)" class="tagsList tags-num-${num}">${itm}</p>
+            ${itm.trim()? `<p style='${itm === tagTempoValue?'background: rgb(253, 234, 215)' : 'background :#F5F5F5' }' oninput="tagEditingFunc(this)" onclick="displayNavTags(this)" class="tagsList tags-num-${num}">${itm}</p>`: ``} 
             <div class="tags-modifiers tags-modifiers--num-${num}"  style="position: absolute;display: none;flex-direction: column;height: 84px;width: 122px;border-radius: 8px;border: 1px solid #F3F4F6;background: white">
                 <p onclick="tagEditFunc(this)" style="flex: 1" >sửa</p>
                 <p onclick="tagDelete(this)" style="flex: 1;" >xoá</p>
@@ -3193,8 +3197,8 @@ function resetDataAddSection(){
     popUpContent.innerHTML = `
     <div style="display: flex;flex-direction: column;gap: 8px;padding: 12px 20px">
         <div style="display: flex;flex-direction: row;justify-content: space-between;">
-            <div  style="display: flex;flex-direction: column;gap: 3px;">
-                <input class="currentTab-title" type="text" placeholder="Nhập ghi chú mới" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
+            <div  style="flex: 1;display: flex;flex-direction: column;gap: 3px;">
+                <input class="currentTab-title" type="text" placeholder="Thêm chủ đề ghi chú" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
                 <input class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
             </div>
             <i onclick="if (!this.getAttribute('ischoosed') || this.getAttribute('ischoosed') === 'false')
@@ -3440,3 +3444,60 @@ function newTodoAdd(){
         }
     }
 }
+
+
+//  Phần tìm kiếm
+function addSearchForm(){
+    let searchForm = document.querySelector('.search-popUp-container')
+    let overlay = document.querySelector('.blur-overlay')
+    let input = searchForm.querySelector('input')
+    if(searchForm.style.display === 'none'){
+    searchForm.style.opacity = '0'
+    searchForm.style.display = 'flex'
+    overlay.style.display = 'block'
+     setTimeout(() => {
+        searchForm.style.opacity = '1';
+        input.focus()
+        ;
+    }, 50);
+}
+    document._outsideClick = (e) => {
+        if(!searchForm.contains(e.target)){
+            searchForm.style.opacity = '0'
+            overlay.style.display = 'none'
+            setTimeout(() => searchForm.style.display = 'none',500)
+            document.removeEventListener('click', document._outsideClick)
+            document._outsideClick = null
+        }
+    }
+    setTimeout( () => {
+        document.addEventListener('click' , document._outsideClick)
+    },200)
+    input.value = ''
+    searchingInput()
+}
+// Lưu lịch sử tìm kiếm ở searchLog
+let searchLog = []
+function searchingInput () {
+    let searchForm = document.querySelector('.search-popUp-container')
+    let input = searchForm.querySelector('input')
+    // Hiển thị lịch sử tìm kiếm
+    if(!input.value.trim() || input.value.length === 0) {
+        // hiển thị lịch sử tìm kiếm từ seachLog ở đây
+    }
+    else {
+        // khi ấn enter thì lưu value vào searchLog sau đó hiển thị
+        input._saveToSearchLog = (e) => {
+            if(e.key === 'Enter' && input.value.trim()) {
+            searchLog.push(input.value)
+            }
+            else {
+                input.removeEventListener('keydown',input._saveToSearchLog)
+            }    
+        }
+        input.addEventListener('keydown',input._saveToSearchLog)
+        // 
+
+    }
+}
+
