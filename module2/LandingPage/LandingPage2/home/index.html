@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+<div onclick="console.log(searchFilter('Curabitur'))" style="width: 50px;height: 30px;display: block;margin: auto;"> <button>test test</button></div>
 <div class="container">
     <div class="navbar"> 
         <div class="navbar-search">
@@ -590,9 +591,18 @@
             style="outline: none;border:2px solid white;padding: 12px 20px 12px 35px;background: #F9FAFB;border-radius: 8px;flex: 1;width: 100%;background: #F9FAFB;" type="text" placeholder="Tìm kiếm">
         </div>
         <div style="flex: 1;display: flex;flex-direction: column;height: 100px;">
-            <div class="search-log" style="background: lightblue;width: 100%;overflow: auto;max-height:100px ;opacity: 0;">
+            <div class="search-log" style="background: white;width: 100%;overflow: auto;max-height:100px ;opacity: 0;display: flex;flex-direction: column;gap: 8px;">
                 <!-- search log here -->
-                 <div>search log</div>
+                    <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                        <p style="color: #4D5761;font-weight: 600;">Lịch sử tìm kiếm</p>
+                        <p style="color: #F04438;"> xóa tất cả</p>
+                    </div>
+                    <div class="search-log-content" style="display: flex;flex-direction: row;flex-wrap: wrap;gap: 8px;">
+                        <!-- <p class="search-log-list-num-" style="color: #4D5761;gap: 8px;max-width: 180px;padding: 6px 12px;border-radius: 8px;height: 32px;background: #F5F5F5;display: flex;align-items: center;justify-content: space-evenly"> 
+                            <span style="overflow: hidden;text-overflow: ellipsis;">nội dung ở đây</span> 
+                            <i style="margin-top: 1.4px;" class="fa-solid fa-xmark"></i>
+                        </p> -->
+                    </div>
             </div>
             <div class="search-list" style="background: lightblue;width: 100%;max-height:200px ;overflow: auto;"> 
                 <!-- searh list here -->

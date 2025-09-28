@@ -2757,7 +2757,6 @@ let dataList = {
 }
 
 // xử lý dữ liệu để hiênr thị cho phần nhóm và thẻ
-let cloneData = [data,todayData,next3DaysData,Next7DaysData]
 function renderClone(array) {
     let duplicate = []
     let temporary = []
@@ -3473,6 +3472,9 @@ function addSearchForm(){
     setTimeout( () => {
         document.addEventListener('click' , document._outsideClick)
     },200)
+    if(input.value.trim() && !searchLog.includes(input.value.trim())){
+        searchLog.unshift(input.value.trim())
+    }
     input.value = ''
     searchingInput()
 }
@@ -3480,17 +3482,31 @@ function addSearchForm(){
 let searchLog = []
 function searchingInput () {
     let log = document.querySelector('.search-log')
+    let logContent = log.querySelector('.search-log-content')
     let list = document.querySelector('.search-list')
     let searchForm = document.querySelector('.search-popUp-container')
     let input = searchForm.querySelector('input')
     // Hiển thị lịch sử tìm kiếm
     if(!input.value.trim() || input.value.length === 0) {
-        log.style.height = '80px'
+        log.style.height = 'auto'
         log.style.opacity = '1'
         list.style.height = '0'
         // hiển thị lịch sử tìm kiếm từ seachLog ở đây
-
-        // 
+        logContent.innerHTML = `
+            ${searchLog.length === 0 ? 
+                `
+                <p style="display: flex;flex-direction: row;align-items: center;justify-content: center;height: 30px;width:100%;margin:auto"> &lt;nội dung tìm kiếm trống&gt; </p>
+                ` 
+                : `
+                ${searchLog.map((content,num) => `
+                <p class="search-log-list-num-${num}" style="color: #4D5761;gap: 8px;max-width: 180px;padding: 6px 12px;border-radius: 8px;height: 32px;background: #F5F5F5;display: flex;align-items: center;justify-content: space-evenly"> 
+                    <span style="overflow: hidden;text-overflow: ellipsis;">${content}</span> 
+                    <i style="margin-top: 1.4px;" class="fa-solid fa-xmark"></i>
+                </p>
+                `).join('')}
+                `}
+            
+        `
     }
     else {
         log.style.height = '0'
@@ -3501,8 +3517,8 @@ function searchingInput () {
         // 
         // khi ấn enter thì lưu value vào searchLog sau đó hiển thị
         input._saveToSearchLog = (e) => {
-            if(e.key === 'Enter' && input.value.trim()) {
-            searchLog.push(input.value)
+            if(e.key === 'Enter' && input.value.trim() && !searchLog.includes(input.value.trim())) {
+            searchLog.unshift(input.value)
             }
             else {
                 input.removeEventListener('keydown',input._saveToSearchLog)
@@ -3514,3 +3530,95 @@ function searchingInput () {
     }
 }
 
+function searchFilter(stringg){
+    let cloneData = [data,todayData,next3DaysData,Next7DaysData]
+    // dùng map đảo ngược thứ tự key - value của dataList tạo từ trc
+    let reverseDataList = new Map()
+    for(let [key,value] of Object.entries(dataList)){
+        reverseDataList.set(value,key)
+    }
+    // 
+    let newClone = cloneData.map(itm=> 
+        itm.flatMap(item => ({
+            ...item,
+            from: reverseDataList.get(itm)
+        }))        
+    ).flatMap(itm => itm)
+    // Tìm kiếm trong newClone theo tên nhóm
+    let string = formatString(stringg).toLowerCase().replace(/\s+/g, '')
+    // let stringg = 'Nhóm 1'
+    let findGroup = newClone.filter(itm => formatString(itm.group.toLowerCase().replace(/\s+/g, '')).includes(string))
+    // xử lý lại dữ liệu của findgroup thành newGroups:
+    let newFindGroup
+    let newGroups = []
+    newFindGroup =  findGroup.flatMap(itm => itm.content.map(item => ({
+        ...item,
+        group:itm.group,
+        from:itm.from,
+    }
+    )))
+    newFindGroup.forEach((item,num) => {
+        let newValue = {
+        content:{
+            ...item,
+        },
+        group:item.group,
+        from: item.from,
+        }
+        delete newValue.content.group
+        delete newValue.content.from
+        newGroups.push(newValue)
+    })
+    // 
+    // 
+    if(newGroups.length > 0) {return newGroups }
+    // nếu k tìm được theo nhóm, thì chuyển qua tìm theo title
+    let findTitle = []
+    newClone.forEach(itm => {
+        itm.content.forEach(item =>{
+            tempItemValue = formatString(item.title.toLowerCase().replace(/\s+/g, '') )
+            if(tempItemValue.includes(string)){
+                let founded = {
+                    group:itm.group,
+                    content:item,
+                    from: itm.from,
+                }
+                findTitle.push(founded)
+            }
+        })
+    })
+    if (findTitle.length > 0) {return findTitle}
+    // // nếu k tìm được theo nhóm nữa thì chuyển tiếp qua tìm theo content
+    let findText = []
+    newClone.forEach(itm => {
+        itm.content.forEach(item =>{
+            tempItemValue = formatString(item.content.toLowerCase().replace(/\s+/g, '') )
+            if(tempItemValue.includes(string)){
+                let founded = {
+                    group:itm.group,
+                    content:item,
+                    from: itm.from,
+                }
+                findText.push(founded)
+            }
+        })
+    })
+    if(findText.length > 0) {return findText}
+}
+
+// formate dữ liệu tìm được phải như sau :
+// founded = {
+//     group:...,
+//     content : {},
+//     from :...
+// }
+// lưu ý content này chỉ được chứa 1 giá trị lọc được
+
+// formate lại dạng dữ liệu có dấu
+function formatString(str) {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D');
+}
