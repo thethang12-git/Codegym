@@ -3479,13 +3479,26 @@ function addSearchForm(){
 // Lưu lịch sử tìm kiếm ở searchLog
 let searchLog = []
 function searchingInput () {
+    let log = document.querySelector('.search-log')
+    let list = document.querySelector('.search-list')
     let searchForm = document.querySelector('.search-popUp-container')
     let input = searchForm.querySelector('input')
     // Hiển thị lịch sử tìm kiếm
     if(!input.value.trim() || input.value.length === 0) {
+        log.style.height = '80px'
+        log.style.opacity = '1'
+        list.style.height = '0'
         // hiển thị lịch sử tìm kiếm từ seachLog ở đây
+
+        // 
     }
     else {
+        log.style.height = '0'
+        log.style.opacity = '0'
+        list.style.height = 'auto'
+        // Hiển thị kết quả tìm kiếm ở đây
+
+        // 
         // khi ấn enter thì lưu value vào searchLog sau đó hiển thị
         input._saveToSearchLog = (e) => {
             if(e.key === 'Enter' && input.value.trim()) {
