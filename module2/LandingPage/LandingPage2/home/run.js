@@ -10,12 +10,12 @@ function reset(event) {
 
 function onFocus(event) {
     if (!event.target.closest('.navbar-options-num').hasAttribute('isChecked')) {
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 7; i++) {
             document.getElementsByClassName("navbar-options-num")[i].setAttribute('isChecked', 'false')
         }
     }
     if (event.target.closest('.navbar-options-num').getAttribute('isChecked') === 'false') {
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 7; i++) {
             document.getElementsByClassName("navbar-options-num")[i].setAttribute('isChecked', 'false')
             document.getElementsByClassName("navbar-options-num")[i].style.background = 'white'
             document.getElementsByClassName("navbar-options-num")[i].style.color = '#4D5761'
@@ -876,7 +876,7 @@ function addGroups(){
     let contain = container.querySelector('.groups-choose-navbar-addGroup')
     let input = container.querySelector('input')
     let newTag = document.createElement('p');
-    if(input.value.trim() !== ''){
+    if(input.value.trim() && input.value.length < 20){
         newTag.setAttribute('data-isChoosed', 'false')
         newTag.innerHTML = input.value + '<span ><i class="fa-solid fa-check"></i></span>'
         newTag.setAttribute('style', "border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
@@ -946,7 +946,6 @@ element.addEventListener('mouseout', function() {
 });
 }
 // Phần note: ghi chú
-
 function hideOption(item) {
     item._hideTimer = setTimeout(() => {item.style.display = 'none'},500)
 }
@@ -1184,6 +1183,7 @@ function renderNote(noteData) {
                     <div style="flex: 1;color: #4D5761">
                         <div style="display: block;height: 0"><i style="margin-right: 6px;" class="fa-solid fa-pen"></i> Chỉnh sửa <i onclick="editCancel()" style="color:red;margin-left:8px;font-size:14px;cursor: pointer" class="fa-solid fa-circle-xmark"></i></div>
                         <textarea id="textarea" 
+                        onclick = "if(!this.value.trim()) {this.value = ''}"
                         oninput="autoResize()" 
                         onkeydown="
                         if(event.key === 'Enter' && event.shiftKey){
@@ -3466,6 +3466,10 @@ function addSearchForm(){
             setTimeout(() => searchForm.style.display = 'none',500)
             document.removeEventListener('click', document._outsideClick)
             document._outsideClick = null
+            console.log('triggering')
+        }
+        else if (searchForm.style.display === 'none') {
+            document.removeEventListener('click',document._outsideClick)
         }
     }
     setTimeout( () => {
@@ -3685,19 +3689,57 @@ let runningList = {
     'next3DaysData' : () => {loadContent('./pages/Next3Days.html');dataCheck(renderNext3DaysContent(next3DaysData),next3DaysData,'next3DaysData')},
     'Next7DaysData' : () => {loadContent('./pages/Next7Days.html');dataCheck(renderNext7DaysContent(Next7DaysData),Next7DaysData,'Next7DaysData')}
 }
-
+let searchToggle
 function clickToFind(e) {
+    if(searchToggle) {return}
+    let searchContainer = document.querySelector('.search-popUp-container')
     let getIndex = parseInt(e.currentTarget.className.match(/\d+/g).toString())
+    let overlay = document.querySelector('.blur-overlay')
     if(searchList[getIndex]){
+        // đóng tab tìm kiếm và mark thẻ tìm kiếm
+        setTimeout(() => {
+        searchContainer.style.transition = 'all ease 0.6s'
+        searchContainer.style.opacity = '0'
+        overlay.style.display = 'none'
+        setTimeout(() => searchContainer.style.display = 'none',600)            
+        },600)
+
+        // 
         let item = searchList[getIndex]
         setTimeout(() => {
             let getElement = document.querySelector(`.dupDel-${item.content.id}`);
+            
+            let getContain = getElement?.closest('.parent') || ``
+            if(getContain) {
+                getContain.scrollIntoView({behavior:'smooth',block: 'center'})
+                getContain.style.transition = 'all ease 1s'
+                getContain.style.transform = 'scale(1.1)'
+                getContain.style.border = '2px solid #EF6820'
+                getContain.style.background = '#FDEAD7'
+                setTimeout(() => {
+                    getContain.style.background = 'white'
+                    getContain.style.transform = 'scale(1)';
+                    getContain.style.border = 'none'},6000);
+            }
             console.log(item,getElement);
-        },1000)
-        console.log(content)
+            // 
+        },1100)
         runningList[item.from]()
-
-
+    // reset lại thanh sideBar
+    for (let i = 0; i < 7; i++) {
+            if(document.getElementsByClassName("navbar-options-num")[i].id.trim() === item.from) {
+                document.getElementsByClassName("navbar-options-num")[i].setAttribute('isChecked', 'true')
+                document.getElementsByClassName("navbar-options-num")[i].style.background = '#FDEAD7'
+                document.getElementsByClassName("navbar-options-num")[i].style.color = '#EF6820'
+                continue
+            }
+            document.getElementsByClassName("navbar-options-num")[i].setAttribute('isChecked', 'false')
+            document.getElementsByClassName("navbar-options-num")[i].style.background = 'white'
+            document.getElementsByClassName("navbar-options-num")[i].style.color = '#4D5761'
+        }
+    
     }
+    document.removeEventListener('click', document._outsideClick)
+    searchToggle = true
+    setTimeout(() => searchToggle = false,2000)
 }
-// content-body--1 content-body--container phải tìm được cái này
