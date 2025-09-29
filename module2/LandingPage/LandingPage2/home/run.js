@@ -97,7 +97,6 @@ function colorToFinish(event,array){
         console.log('case not finished!')
     }
 }
-
 let contain = document.querySelector('.navbar');
 let collapsed = false;
 // click bất kỳ đâu cũng đóng sidebar
@@ -762,7 +761,7 @@ function loadContent(url,contentt) {
                 console.error("Lỗi:", err);
             })
         content.classList.remove('fade-out');
-    }, 500)
+    }, 200)
 }
 
 // Click vào để chỉnh sửa thẻ
@@ -1794,7 +1793,7 @@ function dataCheck(contentt,tab,toString) {
     }
      setTimeout(()=>
         content.innerHTML = contentt
-    , 700)
+    , 400)
     if(filterMode ) {
         filteredStatus = true
     }
@@ -3480,6 +3479,8 @@ function addSearchForm(){
 }
 // Lưu lịch sử tìm kiếm ở searchLog
 let searchLog = []
+// Lưu mảng tìm kiếm đượcở searchList và để làm ưu tiên tìm kiếm, ví dụ tìm group rồi từ đó gõ thêm giá trị thif tìm tiếp ở trong title tương tự với content
+let searchList
 function searchingInput () {
     let log = document.querySelector('.search-log')
     let logContent = log.querySelector('.search-log-content')
@@ -3499,9 +3500,9 @@ function searchingInput () {
                 ` 
                 : `
                 ${searchLog.map((content,num) => `
-                <p class="search-log-list-num-${num}" style="color: #4D5761;gap: 8px;max-width: 180px;padding: 6px 12px;border-radius: 8px;height: 32px;background: #F5F5F5;display: flex;align-items: center;justify-content: space-evenly"> 
+                <p onclick="searchLogFunc(event)" class="search-log-list-num-${num} search-log-content-item" style="cursor: pointer;color: #4D5761;gap: 8px;max-width: 180px;padding: 6px 12px;border-radius: 8px;height: 32px;background: #F5F5F5;display: flex;align-items: center;justify-content: space-evenly"> 
                     <span style="overflow: hidden;text-overflow: ellipsis;">${content}</span> 
-                    <i style="margin-top: 1.4px;" class="fa-solid fa-xmark"></i>
+                    <i onmouseover="this.style.color= 'red';this.style.transform = 'scale(1.3)'" onmouseout="this.style.color = '#4D5761';this.style.transform = 'scale(1)'" onclick="searchLogItemDel(event)" class="fa-solid fa-xmark"></i>
                 </p>
                 `).join('')}
                 `}
@@ -3513,7 +3514,43 @@ function searchingInput () {
         log.style.opacity = '0'
         list.style.height = 'auto'
         // Hiển thị kết quả tìm kiếm ở đây
-
+        searchList = searchFilter(input.value)
+        list.innerHTML = `
+            ${searchList ? `
+                ${searchList.map((item,num) => 
+                `
+                <div onclick="clickToFind(event)" class="search-list-items search-list-num-${num}" onmouseover="this.style.background = '#E5E7EB'" onmouseout="this.style.background = 'white'" style="cursor: pointer;height: fit-content;width: 100%;background: white;margin-bottom: 12px;border-radius: 8px;border: 1px solid #F3F4F6;">
+                     <div style="display: flex;flex-direction: row;gap: 8px;">
+                         <img src="../asset/Radio.png" height="28" width="28"/>
+                         <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
+                             <div style="display: flex;justify-content:space-between ;">
+                                 <div>
+                                     <p style="font-weight: bold;margin-bottom: 4px">${item.from} ${item.group} ${item.content.title}</p>
+                                     <p style="font-size: 12px;color:#9DA4AE">${item.content.content}</p>
+                                 </div>
+                             </div>
+                             <div style="display: flex;flex-direction: row;align-items: center;">
+                                ${item.content.tag.length === 0 ? `` : `
+                                ${item.content.tag.map(itm => `
+                                           <p style="padding: 4px 12px;font-size: 12px;color: #4D5761">${itm}</p>
+                                    `).join('')}
+                                `}
+                             </div>
+                             <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;">
+                                 <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
+                                 <i style="color: #9DA4AE"  class="fa-solid fa-calendar"></i>
+                                 <p style="color: #9DA4AE" >${item.content.date} - ${item.content.time}</p>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+                `).join('')}
+            ` : `
+                    <div style="height: 68px;width: 181px;background: white;margin: auto;border-radius: 8px;display: flex;align-items: center;justify-content: center">
+                        Không tìm thấy giá trị
+                    </div>
+                `}
+        `
         // 
         // khi ấn enter thì lưu value vào searchLog sau đó hiển thị
         input._saveToSearchLog = (e) => {
@@ -3622,3 +3659,45 @@ function formatString(str) {
     .replace(/đ/g, 'd')
     .replace(/Đ/g, 'D');
 }
+
+// chức năng cho searchlog
+function searchLogFunc(e) {
+    let input = document.querySelector('.search-input')
+    input.value = e.target.closest('.search-log-content-item').querySelector('span').innerText
+    input.focus()
+    searchingInput()
+}
+
+function searchLogItemDel(e){
+    let getIndex =  parseInt(e.target.closest('.search-log-content-item').className.match(/\d+/g).toString())
+    e.stopPropagation()
+    searchLog.splice(getIndex,1)
+    searchingInput()
+}
+function searchLogItemsDelAll (){
+    searchLog.splice(0,searchLog.length)
+    searchingInput()
+}
+
+let runningList = {
+    'todayData' : () => {loadContent('./pages/today.js');dataCheck(renderTodayContent(todayData),todayData,'todayData')},
+    'all' : () => {loadContent('all.html');dataCheck(renderContent(data),data,'all')},
+    'next3DaysData' : () => {loadContent('./pages/Next3Days.html');dataCheck(renderNext3DaysContent(next3DaysData),next3DaysData,'next3DaysData')},
+    'Next7DaysData' : () => {loadContent('./pages/Next7Days.html');dataCheck(renderNext7DaysContent(Next7DaysData),Next7DaysData,'Next7DaysData')}
+}
+
+function clickToFind(e) {
+    let getIndex = parseInt(e.currentTarget.className.match(/\d+/g).toString())
+    if(searchList[getIndex]){
+        let item = searchList[getIndex]
+        setTimeout(() => {
+            let getElement = document.querySelector(`.dupDel-${item.content.id}`);
+            console.log(item,getElement);
+        },1000)
+        console.log(content)
+        runningList[item.from]()
+
+
+    }
+}
+// content-body--1 content-body--container phải tìm được cái này
