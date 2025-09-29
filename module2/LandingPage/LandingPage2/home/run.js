@@ -765,6 +765,20 @@ function loadContent(url,contentt) {
 }
 
 // Click vào để chỉnh sửa thẻ
+function clickToEdit(e){
+    let getContainer = e.currentTarget
+    let getToEdit = getContainer.querySelector('.click-to-edit')
+    if(getContainer.style.background === 'rgb(254, 246, 238)'){
+        getToEdit.style.opacity = '0'
+        getToEdit.style.display = 'flex'
+        setTimeout(() =>getToEdit.style.opacity = '1' ,100)
+    }
+    else {
+        getToEdit.style.opacity = '0'
+        setTimeout(() =>getToEdit.style.display = 'none' ,200)
+    }
+    
+}
 function clickToModify(element, event, isallow ,dupDel,array) {
     if (isallow) {
         let icon = element.querySelector('i')
@@ -1686,7 +1700,7 @@ function renderGroup(todoInf) {
 
 function renderTodoList(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',data)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',data);clickToEdit(event)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                             <img alt="..." onclick="colorToFinish(event,data);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
@@ -1709,18 +1723,56 @@ function renderTodoList(todoInf,num){
                                 ${todoInf.repeat
                                 ? 
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 :   
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
-                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time} </p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 }
@@ -1890,7 +1942,7 @@ function renderTodayGroup(todoInf) {
 
 function renderTodayList(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',todayData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',todayData);clickToEdit(event)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                             <img alt="..." onclick="colorToFinish(event,todayData);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
@@ -1913,10 +1965,29 @@ function renderTodayList(todoInf,num){
                                 ${todoInf.repeat
                                 ? 
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 :   
@@ -1925,6 +1996,25 @@ function renderTodayList(todoInf,num){
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 }
@@ -2068,7 +2158,7 @@ function Next3daysGroup(todoInf) {
 
 function Next3DaysContent(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',next3DaysData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',next3DaysData);clickToEdit(event)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                             <img alt="..." onclick="colorToFinish(event,next3DaysData);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
@@ -2091,10 +2181,29 @@ function Next3DaysContent(todoInf,num){
                                 ${todoInf.repeat
                                 ? 
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 :   
@@ -2103,6 +2212,25 @@ function Next3DaysContent(todoInf,num){
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 }
@@ -2258,7 +2386,7 @@ function Next7DaysGroup(todoInf) {
 
 function Next7DaysContent(todoInf,num){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',Next7DaysData)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${num}',Next7DaysData);clickToEdit(event)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                             <img alt="..." onclick="colorToFinish(event,Next7DaysData);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
@@ -2281,10 +2409,29 @@ function Next7DaysContent(todoInf,num){
                                 ${todoInf.repeat
                                 ? 
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 :   
@@ -2293,6 +2440,25 @@ function Next7DaysContent(todoInf,num){
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 }
@@ -2409,7 +2575,7 @@ function filterGroup(todoInf) {
 
 function filterContent(todoInf){
     return `
-            <div onclick="clickToModify(this,event,true,'.dupDel-${todoInf.id}',previous)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
+            <div onclick="clickToModify(this,event,true,'.dupDel-${todoInf.id}',previous);clickToEdit(event)" class="parent" style="display: flex;flex-direction: column;gap: 8px">
                         <div style="display: flex;flex-direction: row;gap: 8px;padding: 8px;">
                             <img alt="..." onclick="colorToFinish(event,previous);stopPropa(event)" style="cursor: pointer;" src="${todoInf.choosing? '../asset/Radio2.png' : '../asset/Radio.png' }" height="${todoInf.choosing?'20' : '28'}" width="${todoInf.choosing? '20' : '28'}"/>
                             <div style="flex: 1;display: flex;flex-direction: column;gap: 8px">
@@ -2432,10 +2598,29 @@ function filterContent(todoInf){
                                 ${todoInf.repeat
                                 ? 
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #F04438" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${todoInf.id} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 :   
@@ -2444,6 +2629,25 @@ function filterContent(todoInf){
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
+                                        <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-20px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
+                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
+                                                <i class="fa-solid fa-tags"></i>
+                                                <div style='display:none;position:absolute;top:100%;max-height:86px;background:blue;overflow:auto;width:100px'> 
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                    <p> thẻ 1 </p> 
+                                                    <p> thẻ 2</p>
+                                                    <p> thẻ 3 </p>
+                                                </div>
+                                            </div> 
+                                            <i  onmouseover="this.style.color = 'red';this.style.transform = 'scale(1.5)'"  onmouseout="this.style.color = '#4D5761'; this.style.transform = 'scale(1)';" class="fa-solid fa-check"></i>
+                                        </div>
                                     </div>
                                 ` 
                                 }
@@ -3716,12 +3920,13 @@ function clickToFind(e) {
                 getContain.style.transform = 'scale(1.1)'
                 getContain.style.border = '2px solid #EF6820'
                 getContain.style.background = '#FDEAD7'
+                getContain.style.borderRadius = '8px'
                 setTimeout(() => {
                     getContain.style.background = 'white'
                     getContain.style.transform = 'scale(1)';
                     getContain.style.border = 'none'},6000);
             }
-            console.log(item,getElement);
+            console.log(item);
             // 
         },1100)
         runningList[item.from]()
