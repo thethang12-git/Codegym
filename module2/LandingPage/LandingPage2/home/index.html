@@ -416,7 +416,7 @@
     </div>
     <div class="blur-overlay"></div>
 </div>
-<div class="popUp-add"  >
+<div class="popUp-add" style="display: none;position: absolute;top: 15%;left: 50%;transform:translateX(-50%);z-index: 1812;" >
     <div style="display: flex;flex-direction: column;gap: 8px;padding: 12px 20px">
         <div style="display: flex;flex-direction: row;justify-content: space-between;">
             <div  style="flex: 1;display: flex;flex-direction: column;gap: 3px;">
@@ -572,7 +572,7 @@
         <button class="newTodoAdd" onclick="newTodoAdd()" onmouseover="this.style.background ='#EF6820';this.style.color = 'white'" onmouseout="this.style.background = '#F3F4F6';this.style.color = '#4D5761'" style="border: none;outline: none;border-radius: 8px;font-weight: 700;padding: 8px 14px;cursor: pointer">Tạo mới</button>
     </div>
 </div>
-<div class="search-popUp-container" style="display: none;position: absolute;top: 15%;left: 50%;transform:translateX(-50%);width: 624px;max-height: 388px;background: white;border: 2px solid #F3F4F6;border-radius: 16px;z-index: 18;">
+<div class="search-popUp-container" style="display: none;position: absolute;top: 15%;left: 50%;transform:translateX(-50%);width: 624px;max-height: 388px;background: white;border: 2px solid #F3F4F6;border-radius: 16px;z-index: 1812;">
     <div style="width: 100%;max-height: 388px;display: flex;flex-direction: column;padding: 12px;gap: 12px;">
         <div style="width: 100%;display: flex;flex-direction: row;gap: 12px;position: relative;border: 2px solid #F3F4F6;border-radius: 8px;">
             <i style="transform:translate(-50%, -50%);top: 50%;left: 20px;position: absolute;" class="fa-solid fa-magnifying-glass"></i>

@@ -112,6 +112,8 @@ window.addEventListener('resize', function () {
     let button = document.querySelector('.toggleDisplay');
     let button_left = document.querySelector('.toggle1');
     let button_right = document.querySelector('.toggle2');
+    let popUp = document.querySelector('.popUp-add')
+    let search = document.querySelector('.search-popUp-container')
     if (window.innerWidth > 1400) {
         contain.style.left = ''
         contain.style.zIndex = ''
@@ -119,6 +121,10 @@ window.addEventListener('resize', function () {
         contain.style.borderRadius = ''
         contain.style.height = ''
         contain.style.width = '237px'
+        // 
+        popUp.style.width = '487px'
+        search.style.width = '624px'
+        // 
     } else if (window.innerWidth <= 1200) {
         document.querySelector('.toggleDisplay').style.display = 'none'
         button.setAttribute('data-status', 'left');
@@ -126,10 +132,20 @@ window.addEventListener('resize', function () {
         button_left.style.background = 'white';
         button_right.style.background = '#E5E7EB';
         display()
+        // sửa phần popup và tìm kiếm ở đây cho mobile
+        
+        popUp.style.width = '100vw'
+        search.style.width = '100vw'
+
+        // 
     } else if (window.innerWidth > 1200) {
         document.querySelector('.toggleDisplay').style.display = 'flex'
         // contain.style.width = '237px'
         // display()
+        // 
+        popUp.style.width = '487px'
+        search.style.width = '624px'
+        // 
     }
 })
 
@@ -306,11 +322,10 @@ function addBtn() {
             }, 1000
         )
     }
-    popup.style.transform = 'scale(1)';
+    popup.style.transform = 'translateX(-50%) scale(1)';
     popup.style.visibility = 'visible';
     popup.style.opacity = '1';
-    popup.style.zIndex = '11'
-    // container.style.filter = 'blur(3px)';
+    popup.style.zIndex = '1812'
     setTimeout(() => {
         popup.style.display = 'flex';
         document.addEventListener('click', handlePopup);
@@ -370,6 +385,7 @@ function displayCalen(event) {
         userChoosedYear = choosedYear
         calendar.setAttribute('data-status', 'deactive');
         contentt.innerHTML = `${value.innerText}/${choosedMonth}/${choosedYear}`;
+        console.log('case 1')
     }
     if (event.target.closest('.undo')) {
         let iconn = document.querySelector('.options_num-1 i:first-of-type');
@@ -382,6 +398,7 @@ function displayCalen(event) {
     }
     if (calendar.style.display == 'none') {
         calendar.setAttribute('data-status', 'deactive');
+        console.log('case 3')
     }
 }
 
@@ -715,16 +732,18 @@ function tagAdd(status) {
         }
     }, 1000);
 }
-
+let isTagDupl = []
 function tagAddHandle() {
     let container = document.querySelector('.tag-display-options')
     let contain = document.querySelector('.tag-display-add')
     let input = contain.querySelector('input')
-// Xử lý thêm 1 thẻ mới vào giữa những thẻ có sẵn  
-    if(input.value.trim() && input.value.length <= 30) {
+// Xử lý thêm 1 thẻ mới vào giữa những thẻ có sẵn 
+    let valid = input.value.trim() && input.value.length <= 23 && !isTagDupl.includes(input.value.trim()) && !TagsHandler().includes(input.value.trim())
+    if(valid) {
         let newTag = document.createElement('p');
         newTag.setAttribute('data-isChoosed', 'false')
         newTag.textContent = input.value
+        isTagDupl.push(input.value.trim())
         newTag.setAttribute('style', "font-size:13px;border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
         container.insertBefore(newTag, contain);
         input.value = ''
@@ -884,21 +903,23 @@ function focusOnGroups(status){
     }
 },1000)
 }
-
+let isGroupDupl = []
 function addGroups(){
     let container = document.querySelector(`.groups-choose-navbar`)
     let contain = container.querySelector('.groups-choose-navbar-addGroup')
     let input = container.querySelector('input')
     let newTag = document.createElement('p');
-    if(input.value.trim() && input.value.length < 20){
+    let flatMapp = currentTab.flatMap(itm => itm.group)
+    let valid = input.value.trim() && input.value.length < 20 && !isGroupDupl.includes(input.value.trim()) && !flatMapp.includes(input.value.trim())
+    if(valid){
         newTag.setAttribute('data-isChoosed', 'false')
         newTag.innerHTML = input.value + '<span ><i class="fa-solid fa-check"></i></span>'
+        isGroupDupl.push(input.value.trim())
         newTag.setAttribute('style', "border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
         container.insertBefore(newTag, contain);
         newTag.setAttribute('onclick',`choosedGroup(this)`)
         input.value = ''
     }
-
 }
 
 function choosedGroup(itemed){
@@ -1968,7 +1989,7 @@ function renderTodayList(todoInf,num){
                                 ` 
                                 :   
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
@@ -2168,7 +2189,7 @@ function Next3DaysContent(todoInf,num){
                                 ` 
                                 :   
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
@@ -2380,7 +2401,7 @@ function Next7DaysContent(todoInf,num){
                                 ` 
                                 :   
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
@@ -2553,7 +2574,7 @@ function filterContent(todoInf){
                                 ` 
                                 :   
                                 `
-                                    <div style="display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
+                                    <div style="position:relative;display: flex;flex-direction: row;align-items: center;gap: 8px;font-size: 14px;cursor: pointer;">
                                         <i style="color: #9DA4AE" class="fa-solid fa-repeat"></i>
                                         <i style="color: #9DA4AE" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
@@ -3564,6 +3585,10 @@ function newTodoAdd(){
             resetDataAddSection()
             setTimeout(()=>renderForAddTodo(),1000)
         }
+        // reset lại các biến tạm
+        tempData = []
+        isTagDupl = []
+        isGroupDupl = []
     }
 }
 
@@ -3877,7 +3902,6 @@ function clickToDoEdit(e){
         //
         item.style.display = 'block'
         item._outsideClick = (n) => {
-            console.log('running')
             if(!item.contains(n.target) ) {
                 item.style.display = 'none'
                 findTrulyItem.removeAttribute('onEditing')
@@ -3943,13 +3967,31 @@ function confirmChange(e) {
         }
     )
     //
+    // Phần sửa ngày
+    let inputDate = container.querySelectorAll('input')[0].value
+    if(inputDate.length === 10){
+        findTab.date = inputDate
+    }
+    // 
+    // Phần sửa giờ
+    let inputTime = container.querySelectorAll('input')[1].value
+    if(inputTime.length === 5){
+        findTab.time = inputTime
+    }
+    // 
     dataCheck(renderFilterContent(currentTab))
-    console.log(currentTab,data)
+    console.log(findTab)
 }
 
 //định dạng input
 function editDate(e) {
     let container = e.currentTarget.closest('.click-to-edit')
+    let inputDate = container.querySelectorAll('input')[0]
+    let inputTime = container.querySelectorAll('input')[1]
+    if(inputDate.value.trim().length === 0){
+        inputTime.value = ''
+    }    
+    // 
     let value = e.currentTarget.value
     if(value.length > 10) {e.currentTarget.value = value.slice(0,10) ;return }
     if(value.length === 2) {
@@ -3978,9 +4020,6 @@ function editDate(e) {
             value = value.slice(0,6)
             e.currentTarget.value = value
         }
-        // tự chuyển sang phần giờ
-
-        // 
     }
 
     if(value.length > 2){
@@ -4001,8 +4040,8 @@ function editDate(e) {
     e.currentTarget.addEventListener('keydown', function (event) {
         backspaceFuncForEditing( event);
     }, { once: true }); 
-    
     e.currentTarget.value = value
+    // 
 }
 
 function backspaceFuncForEditing(e) {
@@ -4020,23 +4059,38 @@ function backspaceFuncForEditing(e) {
     else if (value.length < 4) {
         value = ''
         e.currentTarget.value = value
-    }}
+    }
+    // 
+    let container = e.currentTarget.closest('.click-to-edit')
+    let inputDate = container.querySelectorAll('input')[0]
+    let inputTime = container.querySelectorAll('input')[1]
+    if(inputDate.value.trim().length === 0){
+        inputTime.value = ''
+    }    
+    }
 }
 
 
 
 function editTime(e){
+    let container = e.currentTarget.closest('.click-to-edit')
+    let inputDate = container.querySelectorAll('input')[0]
+    let inputTime = container.querySelectorAll('input')[1]
+    if(inputDate.value.trim().length === 0){
+        inputTime.value = ''
+    }
+    // 
     let value = e.currentTarget.value
     e.currentTarget.addEventListener('keydown', function (event) {
         backspaceFuncForEditing(event);
     }, { once: true }); 
     if(value.length > 2) {
-        let minutesValue = value.slice(3,5) < 61 && value.slice(3,5) >= 0 && !value.slice(3,5).match(/\D/);
+        let minutesValue = value.slice(3,5) < 60 && value.slice(3,5) >= 0 && !value.slice(3,5).match(/\D/) && value.charAt(2) === ':';
         if(minutesValue ) {
             e.currentTarget.value = value.slice(0,5) ;return
         }
         else{
-            value = value.slice(0,2)
+            value = value.slice(0,3)
         }
     }
     else if(value.length >= 2) {
@@ -4055,4 +4109,15 @@ function clickAddEventForEdit(e){
     e.currentTarget.addEventListener('paste', function (event) {
     event.preventDefault();
     });
+    let container = e.currentTarget.closest('.click-to-edit')
+    let inputDate = container.querySelectorAll('input')[0]
+    let inputTime = container.querySelectorAll('input')[1]
+    if(inputDate.value.trim().length === 0){
+        inputTime.value = ''
+    }
 }
+
+
+
+// background: rgb(254, 250, 245); position: absolute; left: -10px; z-index: 990; height: 32px; width: 300px; display: flex; opacity: 1; flex-direction: row; align-items: center; gap: 12px;
+// background: rgb(254, 250, 245); position: absolute; left: -10px; z-index: 990; height: 32px; width: 300px; display: flex; opacity: 1; flex-direction: row; align-items: center; gap: 12px;

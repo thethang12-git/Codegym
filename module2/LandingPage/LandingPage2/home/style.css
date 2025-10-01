@@ -23,7 +23,7 @@ body {
   background: transparent; 
   backdrop-filter: blur(3px); 
   cursor: default;
-  z-index: 10; 
+  z-index: 1111; 
   display: none; 
 }
 
@@ -213,18 +213,15 @@ body {
 .popUp-add {
     opacity: 0;
     visibility: hidden;
-    position: absolute;
-    /* transform:translate(-50%, -50%) scale(0); */
-    top: 177px;
-    left: 40%;
+    /* top: 177px; */
     width: 487px;
     height: 240px;
     border-radius: 15px;
     border: 2px solid #F3F4F6;
-    /*background: whitesmoke;*/
     transition: all 1s ease;
     background: white;
     flex-direction: column;
+    z-index: 1812;
 }
 
 /*.popUp-add div {*/
