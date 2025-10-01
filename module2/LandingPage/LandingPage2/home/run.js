@@ -373,11 +373,12 @@ function setValue(contain, icon, content, event) {
 let choosedDate = ''
 let userChoosedMonth = ''
 let userChoosedYear = ''
-
-function displayCalen(event) {
+let tempCalen
+function displayCalen(e) {
     let calendar = document.querySelector('.calendar-display')
     let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
-    let value = event.target.closest('td')
+    let value = e.target.closest('td')
+    let popup = document.querySelector('.popUp-add')
     if (calendar.getAttribute('data-status') === 'active' && value !== null) {
         calendar.style.display = 'none';
         choosedDate = value.innerText
@@ -385,9 +386,24 @@ function displayCalen(event) {
         userChoosedYear = choosedYear
         calendar.setAttribute('data-status', 'deactive');
         contentt.innerHTML = `${value.innerText}/${choosedMonth}/${choosedYear}`;
-        console.log('case 1')
+        tempCalen = `${choosedDate}/${userChoosedMonth}/${userChoosedYear}`;
     }
-    if (event.target.closest('.undo')) {
+    // else if (calendar.style.display == 'none') {
+    else if (!calendar.contains(e.target) ){
+        calendar.setAttribute('data-status', 'deactive');
+        if(tempCalen) {
+            contentt.innerHTML = tempCalen
+        }
+        else {
+            let iconn = document.querySelector('.options_num-1 i:first-of-type');
+            let undo = document.querySelector('.undo');
+            contentt.innerHTML  = null
+            iconn.style.display = 'block'
+            undo.style.display = 'none';
+        }
+        popup.removeEventListener('click', displayCalen);
+    }
+    if (e.target.closest('.undo')) {
         let iconn = document.querySelector('.options_num-1 i:first-of-type');
         let undo = document.querySelector('.undo');
         undo.style.display = 'none';
@@ -396,14 +412,10 @@ function displayCalen(event) {
         calendar.style.display = 'none';
         calendar.setAttribute('data-status', 'deactive');
     }
-    if (calendar.style.display == 'none') {
-        calendar.setAttribute('data-status', 'deactive');
-        console.log('case 3')
-    }
 }
 
 let thisYear = new Date().getFullYear()
-let thisMonth = new Date().getMonth()
+let thisMonth = new Date().getMonth() + 1
 
 function calendarDisplay() {
     // let contentt = document.querySelector('.options_num-1 div:first-of-type>p');
@@ -419,10 +431,10 @@ function calendarDisplay() {
             popup.addEventListener('click', displayCalen)
         }, 10)
         createCalendar(thisYear, thisMonth);
-        calenNavbarMain.style.display = 'none';
-        timeMain.style.display = 'none';
-        repeatMain.style.display = 'none';
-        tagMain.style.display = 'none';
+        // calenNavbarMain.style.display = 'none';
+        // timeMain.style.display = 'none';
+        // repeatMain.style.display = 'none';
+        // tagMain.style.display = 'none';
     }
 }
 
@@ -450,7 +462,6 @@ function nextMonth() {
     createCalendar(thisYear, choosedMonth += 1);
     date.innerText = `Tháng ${choosedMonth} ${choosedYear}`;
 }
-
 // Lấy ngày và add vào mảng
 function getDaysInMonth(year, month) {
     let date = new Date(year, month, 0);
@@ -464,6 +475,7 @@ function getDaysInMonth(year, month) {
 
 // Từ mảng -> tạo bảng và add giá trị vào HTML
 function createCalendar(year, month) {
+    let today = new Date().getDate()
     let calendar = document.querySelector('.calendar_table')
     calendar.innerHTML = '<tr><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>CN</th></tr>'
     let table = ''
@@ -472,13 +484,19 @@ function createCalendar(year, month) {
         if (currentMonth[i] == undefined) {
             continue
         }
+
         if (currentMonth[i] == choosedDate && userChoosedMonth == choosedMonth && userChoosedYear == choosedYear) {
             table += '<td style="background: #EF6820;color: white">' + currentMonth[i] + '</td>';
             continue
         }
         if (i === 0) {
             table += '<tr>'
-            table += '<td>' + currentMonth[i] + '</td>';
+            if(currentMonth[i] < today){
+                table += '<td style="color: #D2D6DB" >' + currentMonth[i] + '</td>';
+            }
+            else {
+                table += '<td>' + currentMonth[i] + '</td>';
+            }
             continue
         }
         if (i % 7 == 0 && i % 2 == 0) {
@@ -489,10 +507,15 @@ function createCalendar(year, month) {
             table += '</tr>';
             table += '<tr>';
         }
+        if(currentMonth[i] < today) {
+            table += '<td style="color: #D2D6DB">' + currentMonth[i] + '</td>';
+            continue
+        }
         table += '<td>' + currentMonth[i] + '</td>';
     }
+    table += '</tr>';
     calendar.innerHTML += table;
-}
+}   
 
 let toggleTime = false
 
