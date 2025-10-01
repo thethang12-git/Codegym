@@ -1728,8 +1728,8 @@ function renderTodoList(todoInf,num){
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -1747,8 +1747,8 @@ function renderTodoList(todoInf,num){
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,data)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time} </p>
                                         <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -1954,8 +1954,8 @@ function renderTodayList(todoInf,num){
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -1973,8 +1973,8 @@ function renderTodayList(todoInf,num){
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,todayData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -2154,8 +2154,8 @@ function Next3DaysContent(todoInf,num){
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -2173,8 +2173,8 @@ function Next3DaysContent(todoInf,num){
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,next3DaysData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -2366,8 +2366,8 @@ function Next7DaysContent(todoInf,num){
                                         <i style="color: #F04438" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -2385,8 +2385,8 @@ function Next7DaysContent(todoInf,num){
                                         <i style="color: #9DA4AE" id="abcd" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,Next7DaysData)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${num} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -2539,8 +2539,8 @@ function filterContent(todoInf){
                                         <i style="color: #F04438" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #F04438 " class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${todoInf.id} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -2558,8 +2558,8 @@ function filterContent(todoInf){
                                         <i style="color: #9DA4AE" class="fa-solid fa-calendar"></i>
                                         <p onclick="stopPropa(event);repeatToggle(event,previous)" style="color: #9DA4AE" class="date">${todoInf.date} - ${todoInf.time}</p>
                                         <div class="click-to-edit-num-${todoInf.id} click-to-edit" onclick="stopPropa(event)" style='background:#FEFAF5;position:absolute;left:-10px;z-index:990;height:32px;width:300px;display:none;opacity:0;flex-direction:row;align-items:center;gap:12px'>
-                                            <p style='width:126px;height:100%' > <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
-                                            <p style='width:86px;height:100%'> <input style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
+                                            <p style='width:126px;height:100%' > <input onclick="clickAddEventForEdit(event)" oninput="editDate(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.date}'/> </p> 
+                                            <p style='width:86px;height:100%'> <input onclick="clickAddEventForEdit(event)" oninput="editTime(event)" style='background:#FEFAF5;width:100%;height:100%;border:none;margin:auto' type="text" placeholder='${todoInf.time}'/> </p> 
                                             <div style='height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center'> 
                                                 <i onclick="clickToDoEdit(event)" class="fa-solid fa-tags"></i>
                                                 <div class="click-to-edit-list" style='padding: 5px;display:none;position:absolute;top:100%;max-height:100px;background:white;overflow:auto;width:160px'> 
@@ -3950,7 +3950,109 @@ function confirmChange(e) {
 //định dạng input
 function editDate(e) {
     let container = e.currentTarget.closest('.click-to-edit')
-    let getID = parseInt(container.className.match(/\d+/g).toString())
-    let findTab = currentTab.find(itm =>  itm.content.find(item => item.id === getID) ).content.find(itm => itm.id === getID)
-    let input = e.target.
+    let value = e.currentTarget.value
+    if(value.length > 10) {e.currentTarget.value = value.slice(0,10) ;return }
+    if(value.length === 2) {
+        let daysValid = value.slice(0,2) < 31 && value.slice(0,2) > 0 && !value.match(/\D/);
+        if(daysValid) {
+            value += '/'
+        }
+        else {
+            value = ''
+            e.currentTarget.value = value
+        }
+    }
+    else if(value.length === 5) {
+        let monthValid = Number(value.slice(3,5)) < 13 && Number(value.slice(3,5)) > 0 && !value.slice(3,5).match(/\D/) ;
+        if(monthValid) {
+            value += '/'
+        }
+        else {
+            value = value.slice(0,3)
+            e.currentTarget.value = value
+        }
+    }
+    else if (value.length === 10) {
+        let yearValid = Number(value.slice(6,10)) < 10000 && Number(value.slice(6,10)) > 1000 && !value.slice(6,10).match(/\D/);
+        if(!yearValid) {
+            value = value.slice(0,6)
+            e.currentTarget.value = value
+        }
+        // tự chuyển sang phần giờ
+
+        // 
+    }
+
+    if(value.length > 2){
+        if(value.charAt(2) !== '/'){
+            value = ''
+            e.currentTarget.value = value
+            console.log('case 1')
+        }
+    }
+    if(value.length > 6) {
+        if(value.charAt(2) !== '/' || value.charAt(5) !== '/'){
+            value = value.slice(0,3)
+            e.currentTarget.value = value
+            console.log('case 2')
+        }
+    }
+
+    e.currentTarget.addEventListener('keydown', function (event) {
+        backspaceFuncForEditing( event);
+    }, { once: true }); 
+    
+    e.currentTarget.value = value
+}
+
+function backspaceFuncForEditing(e) {
+    if(e.key === 'Backspace'){
+    let value = e.currentTarget.value;
+    if(value.length > 6){
+        value = value.slice(0,6)
+        e.currentTarget.value = value
+    }
+    else if(value.length >= 4){
+        value = value.slice(0,3)
+        e.currentTarget.value = value
+
+    }
+    else if (value.length < 4) {
+        value = ''
+        e.currentTarget.value = value
+    }}
+}
+
+
+
+function editTime(e){
+    let value = e.currentTarget.value
+    e.currentTarget.addEventListener('keydown', function (event) {
+        backspaceFuncForEditing(event);
+    }, { once: true }); 
+    if(value.length > 2) {
+        let minutesValue = value.slice(3,5) < 61 && value.slice(3,5) >= 0 && !value.slice(3,5).match(/\D/);
+        if(minutesValue ) {
+            e.currentTarget.value = value.slice(0,5) ;return
+        }
+        else{
+            value = value.slice(0,2)
+        }
+    }
+    else if(value.length >= 2) {
+        let timeValid = value.slice(0,2) < 25 && value.slice(0,2) > 0 && !value.match(/\D/);
+        if(value.length === 2 && timeValid){
+            value += ':'
+        }
+        else {
+            value = ''
+        }
+    }
+    e.currentTarget.value = value
+}
+
+function clickAddEventForEdit(e){
+    e.currentTarget.addEventListener('paste', function (event) {
+    event.preventDefault();
+    });
 }
