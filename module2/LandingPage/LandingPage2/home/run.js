@@ -327,6 +327,10 @@ function handlePopup(e) {
 }
 
 function addBtn() {
+    if(isNeedToReset) {
+        renderForAddTodo()
+        isNeedToReset = false;
+    }
     let speciGr = document.querySelectorAll('.fa-plus')
     let popup = document.querySelector('.popUp-add')
     let container = document.querySelector('.container')
@@ -3343,7 +3347,13 @@ function renderForAddTodo(){
 if(currentTab){
 // reset dữ liệu khi chuyển tab khác
 
-//     Phần chọn nhóm
+//  Phần chọn nhóm
+let caret = document.querySelector('.groups-choose').querySelector('.fa-caret-down')
+let groupChoose = document.querySelector('.groups-choose')
+caret.style.display = 'block'
+groupChoose.style.pointerEvents = 'auto'
+
+
 let group = document.querySelector('.groups-choose-navbar')
 group.innerHTML = `
     ${currentTab.map(group =>  `
@@ -3368,7 +3378,6 @@ tag.innerHTML = `
         <span onclick="tagAddHandle()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;"><i class="fa-solid fa-plus"></i></span>
     </div>
 `
-    console.log(filterTagsHandler.length)
 }
 }
 
@@ -3610,7 +3619,7 @@ function newTodoAdd(){
     }
     // thêm vào currentTab và render lại dữ liệu
     if(currentTab) {
-        let findGroup = dataList[dataListToString].find(itm => itm.group.trim() == newValue.group.trim())
+        let findGroup = dataList[dataListToString].find(itm => itm.group.trim() === newValue.group.trim())
         if(findGroup){
             findGroup.content.unshift(newValue.content[0])
             findTabRenderFunction[dataListToString]()
@@ -3623,6 +3632,14 @@ function newTodoAdd(){
             resetDataAddSection()
             setTimeout(()=>renderForAddTodo(),1000)
         }
+        // nếu user đang dùng filter, hiển thị danh sách filtered
+        let star = document.getElementById('star')
+        if(star.classList.contains('fa-solid')) {
+            filterMode = false
+            setTimeout(() => {listFilter();filterMode = true},10)
+            setTimeout(()=> {dataCheck(renderFilterContent(filtered));filteredStatus = false},20)
+        }
+        //
         // reset lại các biến tạm
         tempData = []
         isTagDupl = []
@@ -4016,9 +4033,17 @@ function confirmChange(e) {
     if(inputTime.length === 5){
         findTab.time = inputTime
     }
-    // 
-    dataCheck(renderFilterContent(currentTab))
-    console.log(findTab)
+    //
+    // if(filtered) {
+    //     dataCheck(renderFilterContent(filtered))
+    // }
+    let star = document.getElementById('star')
+    if(star.classList.contains('fa-solid')){
+        dataCheck(renderFilterContent(filtered))
+    }
+    else {
+        dataCheck(renderFilterContent(currentTab))
+    }
 }
 
 //định dạng input
@@ -4156,6 +4181,9 @@ function clickAddEventForEdit(e){
 }
 
 // Phần add theo nhóm cụ thể
+// toggle để reset lại tên nhóm
+let isNeedToReset
+
 function addSpeciGroup (e) {
     let getIndex = parseInt(e.currentTarget.closest('.content-body--container').className.match(/\d+/g).toString())
     if(currentTab) {
@@ -4163,11 +4191,14 @@ function addSpeciGroup (e) {
         let currentTabGroup = document.querySelector('.currentTab-group')
         let group = document.querySelector('.groups-choose-navbar')
         let caret = document.querySelector('.groups-choose').querySelector('.fa-caret-down')
+        let groupChoose = document.querySelector('.groups-choose')
         caret.style.display = 'none'
         group.style.display = 'none'
+        groupChoose.style.pointerEvents = 'none'
         group.innerHTML = null
         currentTabGroup.innerHTML = findGroup
         addBtn()
+        isNeedToReset = true
     }
 }
 
