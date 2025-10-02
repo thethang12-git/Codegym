@@ -471,7 +471,7 @@ function previousMonth() {
         choosedYear--;
         choosedMonth = 13
     }
-    createCalendar(thisYear, choosedMonth -= 1);
+    createCalendar(choosedYear, choosedMonth -= 1);
     date.innerText = `Tháng ${choosedMonth} ${choosedYear}`;
 }
 
@@ -481,7 +481,7 @@ function nextMonth() {
         choosedMonth = 0;
         choosedYear++;
     }
-    createCalendar(thisYear, choosedMonth += 1);
+    createCalendar(choosedYear, choosedMonth += 1);
     date.innerText = `Tháng ${choosedMonth} ${choosedYear}`;
 }
 // Lấy ngày và add vào mảng
@@ -501,31 +501,46 @@ function createCalendar(year, month) {
     let calendar = document.querySelector('.calendar_table')
     calendar.innerHTML = '<tr><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>CN</th></tr>'
     let table = ''
-    // let nextMonth = getDaysInMonth(year,month === 12? this.year += 1 : month + 1)
-    let formerMonth,formerYear
-    if(month === 1){
-        formerMonth = 12
-        formerYear = year - 1
-    }
-    else {
-        formerMonth = month - 1
-        formerYear = year
-    }
-    let former = getDaysInMonth(formerYear,formerMonth)
+    // let prevMonth,prevYear
+    // if(month === 1){
+    //     prevMonth = 12
+    //     prevYear = year - 1
+    // }
+    // else {
+    //     prevMonth = month - 1
+    //     prevYear = year
+    // }
+    // let prev = getDaysInMonth(prevYear,prevMonth)
 
     let currentMonth = getDaysInMonth(year, month)
 
-    let nextMonth, nextYear;
-    if (month === 12) {
-        nextMonth = 1;
-        nextYear = year + 1;
-    } else {
-        nextMonth = month + 1;
-        nextYear = year;
+    // let nextMonth, nextYear;
+    // if (month === 12) {
+    //     nextMonth = 1;
+    //     nextYear = year + 1;
+    // } else {
+    //     nextMonth = month + 1;
+    //     nextYear = year;
+    // }
+    // let nextMonthDays = getDaysInMonth(nextYear, nextMonth);
+
+    let firstdayInWeek = new Date(year,month -1,1).getDay()
+    firstdayInWeek = firstdayInWeek === 0 ? 6 : firstdayInWeek - 1
+    // let prevSpliced = prev.splice(prev.length - firstdayInWeek,prev.length)
+    // let nextSpliced = nextMonthDays.splice(0,firstdayInWeek)
+    // currentMonth.unshift(...prevSpliced)
+    // currentMonth.push(...nextSpliced)
+    for(let i = 0;i< firstdayInWeek;i++){
+        currentMonth.unshift('')
     }
-    let nextMonthDays = getDaysInMonth(nextYear, nextMonth);
+    for (let t = 0; t <= 35 - currentMonth.length;t++){
+        currentMonth.push('')
+    }
+    console.log(currentMonth,month,year)
+    // 
     for (let i = 0; i < 35; i++) {
-        if (currentMonth[i] == undefined) {
+        if (currentMonth[i] == '') {
+            table += '<td  style = "pointer-events: none;">' + '' + '</td>';
             continue
         }
 
@@ -3455,7 +3470,7 @@ function resetDataAddSection(){
                     <p class="currentTab-time" style="display: none;font-weight: 480;color:#FF4405"></p>
                     <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo2"></i>
                 </div>
-                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 276px;top: 100%;left: -350%;border-radius: 8px;padding: 8px;">
+                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 300px;top: 100%;left: -150%;border-radius: 8px;padding: 8px;">
                     <div style="height: 36px;display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 22px 12px;background: #F5F5F5    ;border-radius: 8px">
                         <i onclick="previousMonth()" style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-left"></i>
                         <p class="calendar-date">date here</p>
@@ -3467,7 +3482,7 @@ function resetDataAddSection(){
                         </table>
                     </div>
                 </div>
-                <div  class="time-display" style="z-index: 1;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 320px;height: 84px;top: 100%;left: -350%;border-radius: 8px;padding: 12px;gap: 8px">
+                <div  class="time-display" style="z-index: 1;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 320px;height: 84px;top: 100%;left: -20%;border-radius: 8px;padding: 12px;gap: 8px">
                     <p>Thời gian</p>
                     <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 0;gap: 8px";>
                         <select onchange="timeDisplay(event)" class="time-display_hour" style="width: 100%;padding: 8px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;appearance: none;text-align: center">
