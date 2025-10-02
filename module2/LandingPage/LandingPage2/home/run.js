@@ -1872,9 +1872,14 @@ function dataCheck(contentt,tab,toString) {
         star.style.color = 'black'
         tagsFilter = null
         tagTempoValue = null
-        setTimeout(()=>renderForAddTodo(),1000)
-        resetDataAddSection()
+        // reset lại mục nhóm và thẻ ở trong phần popup thêm mới
+        // setTimeout(()=>renderForAddTodo(),1000)
+        // resetDataAddSection()
     }
+    // reset lại mục nhóm và thẻ ở trong phần popup thêm mới
+    setTimeout(()=>renderForAddTodo(),1000)
+    resetDataAddSection()
+    //
     renderNavbarGroup()
     renderTagLists()
     if(toString) {
@@ -3363,6 +3368,7 @@ tag.innerHTML = `
         <span onclick="tagAddHandle()" style="display : none;transform: translate(-50%, -50%);position: absolute;top: 50%;right: 0;z-index: 9999;"><i class="fa-solid fa-plus"></i></span>
     </div>
 `
+    console.log(filterTagsHandler.length)
 }
 }
 
