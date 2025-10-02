@@ -533,17 +533,19 @@ function createCalendar(year, month) {
     for(let i = 0;i< firstdayInWeek;i++){
         currentMonth.unshift('')
     }
-    for (let t = 0; t <= 35 - currentMonth.length;t++){
+    for (let t = 0; t <= 43 - currentMonth.length;t++){
         currentMonth.push('')
     }
     console.log(currentMonth,month,year)
     // 
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 43; i++) {
         if (currentMonth[i] == '') {
             table += '<td  style = "pointer-events: none;">' + '' + '</td>';
             continue
         }
-
+        if (currentMonth[i] === undefined){
+            continue
+        }
         if (currentMonth[i] == choosedDate && userChoosedMonth == choosedMonth && userChoosedYear == choosedYear) {
             table += '<td style="background: #EF6820;color: white">' + currentMonth[i] + '</td>';
             continue
@@ -3470,7 +3472,7 @@ function resetDataAddSection(){
                     <p class="currentTab-time" style="display: none;font-weight: 480;color:#FF4405"></p>
                     <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo2"></i>
                 </div>
-                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 300px;top: 100%;left: -150%;border-radius: 8px;padding: 8px;">
+                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 320px;top: 100%;left: -100%;border-radius: 8px;padding: 8px;">
                     <div style="height: 36px;display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 22px 12px;background: #F5F5F5    ;border-radius: 8px">
                         <i onclick="previousMonth()" style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-left"></i>
                         <p class="calendar-date">date here</p>
