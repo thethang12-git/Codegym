@@ -297,29 +297,50 @@ function displayMenu() {
     }
 }
 
+document._handlepopUp = (e) => {
+    let speciGr = document.querySelectorAll('.fa-plus')
+    let popup = document.querySelector('.popUp-add')
+    let container = document.querySelector('.container')
+    let button = document.querySelector('.add-Btn')
+    let overlay = document.querySelector('.blur-overlay')
+    let valid = Array.from(speciGr).some(group => group.contains(e.target))
+    if (popup.contains(e.target) === false && e.target.closest('.add-Btn') !== button && !valid ) {
+        popup.removeAttribute('data-status');
+        popup.style.opacity = '0'
+        popup.style.visibility = 'hidden'
+        overlay.style.display = 'none'
+        document.removeEventListener('click', document._handlepopUp)
+        popup.removeEventListener('click', popup._handlepopUp)
+    }
+}
+
+function handlePopup(e) {
+    let invalid = !e.target.closest('.options_num-1') && !e.target.closest('.options_num-2') && !e.target.closest('.options_num-3') && !e.target.closest('.options_num-4') && !e.target.closest('.groups-choose>div')
+    if (invalid) {
+        calenNavbarMain.style.display = 'none'
+        calendarMain.style.display = 'none'
+        timeMain.style.display = 'none'
+        repeatMain.style.display = 'none'
+        tagMain.style.display = 'none'
+        groupsChoosing.style.display = 'none'
+    }
+}
 
 function addBtn() {
+    let speciGr = document.querySelectorAll('.fa-plus')
     let popup = document.querySelector('.popUp-add')
     let container = document.querySelector('.container')
     let button = document.querySelector('.add-Btn')
     let overlay = document.querySelector('.blur-overlay')
     popup.setAttribute('data-status', 'actived');
+    popup._handlepopUp = (e) => {
+        handlePopup(e)
+    }
     if (popup.getAttribute('data-status') === 'actived') {
         setTimeout(() => {
-                document.addEventListener('click', (e) => {
-                    if (popup.contains(e.target) === false && popup.getAttribute('data-status') === 'actived' && e.target.closest('.add-Btn') !== button) {
-                        popup.removeAttribute('data-status');
-                        document.addEventListener('click', handlePopup)
-                        setTimeout(() => {
-                            document.removeEventListener('click', handlePopup)
-                        }, 10)
-                        popup.style.opacity = '0'
-                        popup.style.visibility = 'hidden'
-                        // container.style.filter = 'blur(0)'
-                        overlay.style.display = 'none'
-                    }
-                })
-            }, 1000
+                document.addEventListener('click', document._handlepopUp)
+                document.removeEventListener('click',popup._handlepopUp)
+            }, 100
         )
     }
     popup.style.transform = 'translateX(-50%) scale(1)';
@@ -328,8 +349,8 @@ function addBtn() {
     popup.style.zIndex = '1812'
     setTimeout(() => {
         popup.style.display = 'flex';
-        document.addEventListener('click', handlePopup);
-    }, 10)
+        popup.addEventListener('click', popup._handlepopUp)
+    }, 0)
     overlay.style.display = 'block'
 }
 
@@ -770,18 +791,6 @@ function tagAddHandle() {
         newTag.setAttribute('style', "font-size:13px;border-radius: 8px;padding: 8px;display: flex;flex-direction: row;justify-content: space-between;")
         container.insertBefore(newTag, contain);
         input.value = ''
-    }
-}
-
-function handlePopup(e) {
-    let invalid = !e.target.closest('.options_num-1') && !e.target.closest('.options_num-2') && !e.target.closest('.options_num-3') && !e.target.closest('.options_num-4') && !e.target.closest('.groups-choose>div')
-    if (invalid) {
-        calenNavbarMain.style.display = 'none'
-        calendarMain.style.display = 'none'
-        timeMain.style.display = 'none'
-        repeatMain.style.display = 'none'
-        tagMain.style.display = 'none'
-        groupsChoosing.style.display = 'none'
     }
 }
 
@@ -1735,7 +1744,7 @@ function renderGroup(todoInf) {
         <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
             <div style="display: flex;flex-direction: row;gap: 16px">
                 <h3> ${todoInf.group} </h3>
-                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+                <button onclick="addSpeciGroup(event)" style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
             <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
@@ -1961,7 +1970,7 @@ function renderTodayGroup(todoInf) {
         <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
             <div style="display: flex;flex-direction: row;gap: 16px">
                 <h3> ${todoInf.group} </h3>
-                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+                <button onclick="addSpeciGroup(event)" style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
             <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
@@ -2161,7 +2170,7 @@ function Next3daysGroup(todoInf) {
         <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
             <div style="display: flex;flex-direction: row;gap: 16px">
                 <h3> ${todoInf.group} </h3>
-                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+                <button onclick="addSpeciGroup(event)" style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
             <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
@@ -2373,7 +2382,7 @@ function Next7DaysGroup(todoInf) {
         <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
             <div style="display: flex;flex-direction: row;gap: 16px">
                 <h3> ${todoInf.group} </h3>
-                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+                <button onclick="addSpeciGroup(event)" style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
             <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
@@ -2546,7 +2555,7 @@ function filterGroup(todoInf) {
         <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
             <div style="display: flex;flex-direction: row;gap: 16px">
                 <h3> ${todoInf.group} </h3>
-                <button style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
+                <button onclick="addSpeciGroup(event)" style="border: none;outline: none;background:none;"><i style="color: #EF6820;font-size: 14px" class="fa-solid fa-plus"></i></button>
             </div>
             <p style="padding: 8px 16px;background:#FEF6EE;color:#EF6820;font-weight:600">${todoInf.content.length}</p>
         </div>
@@ -3583,7 +3592,7 @@ function newTodoAdd(){
         content: [
             {
                 choosing: false,
-                star: newTodo.star.getAttribute('ischoosed')? true : false,
+                star: newTodo.star.getAttribute('ischoosed') ===  'true',
                 title : newTodo.title.value.trim(),
                 content : newTodo.content.value.trim(),
                 tag : newTodo.tag.innerText.split(','),
@@ -4140,7 +4149,20 @@ function clickAddEventForEdit(e){
     }
 }
 
+// Phần add theo nhóm cụ thể
+function addSpeciGroup (e) {
+    let getIndex = parseInt(e.currentTarget.closest('.content-body--container').className.match(/\d+/g).toString())
+    if(currentTab) {
+        let findGroup = currentTab[getIndex-1].group
+        let currentTabGroup = document.querySelector('.currentTab-group')
+        let group = document.querySelector('.groups-choose-navbar')
+        let caret = document.querySelector('.groups-choose').querySelector('.fa-caret-down')
+        caret.style.display = 'none'
+        group.style.display = 'none'
+        group.innerHTML = null
+        currentTabGroup.innerHTML = findGroup
+        addBtn()
+    }
+}
 
-
-// background: rgb(254, 250, 245); position: absolute; left: -10px; z-index: 990; height: 32px; width: 300px; display: flex; opacity: 1; flex-direction: row; align-items: center; gap: 12px;
-// background: rgb(254, 250, 245); position: absolute; left: -10px; z-index: 990; height: 32px; width: 300px; display: flex; opacity: 1; flex-direction: row; align-items: center; gap: 12px;
+// renderForAddTodo

@@ -224,6 +224,17 @@ body {
     z-index: 1812;
 }
 
+.clone-popUp {
+    width: 487px;
+    height: 240px;
+    border-radius: 15px;
+    border: 2px solid #F3F4F6;
+    transition: all 1s ease;
+    background: white;
+    flex-direction: column;
+    z-index: 1812;
+}
+
 /*.popUp-add div {*/
 /*    width: 100%;*/
 /*}*/
