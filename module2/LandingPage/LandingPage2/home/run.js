@@ -331,10 +331,7 @@ function addBtn() {
         renderForAddTodo()
         isNeedToReset = false;
     }
-    let speciGr = document.querySelectorAll('.fa-plus')
     let popup = document.querySelector('.popUp-add')
-    let container = document.querySelector('.container')
-    let button = document.querySelector('.add-Btn')
     let overlay = document.querySelector('.blur-overlay')
     popup.setAttribute('data-status', 'actived');
     popup._handlepopUp = (e) => {
@@ -504,7 +501,29 @@ function createCalendar(year, month) {
     let calendar = document.querySelector('.calendar_table')
     calendar.innerHTML = '<tr><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>CN</th></tr>'
     let table = ''
+    // let nextMonth = getDaysInMonth(year,month === 12? this.year += 1 : month + 1)
+    let formerMonth,formerYear
+    if(month === 1){
+        formerMonth = 12
+        formerYear = year - 1
+    }
+    else {
+        formerMonth = month - 1
+        formerYear = year
+    }
+    let former = getDaysInMonth(formerYear,formerMonth)
+
     let currentMonth = getDaysInMonth(year, month)
+
+    let nextMonth, nextYear;
+    if (month === 12) {
+        nextMonth = 1;
+        nextYear = year + 1;
+    } else {
+        nextMonth = month + 1;
+        nextYear = year;
+    }
+    let nextMonthDays = getDaysInMonth(nextYear, nextMonth);
     for (let i = 0; i < 35; i++) {
         if (currentMonth[i] == undefined) {
             continue
@@ -3353,7 +3372,6 @@ let groupChoose = document.querySelector('.groups-choose')
 caret.style.display = 'block'
 groupChoose.style.pointerEvents = 'auto'
 
-
 let group = document.querySelector('.groups-choose-navbar')
 group.innerHTML = `
     ${currentTab.map(group =>  `
@@ -4186,7 +4204,8 @@ let isNeedToReset
 
 function addSpeciGroup (e) {
     let getIndex = parseInt(e.currentTarget.closest('.content-body--container').className.match(/\d+/g).toString())
-    if(currentTab) {
+    if(currentTab ) {
+        isNeedToReset = false;
         let findGroup = currentTab[getIndex-1].group
         let currentTabGroup = document.querySelector('.currentTab-group')
         let group = document.querySelector('.groups-choose-navbar')
