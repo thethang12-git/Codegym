@@ -124,7 +124,29 @@ window.addEventListener('resize', function () {
         // 
         popUp.style.width = '487px'
         search.style.width = '624px'
-        // 
+        //
+        // sửa phần popup calendar, time, repeat,tags case view > 1400
+        calendarMain = document.querySelector('.calendar-display');
+        calendarMain.style.position = 'absolute'
+        calendarMain.style.transform = 'none'
+        calendarMain.style.left = '-150%'
+            //
+        timeMain = document.querySelector('.time-display');
+        timeMain.style.position = 'absolute'
+        timeMain.style.transform = 'none'
+        timeMain.style.left = '-20%'
+            //
+        repeatMain = document.querySelector('.repeat-display')
+        repeatMain.style.position = 'absolute'
+        repeatMain.style.transform = 'none'
+        repeatMain.style.left = '-50px'
+        repeatMain.style.top = '100%'
+            //
+        let tagsMain = document.querySelector('.tag-display-options');
+        tagsMain.style.position = 'absolute'
+        tagsMain.style.transform = 'none'
+        tagsMain.style.left = '0'
+        //
     } else if (window.innerWidth <= 1200) {
         document.querySelector('.toggleDisplay').style.display = 'none'
         button.setAttribute('data-status', 'left');
@@ -133,11 +155,33 @@ window.addEventListener('resize', function () {
         button_right.style.background = '#E5E7EB';
         display()
         // sửa phần popup và tìm kiếm ở đây cho mobile
-        
         popUp.style.width = '100vw'
         search.style.width = '100vw'
+        //
 
-        // 
+        // sửa phần popup calendar, time, repeat,tags cho mobile
+        calendarMain = document.querySelector('.calendar-display');
+        calendarMain.style.transition = 'all 1.5s ease'
+        calendarMain.style.position = 'fixed'
+        calendarMain.style.transform = 'translateX(-50%)'
+        calendarMain.style.left = '50%'
+            //
+        timeMain = document.querySelector('.time-display');
+        timeMain.style.position = 'fixed'
+        timeMain.style.transform = 'translateX(-50%)'
+        timeMain.style.left = '50%'
+            //
+        repeatMain = document.querySelector('.repeat-display')
+        repeatMain.style.position = 'fixed'
+        repeatMain.style.transform = 'translateX(-50%)'
+        repeatMain.style.left = '50%'
+        repeatMain.style.top = '100%'
+            //
+        let tagsMain = document.querySelector('.tag-display-options');
+        tagsMain.style.position = 'fixed'
+        tagsMain.style.transform = 'translateX(-50%)'
+        tagsMain.style.left = '50%'
+        //
     } else if (window.innerWidth > 1200) {
         document.querySelector('.toggleDisplay').style.display = 'flex'
         // contain.style.width = '237px'
@@ -145,9 +189,123 @@ window.addEventListener('resize', function () {
         // 
         popUp.style.width = '487px'
         search.style.width = '624px'
-        // 
+        // sửa phần popup calendar, time, repeat,tags case view > 1200
+        calendarMain = document.querySelector('.calendar-display');
+        calendarMain.style.position = 'absolute'
+        calendarMain.style.transform = 'none'
+        calendarMain.style.left = '-150%'
+            //
+        timeMain = document.querySelector('.time-display');
+        timeMain.style.position = 'absolute'
+        timeMain.style.transform = 'none'
+        timeMain.style.left = '-20%'
+            //
+        repeatMain = document.querySelector('.repeat-display')
+        repeatMain.style.position = 'absolute'
+        repeatMain.style.transform = 'translateX(-50%)'
+        repeatMain.style.left = '-50px'
+        repeatMain.style.top = '100%'
+            //
+        let tagsMain = document.querySelector('.tag-display-options');
+        tagsMain.style.position = 'absolute'
+        tagsMain.style.transform = 'none'
+        tagsMain.style.left = '0'
+        //
     }
 })
+
+function optionsSizeReset () {
+    let popUp = document.querySelector('.popUp-add')
+    let search = document.querySelector('.search-popUp-container')
+    if (window.innerWidth > 1400) {
+        popUp.style.width = '487px'
+        search.style.width = '624px'
+        //
+        // sửa phần popup calendar, time, repeat,tags case view > 1400
+        calendarMain = document.querySelector('.calendar-display');
+        calendarMain.style.position = 'absolute'
+        calendarMain.style.transform = 'none'
+        calendarMain.style.left = '-150%'
+        //
+        timeMain = document.querySelector('.time-display');
+        timeMain.style.position = 'absolute'
+        timeMain.style.transform = 'none'
+        timeMain.style.left = '-20%'
+        //
+        repeatMain = document.querySelector('.repeat-display')
+        repeatMain.style.position = 'absolute'
+        repeatMain.style.transform = 'none'
+        repeatMain.style.left = '-50px'
+        repeatMain.style.top = '100%'
+        //
+        let tagsMain = document.querySelector('.tag-display-options');
+        tagsMain.style.position = 'absolute'
+        tagsMain.style.transform = 'none'
+        tagsMain.style.left = '0'
+        //
+    }
+    else if (window.innerWidth <= 1200) {
+        // sửa phần popup và tìm kiếm ở đây cho mobile
+        popUp.style.width = '100vw'
+        search.style.width = '100vw'
+        //
+
+        // sửa phần popup calendar, time, repeat,tags cho mobile
+        calendarMain = document.querySelector('.calendar-display');
+        calendarMain.style.transition = 'all 1.5s ease'
+        calendarMain.style.position = 'fixed'
+        calendarMain.style.transform = 'translateX(-50%)'
+        calendarMain.style.left = '50%'
+        //
+        timeMain = document.querySelector('.time-display');
+        timeMain.style.transition = 'all 1.5s ease'
+        timeMain.style.position = 'fixed'
+        timeMain.style.transform = 'translateX(-50%)'
+        timeMain.style.left = '50%'
+        //
+        repeatMain = document.querySelector('.repeat-display')
+        repeatMain.style.transition = 'all 1.5s ease'
+        repeatMain.style.position = 'fixed'
+        repeatMain.style.transform = 'translateX(-50%)'
+        repeatMain.style.left = '50%'
+        repeatMain.style.top = '100%'
+        //
+        let tagsMain = document.querySelector('.tag-display-options');
+        tagsMain.style.transition = 'all 1.5s ease'
+        tagsMain.style.position = 'fixed'
+        tagsMain.style.transform = 'translateX(-50%)'
+        tagsMain.style.left = '50%'
+        //
+    } else if (window.innerWidth > 1200) {
+        // contain.style.width = '237px'
+        // display()
+        //
+        popUp.style.width = '487px'
+        search.style.width = '624px'
+        // sửa phần popup calendar, time, repeat,tags case view > 1200
+        calendarMain = document.querySelector('.calendar-display');
+        calendarMain.style.position = 'absolute'
+        calendarMain.style.transform = 'none'
+        calendarMain.style.left = '-150%'
+        //
+        timeMain = document.querySelector('.time-display');
+        timeMain.style.position = 'absolute'
+        timeMain.style.transform = 'none'
+        timeMain.style.left = '-20%'
+        //
+        repeatMain = document.querySelector('.repeat-display')
+        repeatMain.style.position = 'absolute'
+        repeatMain.style.transform = 'translateX(-50%)'
+        repeatMain.style.left = '-50px'
+        repeatMain.style.top = '100%'
+        //
+        let tagsMain = document.querySelector('.tag-display-options');
+        tagsMain.style.position = 'absolute'
+        tagsMain.style.transform = 'none'
+        tagsMain.style.left = '0'
+        //
+    }
+}
 
 function toggleSidebar() {
     let item = document.querySelector('.navbar');
@@ -539,11 +697,12 @@ function createCalendar(year, month) {
     console.log(currentMonth,month,year)
     // 
     for (let i = 0; i < 43; i++) {
-        if (currentMonth[i] == '') {
+        if (currentMonth[i] === '') {
             table += '<td  style = "pointer-events: none;">' + '' + '</td>';
             continue
         }
         if (currentMonth[i] === undefined){
+            table += '<td  style = "pointer-events: none;display: none">' + '' + '</td>'
             continue
         }
         if (currentMonth[i] == choosedDate && userChoosedMonth == choosedMonth && userChoosedYear == choosedYear) {
@@ -560,11 +719,11 @@ function createCalendar(year, month) {
             }
             continue
         }
-        if (i % 7 == 0 && i % 2 == 0) {
-            table += '</tr>'
+        if ((i ) % 7 == 0 && (i ) % 2 == 0) {
+            table += `</tr data-num ="${i}" >`
 
             table += '<tr>';
-        } else if (i % 7 == 0 && i % 2 != 0) {
+        } else if ((i) % 7 == 0 && (i ) % 2 != 0) {
             table += '</tr>';
             table += '<tr>';
         }
@@ -3422,7 +3581,7 @@ function resetDataAddSection(){
     popUpContent.innerHTML = `
     <div style="display: flex;flex-direction: column;gap: 8px;padding: 12px 20px">
         <div style="display: flex;flex-direction: row;justify-content: space-between;">
-            <div  style="flex: 1;display: flex;flex-direction: column;gap: 3px;">
+            <div  style="flex: 0.7;display: flex;flex-direction: column;gap: 3px;">
                 <input class="currentTab-title" type="text" placeholder="Thêm chủ đề ghi chú" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
                 <input class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
             </div>
@@ -3472,7 +3631,7 @@ function resetDataAddSection(){
                     <p class="currentTab-time" style="display: none;font-weight: 480;color:#FF4405"></p>
                     <i style="display: none;align-self:center;color: #FF4405" class="fa-solid fa-xmark undo2"></i>
                 </div>
-                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 320px;top: 100%;left: -100%;border-radius: 8px;padding: 8px;">
+                <div data-status="deactive" class="calendar-display" style="z-index: 2;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 296px;height: 320px;top: 100%;left: -150%;padding: 8px;">
                     <div style="height: 36px;display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 22px 12px;background: #F5F5F5    ;border-radius: 8px">
                         <i onclick="previousMonth()" style="padding: 6px;background: white;border-radius: 8px" class="fa-solid fa-arrow-left"></i>
                         <p class="calendar-date">date here</p>
@@ -3484,7 +3643,7 @@ function resetDataAddSection(){
                         </table>
                     </div>
                 </div>
-                <div  class="time-display" style="z-index: 1;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 320px;height: 84px;top: 100%;left: -20%;border-radius: 8px;padding: 12px;gap: 8px">
+                <div  class="time-display" style="z-index: 1;border: 2px solid #F3F4F6;border-radius: 8px;display: none;flex-direction: column;position: absolute;background: white;width: 320px;height: 84px;top: 100%;left: -150%;padding: 12px;gap: 8px">
                     <p>Thời gian</p>
                     <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-between;padding: 0;gap: 8px";>
                         <select onchange="timeDisplay(event)" class="time-display_hour" style="width: 100%;padding: 8px;border: 1px solid #F3F4F6;outline: none;border-radius: 8px;appearance: none;text-align: center">
@@ -3527,7 +3686,7 @@ function resetDataAddSection(){
             </div>
             <div onclick="repeatDisplay(event)" class="options_num-3" style="cursor: pointer;position: relative;color: black;border-radius: 8px;">
                 <i class="fa-solid fa-repeat currentTab-isRepeat"></i>
-                <div class="repeat-display" style="display: none;width: 328px;height: 216px;position: absolute;padding: 12px;background: white;left:-50px;flex-direction: column;justify-content: left;gap: 4px;;border: 2px solid #F3F4F6;border-radius: 8px;">
+                <div class="repeat-display" style="display: none;width: 328px;height: 216px;position: absolute;padding: 12px;background: white;left:-50px;flex-direction: column;justify-content: left;gap: 4px;border: 2px solid #F3F4F6;border-radius: 8px;">
                     <p style="font-weight:500 ;font-size: 14px;"> Lặp lại</p>
                     <div class="repeat-display_navbar" onclick="repeatNav1(event)" style="position: relative;display: flex;flex-direction: row;padding: 10px 12px;width: 100%;height: 40px;border-radius:8px;background: white;justify-content: space-between;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
                         <p class="">Không lặp lại</p>
@@ -3582,6 +3741,7 @@ function resetDataAddSection(){
     repeatMain = document.querySelector('.repeat-display')
     tagMain = document.querySelector('.tag-display-options')
     groupsChoosing = document.querySelector('.groups-choose-navbar')
+    optionsSizeReset()
 }
 // Các thẻ chứa dữ liệu để thêm vào nhóm khi ấn chức năng thêm mới
 let newTodo = {
