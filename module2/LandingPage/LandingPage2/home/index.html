@@ -200,7 +200,7 @@
                     <div style="display: flex;justify-content:space-between ;">
                         <div>
                             <p style="font-weight: bold;margin-bottom: 4px">Chạy bộ </p>
-                            <p style="font-size: 12px;color:#9DA4AE">Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis,</p>
+                            <p style="font-size: 12px;color:#9DA4AE">Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis, ÁDASDASDASDADASDASDASDASDASD</p>
                         </div>
                         <div style="position: relative;">
                             <i onclick="colorChange(event)"  class="fa-regular fa-star"></i>
@@ -422,8 +422,8 @@
     <div style="display: flex;flex-direction: column;gap: 8px;padding: 12px 20px">
         <div style="display: flex;flex-direction: row;justify-content: space-between;">
             <div  style="flex: 0.7;display: flex;flex-direction: column;gap: 3px;">
-                <input  class="currentTab-title" type="text" placeholder="Nhập ghi chú mới" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
-                <input  class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
+                <input maxlength="25" class="currentTab-title" type="text" placeholder="Nhập ghi chú mới" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
+                <input maxlength="100"  class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
             </div>
             <i onclick="if (!this.getAttribute('ischoosed'))
             {

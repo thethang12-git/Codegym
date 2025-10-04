@@ -1391,31 +1391,10 @@ let noteData = [
         content : [
             {
                 isEditing: false ,
-                content : ' đây laf item 1,m id 1',
+                content : ' Nội dung mẫu ',
                 time : ' this is time',
             }
             ,
-            {
-                isEditing: false,
-                content:'day là date1 item 2 id 2',
-                time : 'this is time',
-            }
-        ]
-    }
-    ,
-    {
-        date: '20/03/2000',
-        content : [
-            {
-                isEditing: false,
-                content:'day là date 2 item 1 id 3',
-                time: 'this is time',
-            },
-            {
-                isEditing: false,
-                time: 'this is time',
-                content: 'đay là date 2 item id 4',
-            }
         ]
     }
 ]
@@ -3369,8 +3348,8 @@ function resetDataAddSection(){
     <div style="display: flex;flex-direction: column;gap: 8px;padding: 12px 20px">
         <div style="display: flex;flex-direction: row;justify-content: space-between;">
             <div  style="flex: 0.7;display: flex;flex-direction: column;gap: 3px;">
-                <input maxlength="20" class="currentTab-title" type="text" placeholder="Thêm chủ đề ghi chú" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
-                <input class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
+                <input maxlength="25" class="currentTab-title" type="text" placeholder="Thêm chủ đề ghi chú" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
+                <input maxlength="100" class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
             </div>
             <i onclick="if (!this.getAttribute('ischoosed') || this.getAttribute('ischoosed') === 'false')
             {
