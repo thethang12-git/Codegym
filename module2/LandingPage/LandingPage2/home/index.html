@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
-<body>
+<body onload="dataCheck(renderTodayContent(todayData),todayData,'todayData')">
 <div style="display: none" onclick="console.log(searchFilter('Curabitur'))" style="width: 50px;height: 30px;display: block;margin: auto;"> <button>test test</button></div>
 <div class="container">
     <div class="navbar"> 
@@ -414,7 +414,6 @@
 </div>
             </details>
             <!--  -->
-            
         </div>
     </div>
     <div class="blur-overlay"></div>
@@ -631,6 +630,22 @@
         </div>
     </div>
 </div>
+<!-- phần test -->
+ <div class="test-overlayy" id="test-overlayy">
+  <div class="test-overlay-bg"></div> 
+  <div class="test-overlay-content">
+    <h1 class="test-overlay-title">
+      <span>T</span><span>o</span><span>D</span><span>o</span><span>A</span><span>p</span><span>p</span>
+    </h1>
+    <!-- <p class="test-overlay-subtitle">
+      <span>G</span><span>h</span><span>i</span><span> chú </span><span>v</span><span>à </span><span>q</span><span>uản</span><span> lý </span><span>c</span><span>ô</span><span>ng </span><span>việc</span>
+    </p> -->
+  </div>
+  <div class="test-overlay-drag-hint">
+    Kéo lên để bắt đầu
+  </div>
+</div>
+<!--  -->
 <script src="../home/run.js">
 </script>
 <script src="pages/today.js"></script>

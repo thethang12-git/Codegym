@@ -4397,4 +4397,68 @@ function addSpeciGroup (e) {
         isNeedToReset = true
     }
 }
+// Phần load hết 1 lượt nội dung sau khi DOM chạy
+window.addEventListener('load', () => {
+    dataCheck(renderContent(data),data,'all');
+    dataCheck(renderNext7DaysContent(Next7DaysData),Next7DaysData,'Next7DaysData');
+    dataCheck(renderNext3DaysContent(next3DaysData),next3DaysData,'next3DaysData');
+    dataCheck(renderTodayContent(todayData),todayData,'todayData');
+    for (let i = 0; i < 7; i++) {
+            document.getElementsByClassName("navbar-options-num")[i].setAttribute('isChecked', 'false')
+            document.getElementsByClassName("navbar-options-num")[i].style.background = 'white'
+            document.getElementsByClassName("navbar-options-num")[i].style.color = '#4D5761'
+            document.getElementsByClassName("navbar-options-num")[0].setAttribute('isChecked', 'true')
+            document.getElementsByClassName("navbar-options-num")[0].style.background = '#FDEAD7'
+            document.getElementsByClassName("navbar-options-num")[0].style.color = '#EF6820'
+        }
+})
+// phần test
+const overlayy = document.getElementById("test-overlayy");
+const mainContent = document.querySelector(".test-content");
+
+let startY = 0;
+let currentY = 0;
+let dragging = false;
+const minSwipeUpDistance = 120; 
+
+
+overlayy.addEventListener("mousedown", (e) => {
+  startY = e.clientY;
+  dragging = true;
+  overlayy.style.transition = "none";
+  e.preventDefault(); 
+});
+
+
+window.addEventListener("mousemove", (e) => {
+  if (!dragging) return;
+
+  currentY = e.clientY;
+  const deltaY = currentY - startY;
+
+  if (deltaY < 0) {
+    overlayy.style.transform = `translateY(${deltaY}px)`;
+  }
+});
+
+window.addEventListener("mouseup", () => {
+  if (!dragging) return;
+  dragging = false;
+
+  const totalDeltaY = currentY - startY;
+
+  if (totalDeltaY < -minSwipeUpDistance) {
+
+    overlayy.style.transition = "transform 0.4s ease";
+    overlayy.style.transform = "translateY(-100%)";
+    mainContent.classList.add("test-revealed");
+  } else {
+
+    overlayy.style.transition = "transform 0.3s ease";
+    overlayy.style.transform = "translateY(0)";
+  }
+
+  startY = 0;
+  currentY = 0;
+});
 
