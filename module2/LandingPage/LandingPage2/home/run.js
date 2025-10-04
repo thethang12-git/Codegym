@@ -7,7 +7,78 @@ let groupsChoosing = document.querySelector('.groups-choose-navbar')
 function reset(event) {
     event.target.value = ''
 }
-
+//  dữ liệu các mục
+// phần "tất cả"
+let data = [
+    {
+        group:'Dữ liệu test',
+        content :
+            [
+                {
+                    choosing: false,
+                    star: true,
+                    title:'nội dung 1',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:26',
+                },
+            ]
+    }
+]
+// Phần "hôm nay"
+let todayData = [
+    {
+        group: 'Dữ liệu test' ,
+        content :
+            [
+                {
+                    star:true,
+                    title: 'nội dung 1',
+                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                    tag : ['công việc','khác'],
+                    repeat: true,
+                    date : '02/09/2025',
+                    time: '09:25',
+                },
+            ]
+    },
+]
+// Phần "3 ngày tới"
+let next3DaysData = [{
+    group:'Dữ liệu test',
+    content :
+        [
+            {
+                title:'nội dung 1',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','khác'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:50',
+            },
+        ]
+    },
+]
+// Phần "7 ngày tới"
+let Next7DaysData = [{
+    group:'Dữ liệu test',
+    content :
+        [
+            {
+                star:true,
+                title:'nội dung 1',
+                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
+                tag : ['công việc','khác'],
+                repeat: true,
+                date : '02/09/2025',
+                time: '09:26',
+            },
+        ]
+    },
+]
+//
 function onFocus(event) {
     if (!event.target.closest('.navbar-options-num').hasAttribute('isChecked')) {
         for (let i = 0; i < 7; i++) {
@@ -981,7 +1052,7 @@ function tagAddHandle() {
     let contain = document.querySelector('.tag-display-add')
     let input = contain.querySelector('input')
 // Xử lý thêm 1 thẻ mới vào giữa những thẻ có sẵn 
-    let valid = input.value.trim() && input.value.length <= 23 && !isTagDupl.includes(input.value.trim()) && !TagsHandler().includes(input.value.trim())
+    let valid = input.value.trim() && input.value.length <= 20 && !isTagDupl.includes(input.value.trim()) && !TagsHandler().includes(input.value.trim())
     if(valid) {
         let newTag = document.createElement('p');
         newTag.setAttribute('data-isChoosed', 'false')
@@ -1757,187 +1828,6 @@ function binNavbar (item){
 // Xử lý dữ liệu và hiển thị, lưu trữ mảng các object thông tin để render HTML
 let test = [1,2]
 // Phần : Tất cả
-let data = [
-    {
-        group:'Nhóm 1',
-        content :
-        [
-            {
-                choosing: false,
-                star: true,
-                title:'nội dung 1',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                choosing: false,
-                star:true,
-                title: 'nội dung 2',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','Nhờ người khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                choosing: false,
-                star:false,
-                title:'nội dung 3',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                choosing: false,
-                star:false,
-                title:'nội dung 4',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                star:false,
-                title:'nội dung 5',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                star:false,
-                title:'nội dung 6',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                star:false,
-                title:'nội dung 7',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                star:false,
-                title:'nội dung 8',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-        ]
-    },
-    {
-        group: 'Nhóm 2' ,
-        content :
-        [
-            {
-                star:false,
-                title: 'nội dung 1',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-            {
-                star:false,
-                title: ' nội dung 2',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            }
-        ]
-    },
-    {
-        group: 'Nhóm 3' ,
-        content :
-            [
-                {
-                    choosing:false,
-                    star:true,
-                    title: 'nội dung 1',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:26',
-                },
-                {
-                    star:false,
-                    title: ' nội dung 2',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:26',
-                }
-            ]
-    },
-    {
-        group: 'Nhóm 4' ,
-        content :
-            [
-                {
-                    star:false,
-                    title: 'nội dung 1',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:26',
-                },
-                {
-                    star:false,
-                    title: ' nội dung 2',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:26',
-                },
-            ]
-    },
-    {
-        group: 'Nhóm 5' ,
-        content :
-            [
-                {
-                    star:false,
-                    title: 'nội dung 1',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:26',
-                },
-                {
-                    star:false,
-                    title: ' nội dung 2',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:26',
-                }
-            ]
-    },
-]
 function renderGroup(todoInf) {
     return `
         <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
@@ -2142,32 +2032,6 @@ function duplicateHandle(item){
 }
 
 // Phần : Hôm nay
-let todayData = [
-    {
-        group: 'Nhóm 1' ,
-        content :
-            [
-                {
-                    star:true,
-                    title: 'nội dung 1',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:25',
-                },
-                {
-                    star:false,
-                    title: ' nội dung 2',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:26',
-                }
-            ]
-    },
-]
 
 function renderTodayGroup(todoInf) {
     return `
@@ -2339,36 +2203,6 @@ function duplicateTodayList(item){
 
 // Phần 3 ngày tới
 
-let next3DaysData = [{
-        group:'Nhóm 1',
-        content :
-        [
-            {
-                title:'nội dung 1',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:50',
-            },
-        ]
-    },
-    {
-        group:'Nhóm 2',
-        content :
-        [
-            {
-                title:'nội dung 1 Phần 3 ngày tới ',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '08:26',
-            },
-        ]
-    },
-]
-
 function Next3daysGroup(todoInf) {
     return `
         <div style="display: flex;flex-direction: row;justify-content:space-between;align-items: center;">
@@ -2533,53 +2367,6 @@ function Next3DaysDuplicate(item){
 }
 
 // Phần : 7 ngày tới
-
-let Next7DaysData = [{
-        group:'Nhóm 1',
-        content :
-        [
-            {
-                star:true,
-                title:'nội dung 1',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-        ]
-    },
-    {
-        group:'Nhóm 2 ',
-        content :
-        [
-            {
-                star:false,
-                title:'nội dung 1 Phần 7 ngày tới ',
-                content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                tag : ['công việc','khác'],
-                repeat: true,
-                date : '02/09/2025',
-                time: '09:26',
-            },
-        ]
-    },
-    {
-        group:'Nhóm 3 ',
-        content :
-            [
-                {
-                    star:false,
-                    title:'nội dung 1 Phần 7 ngày tới ',
-                    content : 'Curabitur venenatis semper consequat. Mauris semper, enim ut molestie aliquet, nulla orci ornare felis',
-                    tag : ['công việc','khác'],
-                    repeat: true,
-                    date : '02/09/2025',
-                    time: '09:26',
-                },
-            ]
-    }
-]
 
 function Next7DaysGroup(todoInf) {
     return `
@@ -3582,7 +3369,7 @@ function resetDataAddSection(){
     <div style="display: flex;flex-direction: column;gap: 8px;padding: 12px 20px">
         <div style="display: flex;flex-direction: row;justify-content: space-between;">
             <div  style="flex: 0.7;display: flex;flex-direction: column;gap: 3px;">
-                <input class="currentTab-title" type="text" placeholder="Thêm chủ đề ghi chú" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
+                <input maxlength="20" class="currentTab-title" type="text" placeholder="Thêm chủ đề ghi chú" style="border: none;outline: none;padding: 8px 0;font-weight: 500;font-size: 20px;">
                 <input class="currentTab-content" type="text" placeholder="Thêm mô tả" style="border: none;outline: none;padding: 8px 0;font-weight: 400;font-size: 15px;">
             </div>
             <i onclick="if (!this.getAttribute('ischoosed') || this.getAttribute('ischoosed') === 'false')

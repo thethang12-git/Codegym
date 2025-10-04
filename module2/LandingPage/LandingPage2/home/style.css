@@ -627,7 +627,12 @@ textarea::-webkit-scrollbar {
 .test-overlay-title span:nth-child(5) { animation-delay: 1.2s; }
 .test-overlay-title span:nth-child(6) { animation-delay: 1.5s; }
 .test-overlay-title span:nth-child(7) { animation-delay: 1.8s; }
-    
+
+.test-overlay-title span {
+    display: inline-block;
+    animation: jump-once 2.4s ease-in-out infinite;
+}
+
 
 /* Tạo hiệu ứng delay cho từng chữ, mô tả
 .test-overlay-subtitle span:nth-child(1) { animation-delay: 0s; }
@@ -673,7 +678,3 @@ textarea::-webkit-scrollbar {
   }
 }
 
-.test-overlay-title span {
-  display: inline-block;
-  animation: jump-once 2.4s ease-in-out infinite;
-}
