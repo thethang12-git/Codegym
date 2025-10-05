@@ -3735,7 +3735,9 @@ function searchingInput () {
 
     }
 }
-
+// set 2 biến tạm để lưu giá trị tìm được , 1 biến lưu trữ những giá trị tìm được trước khi không tìm thấy giá trị nào nếu người dùng không xóa , 1 biến lưu giá trị value lúc tìm được
+let tempoArray 
+let tempoString
 function searchFilter(stringg){
     let cloneData = [data,todayData,next3DaysData,Next7DaysData]
     // dùng map đảo ngược thứ tự key - value của dataList tạo từ trc
@@ -3776,8 +3778,11 @@ function searchFilter(stringg){
         newGroups.push(newValue)
     })
     // 
+    if(newGroups.length > 0) {
+        tempoArray = newGroups
+        tempoString = stringg
+        return newGroups }
     // 
-    if(newGroups.length > 0) {return newGroups }
     // nếu k tìm được theo nhóm, thì chuyển qua tìm theo title
     let findTitle = []
     newClone.forEach(itm => {
@@ -3810,6 +3815,29 @@ function searchFilter(stringg){
         })
     })
     if(findText.length > 0) {return findText}
+    // nếu tìm được group mà người dùng nhập tiếp thì tiếp tục tìm ở kết quả của newgroups sau đó mới trả về newgrous
+    if(stringg.includes(tempoString)) {
+        let cloneString = stringg.replace(tempoString, "*")
+        let tempoFilter = cloneString.split("*")[1]
+        let firstArray = tempoArray.filter(item => {
+                tempItemValue = formatString(item.content.title.toLowerCase().replace(/\s+/g, '') )
+                if(tempItemValue.includes(formatString(tempoFilter).toLowerCase().replace(/\s+/g, ''))){
+                    return true
+                }
+        } )
+        if (firstArray.length >0 ){return firstArray} 
+        let secondArray = tempoArray.filter(item => {
+                tempItemValue = formatString(item.content.content.toLowerCase().replace(/\s+/g, '') )
+                if(tempItemValue.includes(formatString(tempoFilter).toLowerCase().replace(/\s+/g, ''))){
+                    return true
+                }
+        } )
+        if(secondArray.length > 0) {return secondArray}
+    }
+    else {
+        tempoString = null
+        tempoArray = null
+    }
 }
 
 // formate lại dạng dữ liệu có dấu
