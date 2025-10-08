@@ -4004,13 +4004,14 @@ function confirmChange(e) {
     findTab.tag.splice(0, findTab.tag.length)
     item.querySelectorAll('p').forEach(itm => {
             if (itm.getAttribute('data-isChoosed') === 'true') {
-                let value = TagsHandler().find(itmm => itmm.trim() === itm.innerText.trim())
-                findTab.tag.push(value)
+                let value = TagsHandler().find(itmm => itmm === itm.innerText.trim())
+                if(value) {findTab.tag.push(value)}
+                else {findTab.tag.push(itm.innerText)}
                 console.log(value)
             }
         }
     )
-    //
+
     // Phần sửa ngày
     let inputDate = container.querySelectorAll('input')[0].value
     if(inputDate.length === 10){
