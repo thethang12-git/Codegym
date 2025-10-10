@@ -3102,15 +3102,17 @@ function TagsHandler(){
     let temp = []
     let final = []
     if(currentTab) {
-        currentTab.forEach(itm => itm.content.forEach(item => item.tag.flatMap(itm => temp.push(itm))))
+        currentTab.forEach(itm => itm.content.forEach(item => item.tag.flatMap(itm => temp.push(itm.trim()))))
         temp.forEach(
             itme => {
-                final.push(itme)
-                temp.splice(0, temp.length, ...temp.filter(itm => itm !== itme))
+                let value = itme.trim()
+                if(!final.includes(value)) {
+                    final.push(value)
+                }
             }
         )
     }
-    return temp.concat(final)
+    return final
 }
 function renderTagLists() {
     let content = document.querySelector('.navbar-tags-list')
@@ -4001,12 +4003,13 @@ function confirmChange(e) {
     let getID = parseInt(container.className.match(/\d+/g).toString())
     let findTab = currentTab.find(itm =>  itm.content.find(item => item.id === getID) ).content.find(itm => itm.id === getID)
     // phần sửa lại thẻ
+    console.log(currentTab)
     findTab.tag.splice(0, findTab.tag.length)
     item.querySelectorAll('p').forEach(itm => {
             if (itm.getAttribute('data-isChoosed') === 'true') {
-                let value = TagsHandler().find(itmm => itmm === itm.innerText.trim())
-                if(value) {findTab.tag.push(value)}
-                else {findTab.tag.push(itm.innerText)}
+                let value = TagsHandler().find(itmm => itmm.trim() === itm.innerText.trim())
+                if(value) {findTab.tag.push(value);console.log(findTab.tag)}
+                else {findTab.tag.push(itm.innerText.trim()); console.log(findTab.tag)}
                 console.log(value)
             }
         }
